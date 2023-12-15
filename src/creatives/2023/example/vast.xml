@@ -14,10 +14,10 @@
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://localhost:8080/bundle.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/TESTS/fwk/builds/newFwk1/bundle.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://localhost:8080/bundle.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/TESTS/fwk/builds/newFwk1/bundle.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
@@ -26,3 +26,4 @@
         </InLine>
     </Ad>
 </VAST>
+<!-- https://statics.dmcdn.net/d/devTools/vast_tools/vast_local.xml -->

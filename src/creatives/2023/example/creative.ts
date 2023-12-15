@@ -2,6 +2,12 @@ import { VPAIDVideoPlayer } from "@app";
 import { Cuber } from "@/components/cuber";
 import { CreativeHandler, CreativeProps } from "@/types";
 
+export const videos = [
+	"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+	"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+	"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+];
+
 const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
@@ -26,4 +32,9 @@ const creative: CreativeHandler = (
 	root.appendChild(cuber);
 };
 
-window.getVPAIDAd = () => new VPAIDVideoPlayer(creative);
+window.getVPAIDAd = () =>
+	new VPAIDVideoPlayer(creative, [
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+	]);

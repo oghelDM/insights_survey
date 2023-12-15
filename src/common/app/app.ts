@@ -17,7 +17,10 @@ export class VPAIDVideoPlayer {
 	// A container dedicated to the displayed elements
 	creativeContent: HTMLElement;
 
-	constructor(private creative: CreativeHandler) {}
+	constructor(
+		private creative: CreativeHandler,
+		private videoUrls: string[]
+	) {}
 
 	/**
 	 * Creates or updates the video slot and fills it with a supported video.
@@ -39,19 +42,19 @@ export class VPAIDVideoPlayer {
 				mimeType: "video/mp4",
 				width: 853,
 				height: 480,
-				url: "https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+				url: this.videoUrls[0],
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1280,
 				height: 720,
-				url: "https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+				url: this.videoUrls[1],
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1920,
 				height: 1080,
-				url: "https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+				url: this.videoUrls[2],
 			},
 		];
 

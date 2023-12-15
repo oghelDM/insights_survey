@@ -43,3 +43,5 @@ const creative: CreativeHandler = (root: HTMLElement, { onClick }: CreativeProps
     filterImage.setAttribute("y", `${height / 2 - filterHeight / 2}px`);
   });
 };
+
+window.getVPAIDAd = () => new VPAIDVideoPlayer(creative);

@@ -3,8 +3,8 @@ import { SpritesheetType, defaultValuesSpritesheet } from "./defaultValues";
 export class Spritesheet extends HTMLElement {
 	private props: SpritesheetType;
 
-	private requestId: number; // requestAnimationFrame id
-	private last: number; //the last time the frame was updated
+	private requestId?: number; // requestAnimationFrame id
+	private last?: number; //the last time the frame was updated
 	private currFrame: number; // the currently displayed frame number
 
 	constructor(props: SpritesheetType, styleProps: any = {}) {
@@ -29,7 +29,7 @@ export class Spritesheet extends HTMLElement {
 			isPaused,
 		} = this.props;
 
-		this.currFrame = startFrame;
+		this.currFrame = startFrame as number;
 		this.last = Date.now();
 
 		this.setAttribute("id", id);
@@ -48,7 +48,7 @@ export class Spritesheet extends HTMLElement {
 			...styleProps,
 		};
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 		this.updateBg();
 
@@ -62,7 +62,7 @@ export class Spritesheet extends HTMLElement {
 
 	private checkUpdate = () => {
 		const now = Date.now();
-		if (!this.last || now - this.last >= this.props.framerate) {
+		if (!this.last || now - this.last >= (this.props.framerate as number)) {
 			this.last = now;
 			this.update();
 		}
@@ -102,7 +102,7 @@ export class Spritesheet extends HTMLElement {
 	};
 
 	public stop = () => {
-		window.cancelAnimationFrame(this.requestId);
+		window.cancelAnimationFrame(this.requestId as number);
 		this.requestId = undefined;
 	};
 }

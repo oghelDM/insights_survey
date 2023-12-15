@@ -15,7 +15,7 @@ export class SpritesheetCustomizer extends Customizer {
 		folder2
 			.add(this.props, "framerate", 1, 500)
 			.step(1)
-			.onChange((v) => this.onPropsUpdate("framerate", v));
+			.onChange((v: number) => this.onPropsUpdate("framerate", v));
 		folder2
 			.add(
 				this.props,
@@ -24,11 +24,11 @@ export class SpritesheetCustomizer extends Customizer {
 				(this.props as SpritesheetType).nbFrames - 1
 			)
 			.step(1)
-			.onChange((v) => this.onPropsUpdate("startFrame", v));
+			.onChange((v: number) => this.onPropsUpdate("startFrame", v));
 		["isPaused", "isBackwards", "isLoop"].forEach((property) =>
 			folder2
 				.add(this.props, property)
-				.onChange((v) => this.onPropsUpdate(property, v))
+				.onChange((v: boolean) => this.onPropsUpdate(property, v))
 		);
 
 		const folder3 = this.gui.addFolder("spritesheet public methods");
@@ -44,7 +44,7 @@ export class SpritesheetCustomizer extends Customizer {
 		folder3.add(
 			{
 				init: () =>
-					this.component.init(this.props, this.getCssValues()),
+					this.component.init(this.props as any, this.getCssValues()),
 			},
 			"init"
 		);

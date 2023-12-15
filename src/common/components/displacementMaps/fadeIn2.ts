@@ -30,7 +30,7 @@ export class FadeIn extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		const svg2 = document.createElementNS(
@@ -74,7 +74,7 @@ export class FadeIn extends HTMLElement {
 			"feImage"
 		);
 		feImage.setAttribute("id", "displacement-image");
-		feImage.setAttribute("href", displacementMapUrl);
+		feImage.setAttribute("href", displacementMapUrl as string);
 		feImage.setAttribute("x", "-8%");
 		feImage.setAttribute("y", "-8%");
 		feImage.setAttribute("width", "74%");
@@ -129,7 +129,7 @@ export class FadeIn extends HTMLElement {
 			updateWarping(x);
 		});
 
-		const updateWarping = (mouseX) => {
+		const updateWarping = (mouseX: number) => {
 			x = mouseX;
 			console.log(
 				"updateWarping: ",

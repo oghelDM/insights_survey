@@ -1,13 +1,13 @@
 import * as dat from "dat.gui";
 
 import { Cuber } from "./cuber";
+import { Scratch } from "./scratch";
 import { Spritesheet } from "./spritesheet";
 import { CarouselBasic } from "./carouselBasic";
 import { CuberType } from "./cuber/defaultValues";
+import { ScratchType } from "./scratch/defaultValues";
 import { SpritesheetType } from "./spritesheet/defaultValues";
 import { CarouselBasicType } from "./carouselBasic/defaultValues";
-import { Scratch } from "./scratch";
-import { ScratchType } from "./scratch/defaultValues";
 
 type Component = CarouselBasic | Cuber | Spritesheet | Scratch;
 type PropsType = CarouselBasicType | CuberType | SpritesheetType | ScratchType;
@@ -44,22 +44,22 @@ export class Customizer {
 		Object.keys(this.styleProps).forEach((property) =>
 			folder1
 				.add(this.styleProps, property, 0, 100)
-				.onChange((v) => this.onStyleUpdate(property, v))
+				.onChange((v: any) => this.onStyleUpdate(property, v))
 		);
 	}
 
 	protected onPropsUpdate = (property: string, value: any) => {
-		this.props[property] = value;
-		this.component.init(this.props, this.getCssValues());
+		(this.props as any)[property] = value;
+		this.component.init(this.props as any, this.getCssValues()); //TODO: type
 	};
 
 	protected onStyleUpdate(property: string, value: any) {
 		this.styleProps[property] = value;
 		if (this.forceInitOnStyleUpdate) {
-			this.component.init(this.props, this.getCssValues());
+			this.component.init(this.props as any, this.getCssValues()); //TODO: type
 		} else {
 			for (const [key, value] of Object.entries(this.getCssValues())) {
-				this.component.style[key] = value;
+				(this.component.style as any)[key] = value;
 			}
 		}
 	}
@@ -67,7 +67,7 @@ export class Customizer {
 	protected getCssValues = () => {
 		const actualStyleProps = {};
 		for (const [key, value] of Object.entries(this.styleProps)) {
-			actualStyleProps[key] = `${value}%`;
+			(actualStyleProps as any)[key] = `${value}%`;
 		}
 		return actualStyleProps;
 	};

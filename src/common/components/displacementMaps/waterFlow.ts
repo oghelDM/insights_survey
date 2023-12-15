@@ -28,7 +28,7 @@ export class WaterFlow extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		const svg2 = document.createElementNS(

@@ -1,4 +1,3 @@
-/* eslint-disable */
 // check if device is mobile
 export const mobileCheck = (): boolean => {
 	const nav =
@@ -52,17 +51,18 @@ export const getClientXY = (evt: PointerEvent, rect = { left: 0, top: 0 }) => {
 
 /**
  * The selectedMedia for the videoSlot
+ * @type {Object}
  * @private
  */
 export const pickVideo = (objectMedias: any, videoSlot: HTMLVideoElement) => {
-	const mediasList: any[] = Object.values(objectMedias);
+	const mediasList = Object.values(objectMedias);
 	//   const videoSlotWidth = parseFloat(videoSlot.style.width);
 	const videoSlotWidth = window.innerWidth;
-	let selectedMedia = null;
+	let selectedMedia: any = null;
 
 	for (const media of mediasList) {
 		// If cannot playType, then skip it
-		if (!videoSlot.canPlayType(media.mimeType)) {
+		if (!videoSlot.canPlayType((media as any).mimeType)) {
 			// eslint-disable-next-line no-continue
 			continue;
 		}
@@ -73,9 +73,9 @@ export const pickVideo = (objectMedias: any, videoSlot: HTMLVideoElement) => {
 		}
 
 		// Select the closest upper videoSize from the videoSlot
-		if (media.width >= videoSlotWidth) {
+		if ((media as any).width >= videoSlotWidth) {
 			if (
-				media.width <= selectedMedia.width ||
+				(media as any).width <= selectedMedia.width ||
 				selectedMedia.width <= videoSlotWidth
 			) {
 				selectedMedia = media;
@@ -87,3 +87,37 @@ export const pickVideo = (objectMedias: any, videoSlot: HTMLVideoElement) => {
 
 	return selectedMedia;
 };
+
+// returns the offsets and dimensions of an image that is to fit inside a parent, whether in 'cover' or 'contain' mode
+const fit =
+	(contains: boolean) =>
+	(
+		parentWidth: number,
+		parentHeight: number,
+		childWidth: number,
+		childHeight: number,
+		scale = 1,
+		offsetX = 0.5,
+		offsetY = 0.5
+	) => {
+		const childRatio: number = childWidth / childHeight;
+		const parentRatio: number = parentWidth / parentHeight;
+		let width: number = parentWidth * scale;
+		let height: number = parentHeight * scale;
+
+		if (contains ? childRatio > parentRatio : childRatio < parentRatio) {
+			height = width / childRatio;
+		} else {
+			width = height * childRatio;
+		}
+
+		return {
+			width,
+			height,
+			offsetX: (parentWidth - width) * offsetX,
+			offsetY: (parentHeight - height) * offsetY,
+		};
+	};
+
+export const contain = fit(true);
+export const cover = fit(false);

@@ -1,6 +1,6 @@
+import { VPAIDVideoPlayer } from "@app";
 import { Cuber } from "@/components/cuber";
 import { CreativeHandler, CreativeProps } from "@/types";
-import { VPAIDVideoPlayer } from "@app";
 
 const creative: CreativeHandler = (
 	root: HTMLElement,
@@ -24,31 +24,6 @@ const creative: CreativeHandler = (
 		parent: root,
 	});
 	root.appendChild(cuber);
-
-	const displacementMap = document.querySelector(
-		"feDisplacementMap"
-	) as SVGFEDisplacementMapElement;
-	const filterImage = document.querySelector("feimage") as SVGFEImageElement;
-	console.log("filter: ", displacementMap);
-	const map = (v: number, a1: number, b1: number, a2: number, b2: number) =>
-		a2 + ((b2 - a2) * (v - a1)) / (b1 - a1);
-
-	window.addEventListener("mousemove", ({ screenX, screenY }) => {
-		const { innerWidth } = window;
-		const { width, height } = root.getBoundingClientRect(); // container width and height in pixels
-		// console.log(screenX, screenY, `${map(screenX, 0, innerWidth, 0, 200)}`);
-		// displacementMap.scale.baseVal = map(screenX, 0, innerWidth, 200, 0);
-		displacementMap.setAttribute(
-			"scale",
-			`${map(screenX, 0, innerWidth, 200, 0)}`
-		); //"200");
-		const filterWidth = map(screenX, 0, innerWidth, width, 4 * width);
-		const filterHeight = map(screenX, 0, innerWidth, height, 4 * height);
-		filterImage.setAttribute("width", `${filterWidth}px`);
-		filterImage.setAttribute("height", `${filterHeight}px`);
-		filterImage.setAttribute("x", `${width / 2 - filterWidth / 2}px`);
-		filterImage.setAttribute("y", `${height / 2 - filterHeight / 2}px`);
-	});
 };
 
 window.getVPAIDAd = () => new VPAIDVideoPlayer(creative);

@@ -34,3 +34,12 @@ export type CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
 ) => void;
+
+export type CSSStyleType = { [key: string]: string };
+
+export const defaultComponentValues: ComponentBaseType = {
+	id: "default-component-id",
+	debug: true,
+	redirectUrl: "https://www.dailymotion.com",
+	onClick: (url?: string) => console.log("click to url: ", url),
+};

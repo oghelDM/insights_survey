@@ -22,7 +22,7 @@ export class CuberCustomizer extends Customizer {
 		folder2
 			.add(this.otherProps, "nbFaces", 3, 12)
 			.step(1)
-			.onChange((nbFaces) => {
+			.onChange((nbFaces: number) => {
 				const products = [];
 				for (let i = 0; i < nbFaces; i++) {
 					products.push(
@@ -41,17 +41,17 @@ export class CuberCustomizer extends Customizer {
 		].forEach((property) =>
 			folder2
 				.add(this.props, property, 0, 100)
-				.onChange((v) => this.onPropsUpdate(property, v))
+				.onChange((v: number) => this.onPropsUpdate(property, v))
 		);
 		["debug", "isVertical", "isInteractive", "autoPlay"].forEach(
 			(property) =>
 				folder2
 					.add(this.props, property)
-					.onChange((v) => this.onPropsUpdate(property, v))
+					.onChange((v: boolean) => this.onPropsUpdate(property, v))
 		);
 		folder2
 			.add(this.props, "perspective", 0.1, 10)
-			.onChange((v) => this.onPropsUpdate("perspective", v));
+			.onChange((v: number) => this.onPropsUpdate("perspective", v));
 		folder2
 			.add(this.otherProps, "perspectiveX", -200, 200)
 			.onChange(() => this.onPerspectiveOriginUpdate());
@@ -81,6 +81,6 @@ export class CuberCustomizer extends Customizer {
 		(
 			this.props as CuberType
 		).perspectiveOrigin = `${this.otherProps.perspectiveX}% ${this.otherProps.perspectiveY}%`;
-		this.component.init(this.props, this.getCssValues());
+		this.component.init(this.props as any, this.getCssValues());
 	};
 }

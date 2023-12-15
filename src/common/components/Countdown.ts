@@ -1,4 +1,4 @@
-import { ComponentBaseType, HORIZONTAL_ALIGN } from "../types";
+import { CSSStyleType, ComponentBaseType, HORIZONTAL_ALIGN } from "../types";
 import { createDiv } from "../utils/divMaker";
 
 interface CountdownType extends ComponentBaseType {
@@ -19,7 +19,7 @@ export class Countdown extends HTMLElement {
 	private minDiv: HTMLElement;
 	private secDiv: HTMLElement;
 
-	constructor(props: CountdownType, style: any = {}) {
+	constructor(props: CountdownType, style: CSSStyleType) {
 		super();
 
 		const {
@@ -58,7 +58,7 @@ export class Countdown extends HTMLElement {
 			...style,
 		};
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		[this.dayDiv, this.hourDiv, this.minDiv, this.secDiv] = new Array(4)
@@ -107,7 +107,7 @@ export class Countdown extends HTMLElement {
 	updateCountdown = () => {
 		const delta = this.dateMilliseconds - this.last;
 
-		if (delta < 0) {
+		if (delta < 0 && this.isOverMessage) {
 			window.cancelAnimationFrame(this.requestFrame);
 			this.innerHTML = this.isOverMessage;
 			return;

@@ -29,7 +29,7 @@ export class ImageDM extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 	}
 }

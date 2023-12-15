@@ -1,5 +1,6 @@
 import { CuberType, defaultValuesCuber } from "./defaultValues";
 import { IndexManager } from "../indexManager";
+import { CSSStyleType } from "@/types";
 
 export class Cuber extends IndexManager {
 	container: HTMLElement;
@@ -13,7 +14,7 @@ export class Cuber extends IndexManager {
 		this.init(props, style);
 	}
 
-	public init(props, style) {
+	public init(props: CuberType, style: CSSStyleType) {
 		const actualProps = { ...defaultValuesCuber, ...props };
 
 		super.init(actualProps, style);
@@ -46,7 +47,7 @@ export class Cuber extends IndexManager {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		this.nbImages = products.length;
@@ -58,7 +59,7 @@ export class Cuber extends IndexManager {
 		container.style.zIndex = "3000000";
 		container.style.width = `${this.focusedElementWidth}%`;
 		container.style.height = `${this.focusedElementHeight}%`;
-		container.style.perspectiveOrigin = perspectiveOrigin;
+		container.style.perspectiveOrigin = perspectiveOrigin as string;
 		container.style.alignItems = "center";
 		container.style.pointerEvents = "none";
 		if (faceRight !== undefined) {
@@ -75,7 +76,9 @@ export class Cuber extends IndexManager {
 		this.appendChild(container);
 
 		let distToCenter = this.getDistToCenter(parent);
-		container.style.perspective = `${perspective * distToCenter}px`;
+		container.style.perspective = `${
+			(perspective as number) * distToCenter
+		}px`;
 		console.log("distToCenter: ", distToCenter);
 
 		const zout = document.createElement("div");
@@ -121,7 +124,9 @@ export class Cuber extends IndexManager {
 
 		window.addEventListener("resize", () => {
 			distToCenter = this.getDistToCenter(parent);
-			container.style.perspective = `${perspective * distToCenter}px`;
+			container.style.perspective = `${
+				(perspective as number) * distToCenter
+			}px`;
 			zout.style.transform = `translateZ(${-distToCenter}px)`;
 			this.faces.forEach(
 				(face, i) =>

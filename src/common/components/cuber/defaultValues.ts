@@ -28,7 +28,7 @@ export const defaultValuesCuber: CuberType = {
 	faceTop: (100 - defaultPropsIndexManager.focusedElementHeight) / 2,
 	faceRight: undefined,
 	faceBottom: undefined,
-	parent: document.getElementById("appId"),
+	parent: document.getElementById("appId") as HTMLElement,
 	perspective: 6,
 	perspectiveOrigin: "50% 50%",
 };

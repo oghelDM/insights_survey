@@ -39,7 +39,7 @@ export class CrossFade extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		const svg2 = document.createElementNS(
@@ -55,7 +55,7 @@ export class CrossFade extends HTMLElement {
 		svg2.setAttribute("preserveAspectRatio", "xMinYMin meet");
 
 		svg2.innerHTML = svgContent
-			.replace(displacementImage, displacementMapUrl)
+			.replace(displacementImage, displacementMapUrl as string)
 			.replace(image1, image1Url)
 			.replace(image2, image2Url);
 		svg2.style.position = "absolute";
@@ -84,7 +84,7 @@ export class CrossFade extends HTMLElement {
 			updateWarping(x);
 		});
 
-		const updateWarping = (mouseX) => {
+		const updateWarping = (mouseX: number) => {
 			x = mouseX;
 			const scale = Math.sin(map(mouseX, 0, width, 0, Math.PI)) * 210;
 			displacementMap.setAttribute("scale", `${scale}`); //'200'); //

@@ -1,7 +1,6 @@
 import { gsap, Power1 } from "gsap";
-import { ComponentBaseType } from "../types";
+import { ComponentBaseType, defaultComponentValues } from "../types";
 import { createDiv } from "../utils/divMaker";
-import { defaultComponentValues } from "../types";
 import { getClientXY, keepSafe } from "../utils/helper";
 
 export interface IndexManagerType extends ComponentBaseType {
@@ -57,15 +56,15 @@ export class IndexManager extends HTMLElement {
 	nbProducts: number = Infinity;
 	fadeObjects: HTMLElement[][];
 
-	private autoPlayTimeoutId: number;
-	private autoPlayIntervalId: number;
+	private autoPlayTimeoutId: number | undefined;
+	private autoPlayIntervalId: number | undefined;
 
 	public init(props: IndexManagerType, style: any) {
 		// clean-up previous instance
 		window.clearTimeout(this.autoPlayTimeoutId);
 		window.clearInterval(this.autoPlayIntervalId);
 		while (this.firstChild) {
-			this.removeChild(this.lastChild);
+			this.removeChild(this.firstChild);
 		}
 
 		const actualProps = { ...defaultPropsIndexManager, ...props };
@@ -88,19 +87,19 @@ export class IndexManager extends HTMLElement {
 		} = actualProps;
 
 		this.setAttribute("id", id);
-		this.previousIndex = startIndex;
-		this.currentIndex = startIndex;
-		this.onIndexChange = onIndexChange;
-		this.onIndexChanged = onIndexChanged;
-		this.easing = easing;
-		this.speedCoefficient = speedCoefficient;
-		this.debug = debug;
+		this.previousIndex = startIndex as number;
+		this.currentIndex = startIndex as number;
+		this.onIndexChange = onIndexChange as () => {};
+		this.onIndexChanged = onIndexChanged as () => {};
+		this.easing = easing as gsap.EaseFunction;
+		this.speedCoefficient = speedCoefficient as number;
+		this.debug = debug as boolean;
 		this.focusedElementWidth = focusedElementWidth;
 		this.focusedElementHeight = focusedElementHeight;
-		this.isVertical = isVertical;
+		this.isVertical = isVertical as boolean;
 		this.onClick = onClick;
-		this.redirectUrl = redirectUrl;
-		this.fadeObjects = fadeObjects;
+		this.redirectUrl = redirectUrl as string;
+		this.fadeObjects = fadeObjects as HTMLElement[][];
 
 		const actualStyle = {
 			display: "block",
@@ -115,7 +114,7 @@ export class IndexManager extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		if (isInteractive) {

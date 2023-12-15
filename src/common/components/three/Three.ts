@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-let renderer, scene, camera, controls;
+let renderer: any, scene: any, camera: any, controls: OrbitControls;
 
 export const setup = (root: HTMLElement) => {
 	renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });

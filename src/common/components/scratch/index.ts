@@ -34,7 +34,7 @@ export class Scratch extends HTMLElement {
 		this.canvas.style.height = "100%";
 		this.appendChild(this.canvas);
 
-		this.context = this.canvas.getContext("2d");
+		this.context = this.canvas.getContext("2d") as CanvasRenderingContext2D;
 
 		this.imgFront = new Image();
 		this.imgFront.src = frontImageUrl;
@@ -74,7 +74,7 @@ export class Scratch extends HTMLElement {
 		};
 
 		for (const [key, value] of Object.entries(this.styleProps)) {
-			this.style[key] = value;
+			(this.style as any)[key] = value;
 		}
 
 		this.hasUserInteracted = false;
@@ -142,7 +142,7 @@ export class Scratch extends HTMLElement {
 		this.init();
 	}
 
-	private pointerMove = (e) => {
+	private pointerMove = (e: PointerEvent) => {
 		e.preventDefault();
 		if (!this.isReadyToDraw) {
 			return;
@@ -164,7 +164,7 @@ export class Scratch extends HTMLElement {
 			const { naturalWidth, naturalHeight } = this.imgScratch;
 			// default size is 10% of the smallest component dimension
 			const sizeCoeff =
-				(scratchSizeCoeff *
+				((scratchSizeCoeff as number) *
 					0.1 *
 					Math.min(this.canvas.width, this.canvas.height)) /
 				Math.max(naturalWidth, naturalHeight);
@@ -190,7 +190,7 @@ export class Scratch extends HTMLElement {
 		} else {
 			// default diameter is 10% of the smallest component dimension
 			const radius =
-				(scratchSizeCoeff *
+				((scratchSizeCoeff as number) *
 					0.1 *
 					Math.min(this.canvas.width, this.canvas.height)) /
 				2;
@@ -206,9 +206,12 @@ export class Scratch extends HTMLElement {
 				gsap.timeline().to(dummy, {
 					value: 0,
 					duration: 1,
-					onUpdate: () =>
-						(this.canvas.style.opacity = `${dummy.value}`),
-					onComplete: () => (this.canvas.style.cursor = "cursor"),
+					onUpdate: () => {
+						this.canvas.style.opacity = `${dummy.value}`;
+					},
+					onComplete: () => {
+						this.canvas.style.cursor = "cursor";
+					},
 				});
 			}, timeoutDuration);
 		}

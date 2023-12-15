@@ -15,16 +15,16 @@ export class ScratchCustomizer extends Customizer {
 		folder2
 			.add(this.props, "timeoutDuration", 0, 5000)
 			.step(1)
-			.onChange((v) => {
+			.onChange((v: number) => {
 				this.onPropsUpdate("timeoutDuration", v);
 			});
 		folder2
 			.add(this.props, "scratchSizeCoeff", 0, 10)
 			.step(0.01)
-			.onChange((v) => {
+			.onChange((v: number) => {
 				this.onPropsUpdate("scratchSizeCoeff", v);
 			});
-		folder2.add(this.props, "cursorAutoRotate").onChange((v) => {
+		folder2.add(this.props, "cursorAutoRotate").onChange((v: boolean) => {
 			this.onPropsUpdate("cursorAutoRotate", v);
 		});
 
@@ -46,13 +46,17 @@ export class ScratchCustomizer extends Customizer {
 		root.appendChild(this.component);
 	}
 
-	uploadFile = (propertyName) => {
+	uploadFile = (propertyName: string) => {
 		const input = document.createElement("input");
 		input.setAttribute("id", "image-file");
 		input.setAttribute("type", "file");
 		input.onchange = () => {
-			const imageUrl = window.webkitURL.createObjectURL(input.files[0]);
-			this.onPropsUpdate(propertyName, imageUrl);
+			if (input.files) {
+				const imageUrl = window.webkitURL.createObjectURL(
+					input.files[0]
+				);
+				this.onPropsUpdate(propertyName, imageUrl);
+			}
 		};
 		input.click();
 	};

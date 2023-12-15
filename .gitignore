@@ -1,0 +1,24 @@
+####
+# common
+####
+.env
+dist
+
+####
+# cert
+####
+cert
+
+####
+# Node
+####
+
+node_modules
+
+#####
+# IDE
+#####
+
+# VSCode
+*.code-workspace
+**/.DS_Store

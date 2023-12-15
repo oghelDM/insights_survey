@@ -1,0 +1,28 @@
+<VAST version="2.0">
+    <Ad id="daciaDusterHotspotOct23">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>daciaDusterHotspotOct23</AdTitle>
+            <ViewableImpression/>
+            <AdVerifications/>
+            <Extensions/>
+            <Creatives>
+                <Creative id="daciaDusterHotspotOct23c">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://localhost:8080/bundle.js]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://localhost:8080/bundle.js]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

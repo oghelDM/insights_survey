@@ -1,6 +1,6 @@
 import { VPAIDVideoPlayer } from "@app";
 import { Cuber } from "@/components/cuber";
-import { CreativeHandler, CreativeProps } from "@/types";
+import { CreativeHandler, CreativeProps, VIDEO_QUALITY } from "@/types";
 
 export const videos = [
 	"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
@@ -33,8 +33,11 @@ const creative: CreativeHandler = (
 };
 
 window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, [
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
-	]);
+	new VPAIDVideoPlayer(creative, {
+		[VIDEO_QUALITY.LOW]:
+			"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+		[VIDEO_QUALITY.MID]:
+			"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+		[VIDEO_QUALITY.HIGH]:
+			"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+	});

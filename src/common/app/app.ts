@@ -1,7 +1,7 @@
 /* eslint-disable */
-import { CreativeHandler } from "@/types";
 import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
+import { CreativeHandler, VIDEO_QUALITY } from "@/types";
 import { pickVideo, updateDisplay } from "@/utils/helper";
 
 export class VPAIDVideoPlayer {
@@ -19,7 +19,7 @@ export class VPAIDVideoPlayer {
 
 	constructor(
 		private creative: CreativeHandler,
-		private videoUrls: string[]
+		private videoUrls: { [K in VIDEO_QUALITY]: string }
 	) {}
 
 	/**
@@ -42,19 +42,19 @@ export class VPAIDVideoPlayer {
 				mimeType: "video/mp4",
 				width: 853,
 				height: 480,
-				url: this.videoUrls[0],
+				url: this.videoUrls[VIDEO_QUALITY.LOW],
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1280,
 				height: 720,
-				url: this.videoUrls[1],
+				url: this.videoUrls[VIDEO_QUALITY.MID],
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1920,
 				height: 1080,
-				url: this.videoUrls[2],
+				url: this.videoUrls[VIDEO_QUALITY.HIGH],
 			},
 		];
 
@@ -63,7 +63,7 @@ export class VPAIDVideoPlayer {
 		if (!selectedMedia) {
 			// Unable to find a source video.
 			console.error(
-				"video source was not found : check media mimetype and valid URL"
+				"video source was not found: check media mimetype and valid URL"
 			);
 			this.callEvent("AdError");
 		} else {

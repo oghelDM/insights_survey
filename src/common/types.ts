@@ -19,6 +19,12 @@ export enum HORIZONTAL_ALIGN {
 	RIGHT,
 }
 
+export enum VIDEO_QUALITY {
+	LOW,
+	MID,
+	HIGH,
+}
+
 export interface ComponentBaseType {
 	id: string; // div id
 	debug?: boolean;
@@ -37,7 +43,7 @@ export type CreativeHandler = (
 
 export type CSSStyleType = { [key: string]: string };
 
-export const defaultComponentValues: ComponentBaseType = {
+export const defaultComponentValues: Required<ComponentBaseType> = {
 	id: "default-component-id",
 	debug: true,
 	redirectUrl: "https://www.dailymotion.com",

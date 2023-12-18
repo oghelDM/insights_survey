@@ -101,6 +101,8 @@ export class Cuber extends IndexManager {
 		this.cube = cube;
 		zout.appendChild(cube);
 
+		const { isVertical } = this.cleanProps;
+
 		this.faces = products.map((product, i) => {
 			const face = document.createElement("div");
 			face.id = `id-face-${i}`;
@@ -109,7 +111,7 @@ export class Cuber extends IndexManager {
 			face.style.width = "100%";
 			face.style.height = "100%";
 			face.style.border = "1px solid black";
-			face.style.transform = `rotate${this.isVertical ? "X" : "Y"}(${
+			face.style.transform = `rotate${isVertical ? "X" : "Y"}(${
 				(i * 360) / this.nbImages
 			}deg) translateZ(${distToCenter}px)`;
 
@@ -130,9 +132,7 @@ export class Cuber extends IndexManager {
 			zout.style.transform = `translateZ(${-distToCenter}px)`;
 			this.faces.forEach(
 				(face, i) =>
-					(face.style.transform = `rotate${
-						this.isVertical ? "X" : "Y"
-					}(${
+					(face.style.transform = `rotate${isVertical ? "X" : "Y"}(${
 						(i * 360) / this.nbImages
 					}deg) translateZ(${distToCenter}px)`)
 			);
@@ -141,13 +141,13 @@ export class Cuber extends IndexManager {
 
 	protected update(): void {
 		super.update();
-		this.cube.style.transform = this.isVertical
+		this.cube.style.transform = this.cleanProps.isVertical
 			? `rotateX(${(this.currentIndex * 360) / this.nbImages}deg)`
 			: `rotateY(${(this.currentIndex * -360) / this.nbImages}deg)`;
 	}
 
 	private getDistToCenter = (parent: HTMLElement) => {
-		if (this.isVertical) {
+		if (this.cleanProps.isVertical) {
 			// height, in pixels, of the focused face
 			const faceHeightPx =
 				(parent.getBoundingClientRect().height *

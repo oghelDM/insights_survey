@@ -38,19 +38,11 @@ export class IndexManager extends HTMLElement {
 	mouseHasMoved: boolean = false;
 	previousIndex: number;
 	currentIndex: number;
-	onIndexChange: (index: number) => void;
-	onIndexChanged: (index: number) => void;
-	speedCoefficient: number;
-	debug: boolean;
 	debugCurrentIndexDiv: HTMLElement;
 	debugElementDiv: HTMLElement;
 	focusedElementWidth: number;
 	focusedElementHeight: number;
-	isVertical: boolean;
-	onClick: (url: string) => void;
-	redirectUrl: string;
 	nbProducts: number = Infinity;
-	fadeObjects: HTMLElement[][];
 	animationTimeoutId: number;
 
 	cleanProps: Required<IndexManagerType>;
@@ -74,29 +66,19 @@ export class IndexManager extends HTMLElement {
 		const {
 			id,
 			startIndex,
-			onIndexChange,
-			onIndexChanged,
-			speedCoefficient,
 			debug,
 			focusedElementWidth,
 			focusedElementHeight,
 			onClick,
 			isInteractive,
 			autoPlay,
-			fadeObjects,
 		} = this.cleanProps;
 
 		this.setAttribute("id", id);
 		this.previousIndex = startIndex;
 		this.currentIndex = startIndex;
-		this.onIndexChange = onIndexChange;
-		this.onIndexChanged = onIndexChanged;
-		this.speedCoefficient = speedCoefficient;
-		this.debug = debug;
 		this.focusedElementWidth = focusedElementWidth;
 		this.focusedElementHeight = focusedElementHeight;
-		this.onClick = onClick;
-		this.fadeObjects = fadeObjects;
 
 		const actualStyle = {
 			display: "block",
@@ -168,15 +150,17 @@ export class IndexManager extends HTMLElement {
 	};
 
 	protected update(): void {
-		this.onIndexChange(this.currentIndex);
-		if (this.debug) {
+		const { onIndexChange, debug, fadeObjects } = this.cleanProps;
+
+		onIndexChange(this.currentIndex);
+		if (debug) {
 			this.debugCurrentIndexDiv.innerText = this.currentIndex.toFixed(2);
 			this.debugElementDiv.style.left = `${
 				-1 * this.currentIndex * this.focusedElementWidth
 			}%`;
 		}
 
-		this.fadeObjects.forEach((elements, i) => {
+		fadeObjects.forEach((elements, i) => {
 			const safeIdx = keepSafe(this.currentIndex, this.nbProducts);
 			let d = Math.abs(i - safeIdx);
 			if (d > this.nbProducts / 2) {
@@ -202,28 +186,26 @@ export class IndexManager extends HTMLElement {
 		this.isMouseDown = true;
 		this.mouseHasMoved = false;
 		const clientXY = getClientXY(e);
-		this.mouseXorY = clientXY[this.isVertical ? "y" : "x"];
+		this.mouseXorY = clientXY[this.cleanProps.isVertical ? "y" : "x"];
 	};
 
 	private onMouseMove = (e: PointerEvent): void => {
 		if (!this.isMouseDown) {
 			return;
 		}
+		const { isVertical } = this.cleanProps;
+
 		this.mouseHasMoved = true;
 		this.previousIndex = this.currentIndex;
 
 		const clientXY = getClientXY(e);
-		const mouseXorY = clientXY[this.isVertical ? "y" : "x"];
+		const mouseXorY = clientXY[isVertical ? "y" : "x"];
 
 		const delta = this.mouseXorY - mouseXorY;
 		const focusedElementSizeInPixels =
-			(this.getBoundingClientRect()[
-				this.isVertical ? "height" : "width"
-			] *
+			(this.getBoundingClientRect()[isVertical ? "height" : "width"] *
 				this[
-					this.isVertical
-						? "focusedElementHeight"
-						: "focusedElementWidth"
+					isVertical ? "focusedElementHeight" : "focusedElementWidth"
 				]) /
 			100;
 		this.currentIndex += delta / focusedElementSizeInPixels;
@@ -237,8 +219,9 @@ export class IndexManager extends HTMLElement {
 			return;
 		}
 		this.isMouseDown = false;
+		const { onClick, redirectUrl } = this.cleanProps;
 		if (!this.mouseHasMoved) {
-			this.onClick(this.redirectUrl);
+			onClick(redirectUrl);
 			return;
 		}
 		const dx = (this.currentIndex - this.previousIndex) * 3;
@@ -250,7 +233,7 @@ export class IndexManager extends HTMLElement {
 		clearTimeout(this.animationTimeoutId);
 		const duration =
 			(0.1 + Math.abs(targetIndex - this.currentIndex) * 0.2) *
-			this.speedCoefficient;
+			this.cleanProps.speedCoefficient;
 
 		this.animateWithTimeout({
 			startIdx: this.currentIndex,
@@ -262,13 +245,13 @@ export class IndexManager extends HTMLElement {
 	animateWithTimeout = ({
 		startIdx,
 		targetIndex,
-		value = 0,
 		duration,
+		value = 0,
 	}: {
 		startIdx: number;
 		targetIndex: number;
-		value?: number;
 		duration: number;
+		value?: number;
 	}) => {
 		// const easingValue = value * value * value; // easeOutCubic
 		const easingValue = value === 1 ? 1 : 1 - Math.pow(2, -10 * value); // easeOutExpo
@@ -277,7 +260,9 @@ export class IndexManager extends HTMLElement {
 			this.currentIndex = targetIndex;
 			clearTimeout(this.animationTimeoutId);
 			this.update();
-			this.onIndexChanged(keepSafe(targetIndex, this.nbProducts));
+			this.cleanProps.onIndexChanged(
+				keepSafe(targetIndex, this.nbProducts)
+			);
 		} else {
 			this.currentIndex = map(easingValue, 0, 1, startIdx, targetIndex);
 			this.update();
@@ -289,7 +274,7 @@ export class IndexManager extends HTMLElement {
 						targetIndex,
 						duration,
 					}),
-				1
+				duration
 			) as any;
 		}
 	};

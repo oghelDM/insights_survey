@@ -46,7 +46,7 @@ export class CarouselBasic extends IndexManager {
 				position: "absolute",
 				backgroundSize: "cover",
 				backgroundImage: `url(${url})`,
-				outline: this.debug ? "1px solid yellow" : "unset",
+				outline: this.cleanProps.debug ? "1px solid yellow" : "unset",
 				backgroundPosition: "center",
 				/* added to fix webkit bug jitter */
 				"-webkit-backface-visibility": "hidden",
@@ -145,7 +145,7 @@ export class CarouselBasic extends IndexManager {
 		let iMin = 0;
 		let iMax = 0;
 		let focusPosition = 0;
-		if (this.isVertical) {
+		if (this.cleanProps.isVertical) {
 			switch (this.verticalAlign) {
 				case VERTICAL_ALIGN.TOP:
 					iMin = Math.floor(currentIndex);
@@ -217,7 +217,6 @@ export class CarouselBasic extends IndexManager {
 
 	getLeftRightTopBottom = (focusPosition: number, d: number, i: number) => {
 		const {
-			isVertical,
 			focusedElementWidth,
 			unfocusedElementWidth,
 			focusedElementHeight,
@@ -225,6 +224,7 @@ export class CarouselBasic extends IndexManager {
 			gap,
 			currentIndex,
 		} = this;
+		const { isVertical } = this.cleanProps;
 
 		let position =
 			focusPosition +

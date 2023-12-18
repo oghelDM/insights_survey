@@ -1,3 +1,3 @@
 module.exports = {
-  rem: require('./rem.function.js')
+	rem: require("./rem.function.js"),
 };

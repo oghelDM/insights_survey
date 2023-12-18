@@ -1,7 +1,6 @@
-import { gsap, Power1 } from "gsap";
-import { ComponentBaseType, defaultComponentValues } from "../types";
 import { createDiv } from "../utils/divMaker";
-import { getClientXY, keepSafe } from "../utils/helper";
+import { getClientXY, keepSafe, map } from "../utils/helper";
+import { ComponentBaseType, defaultComponentValues } from "../types";
 
 export interface IndexManagerType extends ComponentBaseType {
 	focusedElementWidth: number; // the width in percent, occupied by the focused element
@@ -9,7 +8,6 @@ export interface IndexManagerType extends ComponentBaseType {
 	startIndex?: number;
 	onIndexChange?: (index: number) => void; // callback used when the currentIndex is updated
 	onIndexChanged?: (index: number) => void; // callback used when the currentIndex reaches a new stopping value
-	easing?: gsap.EaseFunction;
 	isInteractive?: boolean;
 	autoPlay?: boolean;
 	speedCoefficient?: number;
@@ -18,7 +16,7 @@ export interface IndexManagerType extends ComponentBaseType {
 	fadeObjects?: HTMLElement[][];
 }
 
-export const defaultPropsIndexManager: IndexManagerType = {
+export const defaultPropsIndexManager: Required<IndexManagerType> = {
 	...defaultComponentValues,
 	id: "carouselBasicDM",
 	startIndex: 0,
@@ -26,7 +24,6 @@ export const defaultPropsIndexManager: IndexManagerType = {
 	focusedElementHeight: 60,
 	onIndexChange: (_: number) => {},
 	onIndexChanged: (_: number) => {},
-	easing: Power1.easeOut,
 	isInteractive: true,
 	autoPlay: false,
 	speedCoefficient: 1,
@@ -43,7 +40,6 @@ export class IndexManager extends HTMLElement {
 	currentIndex: number;
 	onIndexChange: (index: number) => void;
 	onIndexChanged: (index: number) => void;
-	easing: gsap.EaseFunction;
 	speedCoefficient: number;
 	debug: boolean;
 	debugCurrentIndexDiv: HTMLElement;
@@ -55,6 +51,9 @@ export class IndexManager extends HTMLElement {
 	redirectUrl: string;
 	nbProducts: number = Infinity;
 	fadeObjects: HTMLElement[][];
+	animationTimeoutId: number;
+
+	cleanProps: Required<IndexManagerType>;
 
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
@@ -67,39 +66,37 @@ export class IndexManager extends HTMLElement {
 			this.removeChild(this.firstChild);
 		}
 
-		const actualProps = { ...defaultPropsIndexManager, ...props };
+		this.cleanProps = {
+			...defaultPropsIndexManager,
+			...props,
+		};
+
 		const {
 			id,
 			startIndex,
 			onIndexChange,
 			onIndexChanged,
-			easing,
 			speedCoefficient,
 			debug,
 			focusedElementWidth,
 			focusedElementHeight,
-			isVertical,
 			onClick,
-			redirectUrl,
 			isInteractive,
 			autoPlay,
 			fadeObjects,
-		} = actualProps;
+		} = this.cleanProps;
 
 		this.setAttribute("id", id);
-		this.previousIndex = startIndex as number;
-		this.currentIndex = startIndex as number;
-		this.onIndexChange = onIndexChange as () => {};
-		this.onIndexChanged = onIndexChanged as () => {};
-		this.easing = easing as gsap.EaseFunction;
-		this.speedCoefficient = speedCoefficient as number;
-		this.debug = debug as boolean;
+		this.previousIndex = startIndex;
+		this.currentIndex = startIndex;
+		this.onIndexChange = onIndexChange;
+		this.onIndexChanged = onIndexChanged;
+		this.speedCoefficient = speedCoefficient;
+		this.debug = debug;
 		this.focusedElementWidth = focusedElementWidth;
 		this.focusedElementHeight = focusedElementHeight;
-		this.isVertical = isVertical as boolean;
 		this.onClick = onClick;
-		this.redirectUrl = redirectUrl as string;
-		this.fadeObjects = fadeObjects as HTMLElement[][];
+		this.fadeObjects = fadeObjects;
 
 		const actualStyle = {
 			display: "block",
@@ -193,6 +190,7 @@ export class IndexManager extends HTMLElement {
 	}
 
 	private onMouseDown = (e: PointerEvent): void => {
+		clearTimeout(this.animationTimeoutId);
 		if (this.autoPlayTimeoutId || this.autoPlayIntervalId) {
 			window.clearTimeout(this.autoPlayTimeoutId);
 			window.clearInterval(this.autoPlayIntervalId);
@@ -203,7 +201,6 @@ export class IndexManager extends HTMLElement {
 		this.previousIndex = this.currentIndex;
 		this.isMouseDown = true;
 		this.mouseHasMoved = false;
-		gsap.killTweensOf(this);
 		const clientXY = getClientXY(e);
 		this.mouseXorY = clientXY[this.isVertical ? "y" : "x"];
 	};
@@ -250,18 +247,51 @@ export class IndexManager extends HTMLElement {
 	};
 
 	private goToIndex = (targetIndex: number): void => {
+		clearTimeout(this.animationTimeoutId);
 		const duration =
 			(0.1 + Math.abs(targetIndex - this.currentIndex) * 0.2) *
 			this.speedCoefficient;
-		gsap.killTweensOf(this);
-		gsap.timeline().to(this, {
-			currentIndex: targetIndex,
+
+		this.animateWithTimeout({
+			startIdx: this.currentIndex,
+			targetIndex,
 			duration,
-			ease: this.easing,
-			onUpdate: () => this.update(),
-			onComplete: () =>
-				this.onIndexChanged(keepSafe(targetIndex, this.nbProducts)),
 		});
+	};
+
+	animateWithTimeout = ({
+		startIdx,
+		targetIndex,
+		value = 0,
+		duration,
+	}: {
+		startIdx: number;
+		targetIndex: number;
+		value?: number;
+		duration: number;
+	}) => {
+		// const easingValue = value * value * value; // easeOutCubic
+		const easingValue = value === 1 ? 1 : 1 - Math.pow(2, -10 * value); // easeOutExpo
+		const newValue = value + 0.025;
+		if (newValue >= 1) {
+			this.currentIndex = targetIndex;
+			clearTimeout(this.animationTimeoutId);
+			this.update();
+			this.onIndexChanged(keepSafe(targetIndex, this.nbProducts));
+		} else {
+			this.currentIndex = map(easingValue, 0, 1, startIdx, targetIndex);
+			this.update();
+			this.animationTimeoutId = setTimeout(
+				() =>
+					this.animateWithTimeout({
+						startIdx,
+						value: newValue,
+						targetIndex,
+						duration,
+					}),
+				1
+			) as any;
+		}
 	};
 
 	public moveIndexBy = (deltaIndex: number): void => {

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
 import { CreativeHandler, VIDEO_QUALITY } from "@/types";

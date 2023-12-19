@@ -122,10 +122,13 @@ export class IndexManager extends HTMLElement {
 			this.startAutoPlay();
 		}
 
-		if (arrows.length > 0) {
-			arrows[0]?.addEventListener("click", () => this.moveIndexBy(1));
-			arrows[1]?.addEventListener("click", () => this.moveIndexBy(-1));
-		}
+		arrows.forEach((arrow, i) =>
+			arrow.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				this.moveIndexBy(i === 0 ? 1 : -1);
+			})
+		);
 
 		if (debug) {
 			this.debugElementDiv = createDiv("debugElementDiv", {
@@ -167,9 +170,19 @@ export class IndexManager extends HTMLElement {
 		interactionDiv.addEventListener("pointermove", (e: PointerEvent) =>
 			this.onMouseMove(e)
 		);
-		interactionDiv.addEventListener("pointerup", () => this.onMouseUp());
-		interactionDiv.addEventListener("pointerout", () => this.onMouseUp());
-		interactionDiv.addEventListener("pointerleave", () => this.onMouseUp());
+		interactionDiv.addEventListener("pointerup", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("pointerout", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("pointerleave", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("click", (e: PointerEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
 	};
 
 	protected update(): void {
@@ -237,10 +250,12 @@ export class IndexManager extends HTMLElement {
 		this.update();
 	};
 
-	private onMouseUp = (): void => {
+	private onMouseUp = (e: PointerEvent): void => {
 		if (!this.isMouseDown) {
 			return;
 		}
+		e.preventDefault();
+		e.stopPropagation();
 		this.isMouseDown = false;
 		const { onClick, clickUrl, clickUrls } = this.cleanProps;
 		if (!this.mouseHasMoved) {

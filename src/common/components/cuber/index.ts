@@ -1,12 +1,13 @@
-import { CuberType, defaultValuesCuber } from "./defaultValues";
-import { IndexManager } from "../indexManager";
 import { CSSStyleType } from "@/types";
+import { IndexManager } from "../indexManager";
+import { CuberType, defaultValuesCuber } from "./defaultValues";
 
 export class Cuber extends IndexManager {
+	protected cleanProps: Required<CuberType>;
+
 	container: HTMLElement;
 	cube: HTMLElement;
 	faces: HTMLElement[];
-	nbImages: number;
 
 	constructor(props: CuberType, style: any = {}) {
 		super();
@@ -15,9 +16,9 @@ export class Cuber extends IndexManager {
 	}
 
 	public init(props: CuberType, style: CSSStyleType) {
-		const actualProps = { ...defaultValuesCuber, ...props };
+		this.cleanProps = { ...defaultValuesCuber, ...props };
 
-		super.init(actualProps, style);
+		super.init(this.cleanProps, style);
 
 		const {
 			id,
@@ -30,7 +31,7 @@ export class Cuber extends IndexManager {
 			faceTop,
 			faceBottom,
 			perspectiveOrigin,
-		} = actualProps;
+		} = this.cleanProps;
 
 		this.setAttribute("id", id);
 		const actualStyle = {
@@ -50,15 +51,13 @@ export class Cuber extends IndexManager {
 			(this.style as any)[key] = value;
 		}
 
-		this.nbImages = productUrls.length;
-
 		// faces initialization
 		const container = document.createElement("div");
 		container.id = "id-container";
 		container.style.position = "absolute";
 		container.style.zIndex = "3000000";
-		container.style.width = `${this.focusedElementWidth}%`;
-		container.style.height = `${this.focusedElementHeight}%`;
+		container.style.width = `${this.cleanProps.focusedElementWidth}%`;
+		container.style.height = `${this.cleanProps.focusedElementHeight}%`;
 		container.style.perspectiveOrigin = perspectiveOrigin as string;
 		container.style.alignItems = "center";
 		container.style.pointerEvents = "none";
@@ -112,7 +111,7 @@ export class Cuber extends IndexManager {
 			face.style.height = "100%";
 			face.style.border = "1px solid black";
 			face.style.transform = `rotate${isVertical ? "X" : "Y"}(${
-				(i * 360) / this.nbImages
+				(i * 360) / this.nbProducts
 			}deg) translateZ(${distToCenter}px)`;
 
 			face.style.backgroundImage = `url(${product})`;
@@ -133,7 +132,7 @@ export class Cuber extends IndexManager {
 			this.faces.forEach(
 				(face, i) =>
 					(face.style.transform = `rotate${isVertical ? "X" : "Y"}(${
-						(i * 360) / this.nbImages
+						(i * 360) / this.nbProducts
 					}deg) translateZ(${distToCenter}px)`)
 			);
 		});
@@ -142,8 +141,8 @@ export class Cuber extends IndexManager {
 	protected update(): void {
 		super.update();
 		this.cube.style.transform = this.cleanProps.isVertical
-			? `rotateX(${(this.currentIndex * 360) / this.nbImages}deg)`
-			: `rotateY(${(this.currentIndex * -360) / this.nbImages}deg)`;
+			? `rotateX(${(this.currentIndex * 360) / this.nbProducts}deg)`
+			: `rotateY(${(this.currentIndex * -360) / this.nbProducts}deg)`;
 	}
 
 	private getDistToCenter = (parent: HTMLElement) => {
@@ -152,19 +151,19 @@ export class Cuber extends IndexManager {
 			const faceHeightPx =
 				(parent.getBoundingClientRect().height *
 					parseFloat(this.style.height) *
-					this.focusedElementHeight) /
+					this.cleanProps.focusedElementHeight) /
 				100 /
 				100;
-			return faceHeightPx / (2 * Math.tan(Math.PI / this.nbImages));
+			return faceHeightPx / (2 * Math.tan(Math.PI / this.nbProducts));
 		}
 		// width, in pixels, of the focused face
 		const faceWidthPx =
 			(parent.getBoundingClientRect().width *
 				parseFloat(this.style.width) *
-				this.focusedElementWidth) /
+				this.cleanProps.focusedElementWidth) /
 			100 /
 			100;
-		return faceWidthPx / (2 * Math.tan(Math.PI / this.nbImages));
+		return faceWidthPx / (2 * Math.tan(Math.PI / this.nbProducts));
 	};
 }
 

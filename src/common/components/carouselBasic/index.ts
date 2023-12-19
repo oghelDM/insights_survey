@@ -5,9 +5,8 @@ import { HORIZONTAL_ALIGN, VERTICAL_ALIGN } from "../../types";
 import { CarouselBasicType, defaultValuesCarouselBasic } from "./defaultValues";
 
 export class CarouselBasic extends IndexManager {
-	products: HTMLElement[];
-
-	cleanProps: Required<CarouselBasicType>;
+	protected cleanProps: Required<CarouselBasicType>;
+	private products: HTMLElement[];
 
 	constructor(props: CarouselBasicType, style: any = {}) {
 		super();

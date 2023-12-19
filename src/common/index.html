@@ -63,6 +63,15 @@
 						event
 					)
 				);
+
+				ad.subscribe((url) => {
+					console.log(
+						"AdClickThru event received from creative with url: ",
+						url
+					);
+					window.open(url, "_blank");
+				}, "AdClickThru");
+
 				ad.startAd();
 			}, 1000);
 		</script>

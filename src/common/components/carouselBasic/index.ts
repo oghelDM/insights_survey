@@ -6,13 +6,8 @@ import { CarouselBasicType, defaultValuesCarouselBasic } from "./defaultValues";
 
 export class CarouselBasic extends IndexManager {
 	products: HTMLElement[];
-	gap: number;
-	verticalAlign: VERTICAL_ALIGN;
-	horizontalAlign: HORIZONTAL_ALIGN;
-	unfocusedElementWidth: number;
-	unfocusedElementHeight: number;
-	focusedElementOpacity: number;
-	unfocusedElementOpacity: number;
+
+	cleanProps: Required<CarouselBasicType>;
 
 	constructor(props: CarouselBasicType, style: any = {}) {
 		super();
@@ -21,33 +16,33 @@ export class CarouselBasic extends IndexManager {
 	}
 
 	public init = (props: CarouselBasicType, style: any = {}) => {
-		const actualProps = { ...defaultValuesCarouselBasic, ...props };
+		this.cleanProps = {
+			...defaultValuesCarouselBasic,
+			...props,
+		};
 
-		super.init(actualProps, style);
+		super.init(this.cleanProps, style);
+
 		const {
-			products,
+			productUrls: products,
 			id,
-			gap = 0,
-			verticalAlign,
-			horizontalAlign,
 			focusedElementWidth,
-			unfocusedElementWidth,
 			focusedElementHeight,
-			unfocusedElementHeight,
-			focusedElementOpacity,
-			unfocusedElementOpacity,
-		} = actualProps;
+			clickUrls,
+			onClick,
+		} = this.cleanProps;
 
 		this.products = products.map((url, index) => {
 			const element = createDiv(`${id}-${index}`, {
 				width: `${focusedElementWidth}%`,
 				height: `${focusedElementHeight}%`,
-				backgroundColor: "#ffffff88",
+				backgroundColor: this.cleanProps.debug ? "#ffffff88" : "unset",
 				position: "absolute",
-				backgroundSize: "cover",
+				backgroundSize: "contain",
 				backgroundImage: `url(${url})`,
 				outline: this.cleanProps.debug ? "1px solid yellow" : "unset",
 				backgroundPosition: "center",
+				backgroundRepeat: "no-repeat",
 				/* added to fix webkit bug jitter */
 				"-webkit-backface-visibility": "hidden",
 				"-webkit-transform": "perspective(1000px)",
@@ -55,16 +50,17 @@ export class CarouselBasic extends IndexManager {
 
 			// position the elements behind the interactive div
 			this.insertBefore(element, this.childNodes[0]);
+			if (clickUrls[index]) {
+				element.addEventListener("click", (e) => {
+					console.log("click on product: ", index);
+					e.preventDefault();
+					e.stopPropagation();
+					onClick(clickUrls[index]);
+				});
+			}
 			return element;
 		});
 		this.nbProducts = products.length;
-		this.gap = gap;
-		this.verticalAlign = verticalAlign as VERTICAL_ALIGN;
-		this.horizontalAlign = horizontalAlign as HORIZONTAL_ALIGN;
-		this.unfocusedElementWidth = unfocusedElementWidth as number;
-		this.unfocusedElementHeight = unfocusedElementHeight as number;
-		this.focusedElementOpacity = focusedElementOpacity as number;
-		this.unfocusedElementOpacity = unfocusedElementOpacity as number;
 
 		this.update();
 	};
@@ -76,20 +72,19 @@ export class CarouselBasic extends IndexManager {
 		this.products.forEach((element) => (element.style.opacity = "0"));
 
 		const {
-			currentIndex,
 			focusedElementWidth,
 			unfocusedElementWidth,
 			focusedElementHeight,
 			unfocusedElementHeight,
 			focusedElementOpacity,
 			unfocusedElementOpacity,
-		} = this;
+		} = this.cleanProps;
 
 		// get the indices of only the elements that need to be rendered
 		const { iMin, iMax, focusPosition } = this.getiMinMax();
 
 		for (let i = iMin; i <= iMax; i++) {
-			const d = Math.min(Math.abs(i - currentIndex), 1);
+			const d = Math.min(Math.abs(i - this.currentIndex), 1);
 
 			const { left, right, top, bottom } = this.getLeftRightTopBottom(
 				focusPosition,
@@ -133,20 +128,22 @@ export class CarouselBasic extends IndexManager {
 	// return the indices surrounding currentIndex that need to be rendered
 	// and the focusPosition, which is the left or top position of the focused element
 	getiMinMax = () => {
+		const { currentIndex } = this;
 		const {
-			currentIndex,
 			focusedElementWidth,
 			unfocusedElementWidth,
 			focusedElementHeight,
 			unfocusedElementHeight,
+			verticalAlign,
+			horizontalAlign,
 			gap,
-		} = this;
+		} = this.cleanProps;
 
 		let iMin = 0;
 		let iMax = 0;
 		let focusPosition = 0;
 		if (this.cleanProps.isVertical) {
-			switch (this.verticalAlign) {
+			switch (verticalAlign) {
 				case VERTICAL_ALIGN.TOP:
 					iMin = Math.floor(currentIndex);
 					iMax = Math.ceil(
@@ -179,7 +176,7 @@ export class CarouselBasic extends IndexManager {
 					break;
 			}
 		} else {
-			switch (this.horizontalAlign) {
+			switch (horizontalAlign) {
 				case HORIZONTAL_ALIGN.LEFT:
 					iMin = Math.floor(currentIndex);
 					iMax = Math.ceil(
@@ -216,15 +213,17 @@ export class CarouselBasic extends IndexManager {
 	};
 
 	getLeftRightTopBottom = (focusPosition: number, d: number, i: number) => {
+		const { currentIndex } = this;
 		const {
+			isVertical,
 			focusedElementWidth,
-			unfocusedElementWidth,
 			focusedElementHeight,
+			unfocusedElementWidth,
 			unfocusedElementHeight,
 			gap,
-			currentIndex,
-		} = this;
-		const { isVertical } = this.cleanProps;
+			verticalAlign,
+			horizontalAlign,
+		} = this.cleanProps;
 
 		let position =
 			focusPosition +
@@ -243,7 +242,7 @@ export class CarouselBasic extends IndexManager {
 		let left = isVertical ? "unset" : `${position}%`;
 		let right = "unset";
 		if (isVertical) {
-			switch (this.horizontalAlign) {
+			switch (horizontalAlign) {
 				case HORIZONTAL_ALIGN.LEFT:
 					left = "0%";
 					break;
@@ -265,7 +264,7 @@ export class CarouselBasic extends IndexManager {
 					break;
 			}
 		} else {
-			switch (this.verticalAlign) {
+			switch (verticalAlign) {
 				case VERTICAL_ALIGN.TOP:
 					top = "0%";
 					break;

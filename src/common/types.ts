@@ -28,7 +28,7 @@ export enum VIDEO_QUALITY {
 export interface ComponentBaseType {
 	id: string; // div id
 	debug?: boolean;
-	redirectUrl?: string; // main url redirection
+	clickUrl?: string; // main url redirection
 	onClick: (url?: string) => void; // onClick callback
 }
 
@@ -46,6 +46,6 @@ export type CSSStyleType = { [key: string]: string };
 export const defaultComponentValues: Required<ComponentBaseType> = {
 	id: "default-component-id",
 	debug: true,
-	redirectUrl: "https://www.dailymotion.com",
+	clickUrl: "https://www.dailymotion.com",
 	onClick: (url?: string) => console.log("click to url: ", url),
 };

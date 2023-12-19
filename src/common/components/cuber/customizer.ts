@@ -6,7 +6,7 @@ export class CuberCustomizer extends Customizer {
 	private otherProps: any = {
 		perspectiveX: 50,
 		perspectiveY: 50,
-		nbFaces: defaultValuesCuber.products.length,
+		nbFaces: defaultValuesCuber.productUrls.length,
 	};
 
 	constructor(root: HTMLElement) {
@@ -26,8 +26,8 @@ export class CuberCustomizer extends Customizer {
 				const products = [];
 				for (let i = 0; i < nbFaces; i++) {
 					products.push(
-						defaultValuesCuber.products[
-							i % defaultValuesCuber.products.length
+						defaultValuesCuber.productUrls[
+							i % defaultValuesCuber.productUrls.length
 						]
 					);
 				}

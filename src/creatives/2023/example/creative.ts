@@ -1,6 +1,7 @@
 import { VPAIDVideoPlayer } from "@app";
 import { Cuber } from "@/components/cuber";
-import { CreativeHandler, CreativeProps, VIDEO_QUALITY } from "@/types";
+import { ImageDM } from "@/components/image";
+import { CreativeHandler, CreativeProps } from "@/types";
 
 export const videos = [
 	"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
@@ -12,10 +13,16 @@ const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
 ) => {
+	// BG
+	const bg = new ImageDM("bg-dm", {
+		url: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Hyundai_Tucson_Interactive_Carousel_2311_CAMPAIGN_ES_20s/assets/fg.png",
+	});
+	root.appendChild(bg);
+
 	// Cuber component
 	const cuber = new Cuber({
 		id: "cuberDM",
-		products: [
+		productUrls: [
 			"https://images.unsplash.com/photo-1696464795756-2d92a11c504f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
 			"https://images.unsplash.com/photo-1695496573688-3e0e8ac8657e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
 			"https://images.unsplash.com/photo-1695456261833-3794ab617deb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Mnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
@@ -33,11 +40,8 @@ const creative: CreativeHandler = (
 };
 
 window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, {
-		[VIDEO_QUALITY.LOW]:
-			"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
-		[VIDEO_QUALITY.MID]:
-			"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
-		[VIDEO_QUALITY.HIGH]:
-			"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
-	});
+	new VPAIDVideoPlayer(creative, [
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+		"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+	]);

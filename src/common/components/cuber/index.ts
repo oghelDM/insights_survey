@@ -22,7 +22,7 @@ export class Cuber extends IndexManager {
 		const {
 			id,
 			debug = false,
-			products,
+			productUrls,
 			parent,
 			perspective,
 			faceLeft,
@@ -50,7 +50,7 @@ export class Cuber extends IndexManager {
 			(this.style as any)[key] = value;
 		}
 
-		this.nbImages = products.length;
+		this.nbImages = productUrls.length;
 
 		// faces initialization
 		const container = document.createElement("div");
@@ -103,7 +103,7 @@ export class Cuber extends IndexManager {
 
 		const { isVertical } = this.cleanProps;
 
-		this.faces = products.map((product, i) => {
+		this.faces = productUrls.map((product, i) => {
 			const face = document.createElement("div");
 			face.id = `id-face-${i}`;
 			face.style.position = "absolute";

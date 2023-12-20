@@ -48,7 +48,7 @@ export class Split extends HTMLElement {
 				const div = createDiv(`split-${i === 0 ? "left" : "right"}`, {
 					width: "100%",
 					height: "100%",
-					backgroundColor: "#ffffff88",
+					backgroundColor: debug ? "#000ff088" : "unset",
 					position: "absolute",
 					backgroundSize: "cover",
 					backgroundImage: `url(${imageUrl})`,

@@ -156,7 +156,9 @@ export class FadeIn extends HTMLElement {
 
 		updateWarping(0);
 
-		this.addEventListener("click", () => onClick());
+		this.addEventListener("click", () =>
+			onClick("https://www.google.com/search?q=fadeIn2")
+		);
 	}
 }
 

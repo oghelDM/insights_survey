@@ -33,7 +33,8 @@ const creative: CreativeHandler = (
 		focusedElementHeight: 80,
 		faceLeft: 30,
 		faceBottom: 10,
-		onClick: () => console.log("cuber click"),
+		onClick,
+		clickUrl: "https://www.google.com/search?q=example",
 		parent: root,
 	});
 	root.appendChild(cuber);

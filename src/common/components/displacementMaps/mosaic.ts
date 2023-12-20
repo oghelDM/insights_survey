@@ -57,7 +57,9 @@ export class Mosaic extends HTMLElement {
 
 		this.appendChild(svg2);
 
-		this.addEventListener("click", () => onClick());
+		this.addEventListener("click", () =>
+			onClick("https://www.google.com/search?q=mosaic")
+		);
 	}
 }
 

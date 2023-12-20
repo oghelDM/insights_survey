@@ -3,12 +3,6 @@ import { ImageDM } from "@/components/image";
 import { CreativeHandler, CreativeProps } from "@/types";
 import { CarouselBasic } from "@/components/carouselBasic";
 
-export const videos = [
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
-];
-
 const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps

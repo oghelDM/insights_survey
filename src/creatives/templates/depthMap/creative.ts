@@ -13,7 +13,8 @@ const creative: CreativeHandler = (
 				"https://statics.dmcdn.net/d/TESTS/fwk/assets/depthMap/avatar.png",
 			depthMapUrl:
 				"https://statics.dmcdn.net/d/TESTS/fwk/assets/depthMap/avatar-depthMap.png",
-			onClick: () => console.log("depthMap click"),
+			onClick,
+			clickUrl: "https://www.google.com/search?q=depthMap",
 		},
 		// { width: "33.3%", height: "30%", right: 0, top: "23%" }
 		{}

@@ -69,7 +69,9 @@ export class FadeIn extends HTMLElement {
 		window.addEventListener("resize", () =>
 			this.update(this.scale, this.zoom)
 		);
-		this.addEventListener("click", () => onClick());
+		this.addEventListener("click", () =>
+			onClick("https://www.google.com/search?q=fadeIn")
+		);
 	}
 
 	// called when the HTMLElement is added to the document

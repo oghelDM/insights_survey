@@ -28,12 +28,12 @@ export enum VIDEO_QUALITY {
 export interface ComponentBaseType {
 	id: string; // div id
 	debug?: boolean;
-	clickUrl?: string; // main url redirection
-	onClick: (url?: string) => void; // onClick callback
+	clickUrl: string; // main url redirection
+	onClick: (url: string) => void; // onClick callback
 }
 
 export interface CreativeProps {
-	onClick: (url?: string) => void;
+	onClick: (url: string) => void;
 }
 
 export type CreativeHandler = (

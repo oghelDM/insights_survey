@@ -83,7 +83,7 @@ export class VPAIDVideoPlayer {
 	 * Called when the ad is clicked.
 	 * @private
 	 */
-	clickAd = (url = "https://www.dailymotion.com/fr") => {
+	clickAd = (url: string) => {
 		console.log("clickAd:", url);
 
 		if ("AdClickThru" in this.eventsCallbacks) {
@@ -234,7 +234,7 @@ export class VPAIDVideoPlayer {
 		///////////////////// DM ad instanciation //////////////////////////
 		////////////////////////////////////////////////////////////////////
 		this.creative(this.creativeContent, {
-			onClick: (url?: string) => this.clickAd(url),
+			onClick: (url: string) => this.clickAd(url),
 		});
 		////////////////////////////////////////////////////////////////////
 		////////////////////////////////////////////////////////////////////

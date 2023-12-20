@@ -59,7 +59,7 @@ export class DepthMap extends HTMLElement {
 	private time = 0;
 	private isUserInteracting = false;
 
-	constructor(props: DepthMapType, styleProps: any) {
+	constructor(props: DepthMapType, styleProps: any = {}) {
 		super();
 
 		this.setAttribute("id", props.id);

@@ -280,6 +280,9 @@ export class VPAIDVideoPlayer {
 		this.updateVideoPlayerSize();
 		updateDisplay(this.creativeContent);
 		this.callEvent("AdSizeChange");
+
+		// triggers the components resize
+		window.dispatchEvent(new Event("resize"));
 	};
 
 	/**

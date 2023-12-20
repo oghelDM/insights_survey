@@ -20,7 +20,7 @@ export class Spritesheet extends HTMLElement {
 			id,
 			debug,
 			onClick,
-			redirectUrl,
+			clickUrl,
 			spriteWidth,
 			spriteHeight,
 			nbFramesW,
@@ -52,7 +52,7 @@ export class Spritesheet extends HTMLElement {
 		}
 		this.updateBg();
 
-		this.addEventListener("click", () => onClick(redirectUrl)); // TODO: check it is not triggered several times
+		this.addEventListener("click", () => onClick(clickUrl)); // TODO: check it is not triggered several times
 
 		this.stop();
 		if (!isPaused) {

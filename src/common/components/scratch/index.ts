@@ -23,7 +23,7 @@ export class Scratch extends HTMLElement {
 		this.props = { ...defaultValuesScratch, ...props };
 		this.styleProps = { ...styleProps };
 
-		const { id, onClick, redirectUrl, frontImageUrl } = this.props;
+		const { id, onClick, clickUrl, frontImageUrl } = this.props;
 
 		this.setAttribute("id", id);
 
@@ -40,7 +40,7 @@ export class Scratch extends HTMLElement {
 		this.imgFront.src = frontImageUrl;
 
 		this.addEventListener("pointermove", (e) => this.pointerMove(e));
-		this.addEventListener("click", () => onClick(redirectUrl));
+		this.addEventListener("click", () => onClick(clickUrl));
 		window.addEventListener("resize", () => {
 			if (!this.cursorImage) {
 				return;

@@ -29,7 +29,7 @@ export class Countdown extends HTMLElement {
 			fontUrl,
 			debug,
 			onClick,
-			redirectUrl,
+			clickUrl,
 			textAlign = HORIZONTAL_ALIGN.CENTER,
 			elementWidth,
 		} = props;
@@ -90,7 +90,7 @@ export class Countdown extends HTMLElement {
 			});
 		}
 
-		this.addEventListener("click", () => onClick(redirectUrl));
+		this.addEventListener("click", () => onClick(clickUrl));
 
 		this.checkUpdate();
 	}

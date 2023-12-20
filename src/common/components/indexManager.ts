@@ -14,6 +14,9 @@ export interface IndexManagerType extends ComponentBaseType {
 	isVertical?: boolean; // whether the user interaction should be vertical or not
 	onClick: (url: string) => void;
 	fadeObjects?: HTMLElement[][];
+	arrows?: HTMLElement[];
+	productUrls: string[]; // image elements
+	clickUrls?: string[]; // optional redirection urls for each product
 }
 
 export const defaultPropsIndexManager: Required<IndexManagerType> = {
@@ -30,23 +33,36 @@ export const defaultPropsIndexManager: Required<IndexManagerType> = {
 	isVertical: false,
 	onClick: () => console.log("click on IndexManager"),
 	fadeObjects: [],
+	arrows: [],
+	productUrls: [
+		"https://images.unsplash.com/photo-1696464795756-2d92a11c504f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+		"https://images.unsplash.com/photo-1695496573688-3e0e8ac8657e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+		"https://images.unsplash.com/photo-1695456261833-3794ab617deb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Mnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+		"https://plus.unsplash.com/premium_photo-1694670200212-3122e7c5c9b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2NHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+		"https://images.unsplash.com/photo-1695878026745-1d07d1088045?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2N3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+	],
+	clickUrls: [
+		"https://www.google.com/search?q=0",
+		"https://www.google.com/search?q=1",
+		"https://www.google.com/search?q=2",
+		"https://www.google.com/search?q=3",
+		"https://www.google.com/search?q=4",
+	],
 };
 
 export class IndexManager extends HTMLElement {
-	mouseXorY: number;
-	isMouseDown: boolean = false;
-	mouseHasMoved: boolean = false;
-	previousIndex: number;
-	currentIndex: number;
-	debugCurrentIndexDiv: HTMLElement;
-	debugElementDiv: HTMLElement;
-	focusedElementWidth: number;
-	focusedElementHeight: number;
-	nbProducts: number = Infinity;
-	animationTimeoutId: number;
+	protected nbProducts: number;
+	protected cleanProps: Required<IndexManagerType>;
+	protected currentIndex: number;
 
-	cleanProps: Required<IndexManagerType>;
+	private previousIndex: number;
+	private mouseXorY: number;
+	private isMouseDown: boolean = false;
+	private mouseHasMoved: boolean = false;
+	private debugCurrentIndexDiv: HTMLElement;
+	private debugElementDiv: HTMLElement;
 
+	private animationTimeoutId: number;
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
 
@@ -67,18 +83,16 @@ export class IndexManager extends HTMLElement {
 			id,
 			startIndex,
 			debug,
-			focusedElementWidth,
-			focusedElementHeight,
-			onClick,
 			isInteractive,
 			autoPlay,
+			arrows,
+			productUrls,
 		} = this.cleanProps;
 
 		this.setAttribute("id", id);
 		this.previousIndex = startIndex;
 		this.currentIndex = startIndex;
-		this.focusedElementWidth = focusedElementWidth;
-		this.focusedElementHeight = focusedElementHeight;
+		this.nbProducts = productUrls.length;
 
 		const actualStyle = {
 			display: "block",
@@ -104,9 +118,18 @@ export class IndexManager extends HTMLElement {
 			this.startAutoPlay();
 		}
 
+		arrows.forEach((arrow, i) =>
+			arrow.addEventListener("click", (e) => {
+				e.preventDefault();
+				e.stopPropagation();
+				this.stopAutoPlay();
+				this.moveIndexBy(i === 0 ? 1 : -1);
+			})
+		);
+
 		if (debug) {
 			this.debugElementDiv = createDiv("debugElementDiv", {
-				width: `${focusedElementWidth}%`,
+				width: `${this.cleanProps.focusedElementWidth}%`,
 				height: "100px",
 				backgroundColor: "red",
 				opacity: 0.8,
@@ -144,19 +167,30 @@ export class IndexManager extends HTMLElement {
 		interactionDiv.addEventListener("pointermove", (e: PointerEvent) =>
 			this.onMouseMove(e)
 		);
-		interactionDiv.addEventListener("pointerup", () => this.onMouseUp());
-		interactionDiv.addEventListener("pointerout", () => this.onMouseUp());
-		interactionDiv.addEventListener("pointerleave", () => this.onMouseUp());
+		interactionDiv.addEventListener("pointerup", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("pointerout", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("pointerleave", (e: PointerEvent) =>
+			this.onMouseUp(e)
+		);
+		interactionDiv.addEventListener("click", (e: PointerEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+		});
 	};
 
 	protected update(): void {
-		const { onIndexChange, debug, fadeObjects } = this.cleanProps;
+		const { onIndexChange, debug, fadeObjects, focusedElementWidth } =
+			this.cleanProps;
 
 		onIndexChange(this.currentIndex);
 		if (debug) {
 			this.debugCurrentIndexDiv.innerText = this.currentIndex.toFixed(2);
 			this.debugElementDiv.style.left = `${
-				-1 * this.currentIndex * this.focusedElementWidth
+				-1 * this.currentIndex * focusedElementWidth
 			}%`;
 		}
 
@@ -174,13 +208,7 @@ export class IndexManager extends HTMLElement {
 	}
 
 	private onMouseDown = (e: PointerEvent): void => {
-		clearTimeout(this.animationTimeoutId);
-		if (this.autoPlayTimeoutId || this.autoPlayIntervalId) {
-			window.clearTimeout(this.autoPlayTimeoutId);
-			window.clearInterval(this.autoPlayIntervalId);
-			this.autoPlayTimeoutId = undefined;
-			this.autoPlayIntervalId = undefined;
-		}
+		this.stopAutoPlay();
 
 		this.previousIndex = this.currentIndex;
 		this.isMouseDown = true;
@@ -193,7 +221,8 @@ export class IndexManager extends HTMLElement {
 		if (!this.isMouseDown) {
 			return;
 		}
-		const { isVertical } = this.cleanProps;
+		const { isVertical, focusedElementWidth, focusedElementHeight } =
+			this.cleanProps;
 
 		this.mouseHasMoved = true;
 		this.previousIndex = this.currentIndex;
@@ -204,9 +233,7 @@ export class IndexManager extends HTMLElement {
 		const delta = this.mouseXorY - mouseXorY;
 		const focusedElementSizeInPixels =
 			(this.getBoundingClientRect()[isVertical ? "height" : "width"] *
-				this[
-					isVertical ? "focusedElementHeight" : "focusedElementWidth"
-				]) /
+				(isVertical ? focusedElementHeight : focusedElementWidth)) /
 			100;
 		this.currentIndex += delta / focusedElementSizeInPixels;
 
@@ -214,13 +241,20 @@ export class IndexManager extends HTMLElement {
 		this.update();
 	};
 
-	private onMouseUp = (): void => {
+	private onMouseUp = (e: PointerEvent): void => {
 		if (!this.isMouseDown) {
 			return;
 		}
+		e.preventDefault();
+		e.stopPropagation();
 		this.isMouseDown = false;
-		const { onClick, redirectUrl } = this.cleanProps;
+		const { onClick, clickUrl, clickUrls } = this.cleanProps;
 		if (!this.mouseHasMoved) {
+			let redirectUrl = clickUrl;
+			if (clickUrls.length > 0) {
+				const idx = keepSafe(this.currentIndex, this.nbProducts);
+				redirectUrl = clickUrls[idx] || redirectUrl;
+			}
 			onClick(redirectUrl);
 			return;
 		}
@@ -231,31 +265,14 @@ export class IndexManager extends HTMLElement {
 
 	private goToIndex = (targetIndex: number): void => {
 		clearTimeout(this.animationTimeoutId);
-		const duration =
-			(0.1 + Math.abs(targetIndex - this.currentIndex) * 0.2) *
-			this.cleanProps.speedCoefficient;
 
-		this.animateWithTimeout({
-			startIdx: this.currentIndex,
-			targetIndex,
-			duration,
-		});
+		this.animateWithTimeout(this.currentIndex, targetIndex);
 	};
 
-	animateWithTimeout = ({
-		startIdx,
-		targetIndex,
-		duration,
-		value = 0,
-	}: {
-		startIdx: number;
-		targetIndex: number;
-		duration: number;
-		value?: number;
-	}) => {
+	animateWithTimeout = (startIdx: number, targetIndex: number, value = 0) => {
 		// const easingValue = value * value * value; // easeOutCubic
 		const easingValue = value === 1 ? 1 : 1 - Math.pow(2, -10 * value); // easeOutExpo
-		const newValue = value + 0.025;
+		const newValue = value + 0.025 * this.cleanProps.speedCoefficient;
 		if (newValue >= 1) {
 			this.currentIndex = targetIndex;
 			clearTimeout(this.animationTimeoutId);
@@ -267,14 +284,8 @@ export class IndexManager extends HTMLElement {
 			this.currentIndex = map(easingValue, 0, 1, startIdx, targetIndex);
 			this.update();
 			this.animationTimeoutId = setTimeout(
-				() =>
-					this.animateWithTimeout({
-						startIdx,
-						value: newValue,
-						targetIndex,
-						duration,
-					}),
-				duration
+				() => this.animateWithTimeout(startIdx, targetIndex, newValue),
+				1000 / 60
 			) as any;
 		}
 	};
@@ -295,6 +306,15 @@ export class IndexManager extends HTMLElement {
 				frequency * 1000
 			);
 		}, delay);
+	};
+
+	public stopAutoPlay = (): void => {
+		if (this.autoPlayTimeoutId || this.autoPlayIntervalId) {
+			window.clearTimeout(this.autoPlayTimeoutId);
+			window.clearInterval(this.autoPlayIntervalId);
+			this.autoPlayTimeoutId = undefined;
+			this.autoPlayIntervalId = undefined;
+		}
 	};
 }
 

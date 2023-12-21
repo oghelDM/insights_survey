@@ -14,17 +14,23 @@ const creative: CreativeHandler = (
 		backgroundSize: "contain",
 		cursor: "pointer",
 	};
-	const arrowRight = new ImageDM("bg-arrow-right", {
-		url: "https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
-		...arrowStyle,
-		right: "3%",
-	});
-	const arrowLeft = new ImageDM("bg-arrow-left", {
-		url: "https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
-		transform: "rotate(180deg)",
-		left: "3%",
-		...arrowStyle,
-	});
+	const arrowRight = new ImageDM(
+		"bg-arrow-right",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
+		{
+			...arrowStyle,
+			right: "3%",
+		}
+	);
+	const arrowLeft = new ImageDM(
+		"bg-arrow-left",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
+		{
+			transform: "rotate(180deg)",
+			left: "3%",
+			...arrowStyle,
+		}
+	);
 
 	const carousel = new CarouselBasic(
 		{

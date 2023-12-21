@@ -1,5 +1,5 @@
 export class ImageDM extends HTMLElement {
-	constructor(id: string, style: any) {
+	constructor(id: string, imageUrl: string, style: any = {}) {
 		console.log("Image constructor");
 		super();
 
@@ -25,7 +25,7 @@ export class ImageDM extends HTMLElement {
 			aspectRatio: "auto",
 
 			...style,
-			backgroundImage: `url("${style.url}")` || null,
+			backgroundImage: `url(${imageUrl})` || null,
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {

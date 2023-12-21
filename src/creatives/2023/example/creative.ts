@@ -14,9 +14,10 @@ const creative: CreativeHandler = (
 	{ onClick }: CreativeProps
 ) => {
 	// BG
-	const bg = new ImageDM("bg-dm", {
-		url: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Hyundai_Tucson_Interactive_Carousel_2311_CAMPAIGN_ES_20s/assets/fg.png",
-	});
+	const bg = new ImageDM(
+		"bg-dm",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Hyundai_Tucson_Interactive_Carousel_2311_CAMPAIGN_ES_20s/assets/fg.png"
+	);
 	root.appendChild(bg);
 
 	// Cuber component

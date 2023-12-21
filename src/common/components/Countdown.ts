@@ -2,7 +2,7 @@ import { CSSStyleType, ComponentBaseType, HORIZONTAL_ALIGN } from "../types";
 import { createDiv } from "../utils/divMaker";
 
 interface CountdownType extends ComponentBaseType {
-	date: string; // date in the format: 'Oct 21, 2023 09:00:00'
+	date: Date; // date in the format: 'Oct 21, 2023 09:00:00'
 	isOverMessage?: string; // message to be displayed when the countdown is over. default is 00 00 00 00
 	fontUrl?: string; // font url (.ttf) to use to display the countdown
 	textAlign?: HORIZONTAL_ALIGN; // horizontal alignment of each text
@@ -10,7 +10,7 @@ interface CountdownType extends ComponentBaseType {
 }
 
 export class Countdown extends HTMLElement {
-	private requestFrame: number;
+	private intervalId: number;
 	private last = 0; // timestamp of the last checkUpdate() call
 	private dateMilliseconds; // date in milliseconds
 	private isOverMessage;
@@ -19,7 +19,7 @@ export class Countdown extends HTMLElement {
 	private minDiv: HTMLElement;
 	private secDiv: HTMLElement;
 
-	constructor(props: CountdownType, style: CSSStyleType) {
+	constructor(props: CountdownType, style: CSSStyleType = {}) {
 		super();
 
 		const {
@@ -37,7 +37,7 @@ export class Countdown extends HTMLElement {
 		this.setAttribute("id", id);
 
 		this.isOverMessage = isOverMessage;
-		this.dateMilliseconds = new Date(date).getTime();
+		this.dateMilliseconds = date.getTime();
 
 		let justifyContent = "space-between";
 		if (textAlign === HORIZONTAL_ALIGN.LEFT) {
@@ -75,6 +75,7 @@ export class Countdown extends HTMLElement {
 					pointerEvents: "none",
 					userSelect: "none",
 					fontFamily: "inherit",
+					color: "white",
 				});
 				this.appendChild(div);
 				return div;
@@ -92,7 +93,7 @@ export class Countdown extends HTMLElement {
 
 		this.addEventListener("click", () => onClick(clickUrl));
 
-		this.checkUpdate();
+		this.intervalId = window.setInterval(() => this.checkUpdate(), 200);
 	}
 
 	checkUpdate = () => {
@@ -101,14 +102,13 @@ export class Countdown extends HTMLElement {
 			this.last = now;
 			this.updateCountdown();
 		}
-		this.requestFrame = requestAnimationFrame(this.checkUpdate);
 	};
 
 	updateCountdown = () => {
 		const delta = this.dateMilliseconds - this.last;
 
 		if (delta < 0 && this.isOverMessage) {
-			window.cancelAnimationFrame(this.requestFrame);
+			window.clearInterval(this.intervalId);
 			this.innerHTML = this.isOverMessage;
 			return;
 		}

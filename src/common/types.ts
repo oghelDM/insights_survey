@@ -34,6 +34,8 @@ export interface ComponentBaseType {
 
 export interface CreativeProps {
 	onClick: (url: string) => void;
+	stopAd: () => void;
+	setAdVolume: (volume: number) => void;
 }
 
 export type CreativeHandler = (

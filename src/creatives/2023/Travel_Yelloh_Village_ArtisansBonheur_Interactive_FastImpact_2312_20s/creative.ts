@@ -3,8 +3,6 @@ import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
 import { CreativeHandler, CreativeProps } from "@/types";
 
-const MODE = "2_1"; // 1_1 or 2_1
-
 const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick, stopAd, setAdVolume }: CreativeProps
@@ -13,14 +11,12 @@ const creative: CreativeHandler = (
 	const startDate = Date.now();
 
 	root.addEventListener("click", () =>
-		onClick(
-			"https://www.sandaya.fr/promotions-et-offres-speciales/do-you-days#campings?utm_source=cmi&utm_medium=display&utm_campaign=dyd"
-		)
+		onClick("https://www.yellohvillage.fr")
 	);
 
 	const bg = new ImageDM(
 		"bg-dm",
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/bg.png`,
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/bg.png",
 		{ pointerEvents: "none", opacity: 0, transition: "opacity .4s" }
 	);
 
@@ -30,8 +26,8 @@ const creative: CreativeHandler = (
 		height: "13%",
 		backgroundColor: "rgba(0,0,0,.8)",
 		cursor: "pointer",
-		right: "4%",
-		bottom: "18%",
+		right: "2%",
+		bottom: "16%",
 		color: "white",
 		textAlign: "center",
 		lineHeight: "320%",
@@ -71,7 +67,7 @@ const creative: CreativeHandler = (
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, [
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_low.mp4`,
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_mid.mp4`,
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_high.mp4`,
+		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/video_low.mp4`,
+		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/video_mid.mp4`,
+		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/video_high.mp4`,
 	]);

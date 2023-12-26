@@ -4,7 +4,20 @@ import { CreativeHandler, VIDEO_QUALITY } from "@/types";
 import { pickVideo, updateDisplay } from "@/utils/helper";
 
 export class VPAIDVideoPlayer {
-	attributes: any = {}; // TODO: strongly type
+	attributes: any = {
+		companions: "",
+		desiredBitrate: 256,
+		duration: 20,
+		expanded: false,
+		height: 0,
+		icons: "",
+		linear: true,
+		remainingTime: 20,
+		skippableState: true,
+		viewMode: "normal",
+		width: 0,
+		volume: 1.0,
+	}; // TODO: strongly type?
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
 	eventsCallbacks: any = {}; // TODO: strongly type

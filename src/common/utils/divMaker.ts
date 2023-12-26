@@ -1,7 +1,9 @@
-export const createDiv = (
-	id: string,
-	style: Record<string, string | number>
-): HTMLElement => {
+interface CssType extends Partial<CSSStyleDeclaration> {
+	"-webkit-backface-visibility"?: string;
+	"-webkit-transform"?: string;
+}
+
+export const createDiv = (id: string, style: CssType): HTMLElement => {
 	console.log("createDiv: ", id);
 	const div = document.createElement("div");
 	div.id = id;

@@ -132,7 +132,7 @@ export class IndexManager extends HTMLElement {
 				width: `${this.cleanProps.focusedElementWidth}%`,
 				height: "100px",
 				backgroundColor: "red",
-				opacity: 0.8,
+				opacity: "0.8",
 				position: "absolute",
 				bottom: "0",
 				pointerEvents: "none",

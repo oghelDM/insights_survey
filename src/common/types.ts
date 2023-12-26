@@ -14,9 +14,9 @@ export enum VERTICAL_ALIGN {
 }
 
 export enum HORIZONTAL_ALIGN {
-	LEFT,
-	CENTER,
-	RIGHT,
+	LEFT = "left",
+	CENTER = "center",
+	RIGHT = "right",
 }
 
 export enum VIDEO_QUALITY {
@@ -40,7 +40,7 @@ export interface CreativeProps {
 
 export type CreativeHandler = (
 	root: HTMLElement,
-	{ onClick }: CreativeProps
+	creativeProps: CreativeProps
 ) => void;
 
 export type CSSStyleType = { [key: string]: string };

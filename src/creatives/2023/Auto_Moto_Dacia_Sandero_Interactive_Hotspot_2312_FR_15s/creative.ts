@@ -1,76 +1,209 @@
 import { VPAIDVideoPlayer } from "@app";
+import { isMobile } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { CreativeHandler, CreativeProps } from "@/types";
-import { CarouselBasic } from "@/components/carouselBasic";
+
+interface Trio {
+	hotspot: HTMLElement;
+	card: HTMLElement;
+	closeBtn: HTMLElement;
+}
+
+const hotSpotBounce = (domElem: HTMLElement, delay: number) => {
+	domElem.animate(
+		[
+			{ transform: "scale(1)" },
+			{ transform: "scale(1.1)" },
+			{ transform: "scale(1)" },
+		],
+		{
+			delay,
+			duration: 1000,
+			fill: "forwards",
+			easing: "ease-out",
+			iterations: Infinity,
+		}
+	);
+};
+
+const bounceIn = (domElem: HTMLElement) => {
+	domElem.animate(
+		[
+			{ transform: "scale(0)" },
+			{ transform: "scale(1.05)" },
+			{ transform: "scale(0.95)" },
+			{ transform: "scale(1)" },
+		],
+		{
+			delay: 0,
+			duration: 700,
+			fill: "forwards",
+			easing: "ease-out",
+		}
+	);
+};
+
+const bounceOut = (domElem: HTMLElement) => {
+	domElem.animate(
+		[
+			{ transform: "scale(1)" },
+			{ transform: "scale(1.1)" },
+			{ transform: "scale(0)" },
+		],
+		{
+			delay: 0,
+			duration: 450,
+			fill: "forwards",
+			easing: "ease-out",
+		}
+	);
+};
+
+const CLICK_URL =
+	"https://ad.doubleclick.net/ddm/trackclk/N5648.5074599DAILYMOTIONDISPLAY0/B31124944.384612119;dc_trk_aid=575590790;dc_trk_cid=208000782;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
 
 const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
 ) => {
-	const arrowStyle = {
-		width: "10%",
-		height: "20%",
-		top: "40%",
-		backgroundSize: "contain",
-		cursor: "pointer",
-	};
-	const arrowRight = new ImageDM(
-		"bg-arrow-right",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
-		{
-			...arrowStyle,
-			right: "3%",
-		}
-	);
-	const arrowLeft = new ImageDM(
-		"bg-arrow-left",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/arrowRight.png",
-		{
-			transform: "rotate(180deg)",
-			left: "3%",
-			...arrowStyle,
-		}
-	);
+	/////// BG ////////
+	const bg = new ImageDM("bg-dm", CLICK_URL);
+	bg.addEventListener("click", () => onClick(CLICK_URL));
+	root.appendChild(bg);
 
-	const carousel = new CarouselBasic(
+	const products = [
 		{
-			id: "carouselDM",
-			productUrls: [
-				"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/shoe0.png",
-				"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/shoe1.png",
-			],
-			clickUrls: [
-				"https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.onitsukatiger.com%2Fmy%2Fen-my%2Fproduct%2Fdelecity%2F1183c195.020%3Futm_source%3Ddailymotion%26utm_medium%3Dreferral%26utm_campaign%3Dholiday-gifts%26utm_content%3Dvideo&data=05%7C01%7Cbaljina.kaurbashi%40dailymotion.com%7C2d86e6d286ac4d5f056808dbf6e75dfc%7C37530da3f7a748f4ba462dc336d55387%7C0%7C0%7C638375245869318358%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=K%2FKCKxbPmqjKUIN8hVfALu4powpeol%2BpCbSHmWop87w%3D&reserved=0",
-				"https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.onitsukatiger.com%2Fmy%2Fen-my%2Fproduct%2Fmexico-66-sd%2F1183c196.020%3Futm_source%3Ddailymotion%26utm_medium%3Dreferral%26utm_campaign%3Dholiday-gifts%26utm_content%3Dvideo&data=05%7C01%7Cbaljina.kaurbashi%40dailymotion.com%7C2d86e6d286ac4d5f056808dbf6e75dfc%7C37530da3f7a748f4ba462dc336d55387%7C0%7C0%7C638375245869318358%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=ZS5IvqMh6E27tFgDFYZ2hWx9hHrVqFSiZzXBGB5NHrE%3D&reserved=0",
-			],
-			debug: false,
-			focusedElementWidth: 100,
-			focusedElementHeight: 100,
-			unfocusedElementHeight: 100,
-			unfocusedElementWidth: 100,
-			gap: 10,
-			autoPlay: true,
-			onClick,
-			clickUrl: "https://www.google.com/search?q=carousel",
-			arrows: [arrowLeft, arrowRight],
-			speedCoefficient: 1.2,
+			spotLeft: "94%",
+			spotTop: "33%",
+			cardLeft: "66%",
+			cardTop: "16%",
 		},
-		{ width: "33.3%", height: "30%", right: 0, top: "23%" }
-	);
+		{
+			spotLeft: "81%",
+			spotTop: "32%",
+			cardLeft: "66%",
+			cardTop: "16%",
+		},
+		{
+			spotLeft: "64%",
+			spotTop: "39%",
+			cardLeft: "66%",
+			cardTop: "16%",
+		},
+	];
 
-	root.addEventListener("click", () =>
-		onClick(
-			"https://eur01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.onitsukatiger.com%2Fmy%2Fen-my%2Fp%2Fgifting%3Futm_source%3Ddailymotion%26utm_medium%3Dreferral%26utm_campaign%3Dholiday-gifts%26utm_content%3Dvideo&data=05%7C01%7Cbaljina.kaurbashi%40dailymotion.com%7C2d86e6d286ac4d5f056808dbf6e75dfc%7C37530da3f7a748f4ba462dc336d55387%7C0%7C0%7C638375245869318358%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sdata=bHTATLyTrdiyJwPePE2hhExq7oLMcizl1QCcAQ3WKrg%3D&reserved=0"
-		)
-	);
-	root.appendChild(carousel);
-	carousel.appendChild(arrowRight);
-	carousel.appendChild(arrowLeft);
+	const trios: Trio[] = [];
+
+	products.forEach((product, i) => {
+		const hotspot = document.createElement("div");
+		hotspot.id = `spot_${i}`;
+		hotspot.style.position = "absolute";
+		hotspot.style.width = isMobile() ? "6%" : "4.5%";
+		hotspot.style.aspectRatio = "1/1";
+		hotspot.style.left = product.spotLeft;
+		hotspot.style.top = product.spotTop;
+		hotspot.style.backgroundImage =
+			"url(https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/hotspot.png)";
+		hotspot.style.backgroundSize = "contain";
+		hotspot.style.backgroundRepeat = "no-repeat";
+		hotspot.style.cursor = "pointer";
+		hotspot.style.pointerEvents = "auto";
+		hotSpotBounce(hotspot, 250 * i);
+
+		const card = document.createElement("div");
+		card.setAttribute("id", `card_${i}`);
+		card.style.position = "absolute";
+		card.style.display = "none";
+		card.style.width = "28%";
+		card.style.height = "56%";
+		card.style.left = `${product.cardLeft}`;
+		card.style.top = `${product.cardTop}`;
+		card.style.backgroundImage = `url(https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/product${i}.png)`;
+		card.style.backgroundSize = "contain";
+		card.style.backgroundRepeat = "no-repeat";
+		card.style.backgroundSize = "contain";
+		card.style.zIndex = "10";
+		card.style.cursor = "pointer";
+		card.style.pointerEvents = "none";
+
+		const closeBtn = document.createElement("div");
+		closeBtn.style.position = "absolute";
+		closeBtn.style.top = "-3%";
+		closeBtn.style.right = "-3%";
+		closeBtn.style.width = "20%";
+		closeBtn.style.height = "20%";
+		closeBtn.style.cursor = "pointer";
+		// closeBtn.style.backgroundColor = "red";
+
+		card.appendChild(closeBtn);
+		root.appendChild(hotspot);
+		root.appendChild(card);
+
+		trios.push({
+			hotspot,
+			card,
+			closeBtn,
+		});
+	});
+
+	const isMobileDevice = isMobile();
+	trios.forEach((trio) => {
+		const { hotspot, card, closeBtn } = trio;
+
+		card.addEventListener("click", (e) => {
+			e.stopImmediatePropagation();
+			onClick(CLICK_URL);
+		});
+
+		if (isMobileDevice) {
+			hotspot.addEventListener("click", (e) => {
+				e.stopImmediatePropagation();
+				displayCard(trio);
+			});
+		} else {
+			hotspot.addEventListener("mouseover", () => displayCard(trio));
+			card.addEventListener("mouseleave", () => hideCard(trio));
+		}
+
+		closeBtn.addEventListener("click", (e) => {
+			e.stopImmediatePropagation();
+			hideCard(trio);
+		});
+	});
+
+	const displayCard = ({ hotspot, card }: Trio) => {
+		trios.forEach((trio) => hideCard(trio, true));
+
+		hotspot.style.pointerEvents = "none";
+		hotspot.getAnimations()[0].pause();
+
+		card.style.pointerEvents = "auto";
+		card.style.display = "block";
+		root.appendChild(card); // make sure that the card is above all other elements
+		bounceIn(card);
+	};
+
+	const hideCard = ({ hotspot, card }: Trio, instant = false) => {
+		// already hidden, no need to hide it again
+		if (card.style.pointerEvents === "none") {
+			return;
+		}
+
+		hotspot.style.pointerEvents = "auto";
+		hotspot.getAnimations()[0].play();
+
+		card.style.pointerEvents = "none";
+		if (instant) {
+			card.style.display = "none";
+		} else {
+			bounceOut(card);
+		}
+	};
 };
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, [
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/video_low.mp4",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/video_mid.mp4",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/assets/video_high.mp4",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_low.mp4",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_mid.mp4",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_high.mp4",
 	]);

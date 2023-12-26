@@ -1,23 +1,23 @@
 <VAST version="2.0">
-    <Ad id="onitsukaDec23">
+    <Ad id="daciaSanderoDec24">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>onitsukaDec23</AdTitle>
+            <AdTitle>daciaSanderoDec24</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="onitsukaDec23c">
+                <Creative id="daciaSanderoDec24c">
                     <Linear>
                         <Duration>00:00:15</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/builds/4_fwk/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/builds/2/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Style_Fashion_Onitsuka_Tiger_Baskets_Interactive_Carousel_2312_CAMPAIGN_EN_20s/builds/4_fwk/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/builds/2/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

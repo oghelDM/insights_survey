@@ -1,5 +1,5 @@
 // check if device is mobile
-export const mobileCheck = (): boolean => {
+export const isMobile = (): boolean => {
 	const nav =
 		navigator.userAgent || navigator.vendor || (window as any).opera;
 	return (
@@ -20,10 +20,10 @@ const isScreenPortrait = (): boolean =>
 export const updateDisplay = (domElement: HTMLElement): void => {
 	console.log("updateDisplay element: ", domElement);
 	const isLandscape = isScreenPortrait();
-	const isMobile = mobileCheck();
+	const isMobileDevice = isMobile();
 
-	domElement.style.height = isMobile && isLandscape ? "100%" : "auto";
-	domElement.style.width = isMobile && isLandscape ? "auto" : "100%";
+	domElement.style.height = isMobileDevice && isLandscape ? "100%" : "auto";
+	domElement.style.width = isMobileDevice && isLandscape ? "auto" : "100%";
 };
 
 export const map = (

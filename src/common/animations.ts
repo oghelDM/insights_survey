@@ -2,7 +2,7 @@ export const hotSpotBounce = (
 	domElem: HTMLElement,
 	duration: number,
 	delay = 0
-) => {
+) =>
 	domElem.animate(
 		[
 			{ transform: "scale(1)" },
@@ -17,9 +17,8 @@ export const hotSpotBounce = (
 			iterations: Infinity,
 		}
 	);
-};
 
-export const bounceIn = (domElem: HTMLElement, duration: number, delay = 0) => {
+export const bounceIn = (domElem: HTMLElement, duration: number, delay = 0) =>
 	domElem.animate(
 		[
 			{ transform: "scale(0)" },
@@ -34,13 +33,8 @@ export const bounceIn = (domElem: HTMLElement, duration: number, delay = 0) => {
 			easing: "ease-out",
 		}
 	);
-};
 
-export const bounceOut = (
-	domElem: HTMLElement,
-	duration: number,
-	delay = 0
-) => {
+export const bounceOut = (domElem: HTMLElement, duration: number, delay = 0) =>
 	domElem.animate(
 		[
 			{ transform: "scale(1)" },
@@ -54,4 +48,3 @@ export const bounceOut = (
 			easing: "ease-out",
 		}
 	);
-};

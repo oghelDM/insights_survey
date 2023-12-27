@@ -1,0 +1,29 @@
+<VAST version="2.0">
+    <Ad id="daciaSanderoDec24">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>daciaSanderoDec24</AdTitle>
+            <ViewableImpression/>
+            <AdVerifications/>
+            <Extensions/>
+            <Creatives>
+                <Creative id="daciaSanderoDec24c">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/builds/3/index.js]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/builds/3/index.js]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
+<!-- https://statics.dmcdn.net/d/devTools/vast_tools/vast_local.xml -->

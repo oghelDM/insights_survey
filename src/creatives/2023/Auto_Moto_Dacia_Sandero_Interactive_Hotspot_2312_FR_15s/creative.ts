@@ -67,7 +67,10 @@ const creative: CreativeHandler = (
 	{ onClick }: CreativeProps
 ) => {
 	/////// BG ////////
-	const bg = new ImageDM("bg-dm", CLICK_URL);
+	const bg = new ImageDM(
+		"bg-dm",
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/bg1.png"
+	);
 	bg.addEventListener("click", () => onClick(CLICK_URL));
 	root.appendChild(bg);
 
@@ -92,13 +95,12 @@ const creative: CreativeHandler = (
 		},
 	];
 
-	const trios: Trio[] = [];
-
-	products.forEach((product, i) => {
+	const isMobileDevice = isMobile();
+	const trios: Trio[] = products.map((product, i) => {
 		const hotspot = document.createElement("div");
 		hotspot.id = `spot_${i}`;
 		hotspot.style.position = "absolute";
-		hotspot.style.width = isMobile() ? "6%" : "4.5%";
+		hotspot.style.width = isMobileDevice ? "6%" : "4.5%";
 		hotspot.style.aspectRatio = "1/1";
 		hotspot.style.left = product.spotLeft;
 		hotspot.style.top = product.spotTop;
@@ -121,7 +123,6 @@ const creative: CreativeHandler = (
 		card.style.backgroundImage = `url(https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/product${i}.png)`;
 		card.style.backgroundSize = "contain";
 		card.style.backgroundRepeat = "no-repeat";
-		card.style.backgroundSize = "contain";
 		card.style.zIndex = "10";
 		card.style.cursor = "pointer";
 		card.style.pointerEvents = "none";
@@ -139,14 +140,13 @@ const creative: CreativeHandler = (
 		root.appendChild(hotspot);
 		root.appendChild(card);
 
-		trios.push({
+		return {
 			hotspot,
 			card,
 			closeBtn,
-		});
+		};
 	});
 
-	const isMobileDevice = isMobile();
 	trios.forEach((trio) => {
 		const { hotspot, card, closeBtn } = trio;
 

@@ -2,62 +2,13 @@ import { VPAIDVideoPlayer } from "@app";
 import { isMobile } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { CreativeHandler, CreativeProps } from "@/types";
+import { bounceIn, bounceOut, hotSpotBounce } from "@/animations";
 
 interface Trio {
 	hotspot: HTMLElement;
 	card: HTMLElement;
 	closeBtn: HTMLElement;
 }
-
-const hotSpotBounce = (domElem: HTMLElement, delay: number) => {
-	domElem.animate(
-		[
-			{ transform: "scale(1)" },
-			{ transform: "scale(1.1)" },
-			{ transform: "scale(1)" },
-		],
-		{
-			delay,
-			duration: 1000,
-			fill: "forwards",
-			easing: "ease-out",
-			iterations: Infinity,
-		}
-	);
-};
-
-const bounceIn = (domElem: HTMLElement) => {
-	domElem.animate(
-		[
-			{ transform: "scale(0)" },
-			{ transform: "scale(1.05)" },
-			{ transform: "scale(0.95)" },
-			{ transform: "scale(1)" },
-		],
-		{
-			delay: 0,
-			duration: 700,
-			fill: "forwards",
-			easing: "ease-out",
-		}
-	);
-};
-
-const bounceOut = (domElem: HTMLElement) => {
-	domElem.animate(
-		[
-			{ transform: "scale(1)" },
-			{ transform: "scale(1.1)" },
-			{ transform: "scale(0)" },
-		],
-		{
-			delay: 0,
-			duration: 450,
-			fill: "forwards",
-			easing: "ease-out",
-		}
-	);
-};
 
 const CLICK_URL =
 	"https://ad.doubleclick.net/ddm/trackclk/N5648.5074599DAILYMOTIONDISPLAY0/B31124944.384612119;dc_trk_aid=575590790;dc_trk_cid=208000782;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
@@ -110,7 +61,7 @@ const creative: CreativeHandler = (
 		hotspot.style.backgroundRepeat = "no-repeat";
 		hotspot.style.cursor = "pointer";
 		hotspot.style.pointerEvents = "auto";
-		hotSpotBounce(hotspot, 250 * i);
+		hotSpotBounce(hotspot, 1000, 250 * i);
 
 		const card = document.createElement("div");
 		card.setAttribute("id", `card_${i}`);
@@ -180,7 +131,7 @@ const creative: CreativeHandler = (
 		card.style.pointerEvents = "auto";
 		card.style.display = "block";
 		root.appendChild(card); // make sure that the card is above all other elements
-		bounceIn(card);
+		bounceIn(card, 700);
 	};
 
 	const hideCard = ({ hotspot, card }: Trio, instant = false) => {
@@ -196,7 +147,7 @@ const creative: CreativeHandler = (
 		if (instant) {
 			card.style.display = "none";
 		} else {
-			bounceOut(card);
+			bounceOut(card, 450);
 		}
 	};
 };

@@ -1,6 +1,5 @@
 export class ImageDM extends HTMLElement {
 	constructor(id: string, imageUrl: string, style: any = {}) {
-		console.log("Image constructor");
 		super();
 
 		this.setAttribute("id", id);

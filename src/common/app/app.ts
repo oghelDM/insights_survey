@@ -247,6 +247,7 @@ export class VPAIDVideoPlayer {
 		///////////////////// DM ad instanciation //////////////////////////
 		////////////////////////////////////////////////////////////////////
 		this.creative(this.creativeContent, {
+			videoSlot: this.videoSlot,
 			onClick: (url: string) => this.clickAd(url),
 			stopAd: () => this.stopAd(),
 			setAdVolume: (volume: number) => this.setAdVolume(volume),

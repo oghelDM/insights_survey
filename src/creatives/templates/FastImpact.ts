@@ -22,7 +22,7 @@ const defaultProps: Required<FastImpactProps> = {
 	clickUrl: "https://www.dailymotion.fr",
 	bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/bg.png",
 	ctaWording1: "Passer dans ",
-	ctaWording2: "Passer vite ⇥",
+	ctaWording2: "Passer vite  >",
 	afterCtaDuration: 3000,
 	countdownDuration: 5000,
 	ctaStyle: {},
@@ -30,7 +30,7 @@ const defaultProps: Required<FastImpactProps> = {
 
 export const fastImpactTemplate: FastImpactType = (
 	root: HTMLElement,
-	{ onClick, stopAd, setAdVolume }: CreativeProps,
+	{ videoSlot, onClick, stopAd, setAdVolume }: CreativeProps,
 	fastImpactProps: FastImpactProps
 ) => {
 	const actualProps: Required<FastImpactProps> = {
@@ -48,9 +48,14 @@ export const fastImpactTemplate: FastImpactType = (
 		ctaStyle,
 	} = actualProps;
 
-	const startDate = Date.now();
+	let ctaElapsedTime = 0;
+	let previousNow = performance.now();
+	let isVideoPaused = true;
 
 	root.addEventListener("click", () => onClick(clickUrl));
+
+	videoSlot.addEventListener("pause", () => (isVideoPaused = true));
+	videoSlot.addEventListener("play", () => (isVideoPaused = false));
 
 	const bg = new ImageDM("bg-dm", bgUrl, {
 		pointerEvents: "none",
@@ -74,6 +79,7 @@ export const fastImpactTemplate: FastImpactType = (
 		fontFamily: "sans-serif",
 		userSelect: "none",
 		pointerEvents: "none",
+		whiteSpace: "pre",
 		...ctaStyle,
 	});
 	cta.innerHTML = "skip video";
@@ -82,10 +88,17 @@ export const fastImpactTemplate: FastImpactType = (
 	root.appendChild(bg);
 
 	const intervaleId = setInterval(() => {
-		let remainingSeconds = (Date.now() - startDate) / 1000;
-		remainingSeconds = Math.floor(
-			countdownDuration / 1000 - remainingSeconds
+		const now = performance.now();
+		if (isVideoPaused) {
+			previousNow = now;
+			return;
+		}
+		ctaElapsedTime += now - previousNow;
+
+		const remainingSeconds = Math.floor(
+			(countdownDuration - ctaElapsedTime) / 1000
 		);
+		previousNow = now;
 		if (remainingSeconds >= 0) {
 			cta.innerHTML = `${ctaWording1} ${remainingSeconds}`;
 		} else {

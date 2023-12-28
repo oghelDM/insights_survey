@@ -33,6 +33,7 @@ export interface ComponentBaseType {
 }
 
 export interface CreativeProps {
+	videoSlot: HTMLVideoElement;
 	onClick: (url: string) => void;
 	stopAd: () => void;
 	setAdVolume: (volume: number) => void;

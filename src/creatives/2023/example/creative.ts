@@ -42,8 +42,8 @@ const creative: CreativeHandler = (
 };
 
 window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, [
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
-		"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
-	]);
+	new VPAIDVideoPlayer(creative, {
+		low: "https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
+		mid: "https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
+		high: "https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
+	});

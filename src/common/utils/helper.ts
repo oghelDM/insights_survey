@@ -12,6 +12,13 @@ export const isMobile = (): boolean => {
 	);
 };
 
+export const isMac = (): boolean => {
+	const userAgent = window.navigator.userAgent.toLowerCase();
+
+	// look for mac, Mac, iPhone, iPad, ...
+	return userAgent.includes("mac") || userAgent.includes("ip");
+};
+
 // check device orientation
 const isScreenPortrait = (): boolean =>
 	window.matchMedia("(orientation: portrait)").matches;

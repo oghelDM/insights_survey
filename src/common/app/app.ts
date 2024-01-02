@@ -1,9 +1,7 @@
 import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
 import { CreativeHandler, VIDEO_QUALITY } from "@/types";
-import { pickVideo, updateDisplay } from "@/utils/helper";
-
-const Hls = require("../utils/hlsLib");
+import { isMac, pickVideo, updateDisplay } from "@/utils/helper";
 
 export class VPAIDVideoPlayer {
 	attributes: any = {
@@ -38,6 +36,7 @@ export class VPAIDVideoPlayer {
 		private liveStreamData?: {
 			url: string;
 			duration: number;
+			Hls: any;
 		}
 	) {}
 
@@ -46,7 +45,6 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	updateVideoSlot = () => {
-		console.log("updateVideoSlot: ", this.videoSlot);
 		if (this.videoSlot == null) {
 			this.videoSlot = document.createElement("video");
 			this.log(
@@ -57,7 +55,10 @@ export class VPAIDVideoPlayer {
 		this.updateVideoPlayerSize();
 
 		if (this.liveStreamData) {
-			this.playVideoStream(this.liveStreamData.url);
+			this.playVideoStream(
+				this.liveStreamData.url,
+				this.liveStreamData.Hls
+			);
 		} else {
 			this.playVideoFile();
 		}
@@ -98,40 +99,44 @@ export class VPAIDVideoPlayer {
 		}
 	};
 
-	playVideoStream = (streamUrl: string) => {
-		let liveLink: string;
-
+	playVideoStream = (streamUrl: string, Hls: any) => {
 		try {
 			fetch(streamUrl)
 				.then((res) => res.json())
-				.then((data) => (liveLink = data.qualities.auto[0].url))
-				.then(() => {
+				.then((data) => {
+					return data.qualities.auto[0].url;
+				})
+				.then((liveLink: string) => {
 					if (Hls.isSupported()) {
 						console.log("running with Hls lib");
 						const hls = new Hls();
-						hls.on(Hls.Events.MEDIA_ATTACHED, () => {
+						hls.on(Hls.Events.MEDIA_ATTACHED, () =>
 							console.log(
 								"video and hls.js are now bound together !"
-							);
-						});
+							)
+						);
 						hls.on(
 							Hls.Events.MANIFEST_PARSED,
-							(_: any, data: any) => {
+							(_: any, data: any) =>
 								console.log(
 									`manifest loaded, found ${data.levels.length} quality level`
-								);
-							}
+								)
 						);
 						hls.loadSource(liveLink);
 						// bind them together
 						hls.attachMedia(this.videoSlot);
-					} else {
+					} else if (isMac()) {
 						this.videoSlot.src = liveLink;
 						this.videoSlot.play();
+					} else {
+						this.liveStreamData = undefined;
+						this.playVideoFile();
 					}
 				});
 		} catch {
-			this.log("error");
+			this.log("error while loading the stream");
+			this.liveStreamData = undefined;
+			this.playVideoFile();
 		}
 	};
 
@@ -267,8 +272,6 @@ export class VPAIDVideoPlayer {
 		environmentVars: { slot: HTMLElement; videoSlot: HTMLVideoElement }
 	) => {
 		if (this.liveStreamData) {
-			console.log("liveStreamUrl detected: ", this.liveStreamData);
-
 			setInterval(() => (this.time += 100), 100);
 		}
 

@@ -55,7 +55,7 @@ export class VPAIDVideoPlayer {
 		this.updateVideoPlayerSize();
 
 		if (this.liveStreamData) {
-			this.playVideoStream(
+			this.loadVideoStream(
 				this.liveStreamData.url,
 				this.liveStreamData.Hls
 			);
@@ -65,6 +65,8 @@ export class VPAIDVideoPlayer {
 	};
 
 	playVideoFile = () => {
+		this.liveStreamData = undefined;
+
 		const videos = [
 			{
 				mimeType: "video/mp4",
@@ -99,43 +101,53 @@ export class VPAIDVideoPlayer {
 		}
 	};
 
+	loadVideoStream = (streamUrl: string, Hls: any) => {
+		if (streamUrl.includes("dailymotion.com")) {
+			try {
+				fetch(streamUrl)
+					.then((response) => {
+						if (response.ok) {
+							return response.json();
+						}
+						throw new Error(
+							"Something went wrong while fetching the DM stream"
+						);
+					})
+					.then((data) => data.qualities.auto[0].url)
+					.then((liveLink: string) =>
+						this.playVideoStream(liveLink, Hls)
+					);
+			} catch {
+				this.log("error while loading the DM stream");
+				this.playVideoFile();
+			}
+		} else {
+			this.playVideoStream(streamUrl, Hls);
+		}
+	};
+
 	playVideoStream = (streamUrl: string, Hls: any) => {
 		try {
-			fetch(streamUrl)
-				.then((res) => res.json())
-				.then((data) => {
-					return data.qualities.auto[0].url;
-				})
-				.then((liveLink: string) => {
-					if (Hls.isSupported()) {
-						console.log("running with Hls lib");
-						const hls = new Hls();
-						hls.on(Hls.Events.MEDIA_ATTACHED, () =>
-							console.log(
-								"video and hls.js are now bound together !"
-							)
-						);
-						hls.on(
-							Hls.Events.MANIFEST_PARSED,
-							(_: any, data: any) =>
-								console.log(
-									`manifest loaded, found ${data.levels.length} quality level`
-								)
-						);
-						hls.loadSource(liveLink);
-						// bind them together
-						hls.attachMedia(this.videoSlot);
-					} else if (isMac()) {
-						this.videoSlot.src = liveLink;
-						this.videoSlot.play();
-					} else {
-						this.liveStreamData = undefined;
-						this.playVideoFile();
-					}
-				});
+			if (Hls.isSupported()) {
+				const hls = new Hls();
+				hls.on(Hls.Events.MEDIA_ATTACHED, () =>
+					console.log("video and hls.js are now bound together !")
+				);
+				hls.on(Hls.Events.MANIFEST_PARSED, (_: any, data: any) =>
+					console.log(
+						`manifest loaded, found ${data.levels.length} quality level`
+					)
+				);
+				hls.loadSource(streamUrl);
+				hls.attachMedia(this.videoSlot);
+			} else if (isMac()) {
+				this.videoSlot.src = streamUrl;
+				this.videoSlot.play();
+			} else {
+				this.playVideoFile();
+			}
 		} catch {
 			this.log("error while loading the stream");
-			this.liveStreamData = undefined;
 			this.playVideoFile();
 		}
 	};

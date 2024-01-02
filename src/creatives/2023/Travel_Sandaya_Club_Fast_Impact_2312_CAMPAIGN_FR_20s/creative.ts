@@ -70,8 +70,8 @@ const creative: CreativeHandler = (
 };
 
 window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, [
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_low.mp4`,
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_mid.mp4`,
-		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_high.mp4`,
-	]);
+	new VPAIDVideoPlayer(creative, {
+		low: `https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_low.mp4`,
+		mid: `https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_mid.mp4`,
+		high: `https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/video_high.mp4`,
+	});

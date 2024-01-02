@@ -153,8 +153,8 @@ const creative: CreativeHandler = (
 };
 
 window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, [
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_low.mp4",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_mid.mp4",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_high.mp4",
-	]);
+	new VPAIDVideoPlayer(creative, {
+		low: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_low.mp4",
+		mid: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_mid.mp4",
+		high: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_high.mp4",
+	});

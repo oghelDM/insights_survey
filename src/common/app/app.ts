@@ -1,7 +1,7 @@
 import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
 import { CreativeHandler, VIDEO_QUALITY } from "@/types";
-import { pickVideo, updateDisplay } from "@/utils/helper";
+import { isMac, pickVideo, updateDisplay } from "@/utils/helper";
 
 export class VPAIDVideoPlayer {
 	attributes: any = {
@@ -21,6 +21,7 @@ export class VPAIDVideoPlayer {
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
 	eventsCallbacks: any = {}; // TODO: strongly type
+	time = 0; // time to update the liveStream progress bar if needed
 
 	// TODO: clean this up
 	nextQuartileIndex = 0;
@@ -31,7 +32,12 @@ export class VPAIDVideoPlayer {
 
 	constructor(
 		private creative: CreativeHandler,
-		private videoUrls: { [K in VIDEO_QUALITY]: string }
+		private videoUrls: { [K in VIDEO_QUALITY]: string },
+		private liveStreamData?: {
+			url: string;
+			duration: number;
+			Hls: any;
+		}
 	) {}
 
 	/**
@@ -39,7 +45,6 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	updateVideoSlot = () => {
-		console.log("updateVideoSlot: ", this.videoSlot);
 		if (this.videoSlot == null) {
 			this.videoSlot = document.createElement("video");
 			this.log(
@@ -49,24 +54,37 @@ export class VPAIDVideoPlayer {
 		}
 		this.updateVideoPlayerSize();
 
+		if (this.liveStreamData) {
+			this.loadVideoStream(
+				this.liveStreamData.url,
+				this.liveStreamData.Hls
+			);
+		} else {
+			this.playVideoFile();
+		}
+	};
+
+	playVideoFile = () => {
+		this.liveStreamData = undefined;
+
 		const videos = [
 			{
 				mimeType: "video/mp4",
 				width: 853,
 				height: 480,
-				url: this.videoUrls[VIDEO_QUALITY.LOW],
+				url: this.videoUrls.low,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1280,
 				height: 720,
-				url: this.videoUrls[VIDEO_QUALITY.MID],
+				url: this.videoUrls.mid,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1920,
 				height: 1080,
-				url: this.videoUrls[VIDEO_QUALITY.HIGH],
+				url: this.videoUrls.high,
 			},
 		];
 
@@ -79,7 +97,58 @@ export class VPAIDVideoPlayer {
 			);
 			this.callEvent("AdError");
 		} else {
-			this.videoSlot.setAttribute("src", selectedMedia.url);
+			this.videoSlot.src = selectedMedia.url;
+		}
+	};
+
+	loadVideoStream = (streamUrl: string, Hls: any) => {
+		if (streamUrl.includes("dailymotion.com")) {
+			try {
+				fetch(streamUrl)
+					.then((response) => {
+						if (response.ok) {
+							return response.json();
+						}
+						throw new Error(
+							"Something went wrong while fetching the DM stream"
+						);
+					})
+					.then((data) => data.qualities.auto[0].url)
+					.then((liveLink: string) =>
+						this.playVideoStream(liveLink, Hls)
+					);
+			} catch {
+				this.log("error while loading the DM stream");
+				this.playVideoFile();
+			}
+		} else {
+			this.playVideoStream(streamUrl, Hls);
+		}
+	};
+
+	playVideoStream = (streamUrl: string, Hls: any) => {
+		try {
+			if (Hls.isSupported()) {
+				const hls = new Hls();
+				hls.on(Hls.Events.MEDIA_ATTACHED, () =>
+					console.log("video and hls.js are now bound together !")
+				);
+				hls.on(Hls.Events.MANIFEST_PARSED, (_: any, data: any) =>
+					console.log(
+						`manifest loaded, found ${data.levels.length} quality level`
+					)
+				);
+				hls.loadSource(streamUrl);
+				hls.attachMedia(this.videoSlot);
+			} else if (isMac()) {
+				this.videoSlot.src = streamUrl;
+				this.videoSlot.play();
+			} else {
+				this.playVideoFile();
+			}
+		} catch {
+			this.log("error while loading the stream");
+			this.playVideoFile();
 		}
 	};
 
@@ -127,7 +196,9 @@ export class VPAIDVideoPlayer {
 	loadedMetadata = () => {
 		// The ad duration is not known until the media metadata is loaded.
 		// Then, update the player with the duration change.
-		this.attributes["duration"] = this.videoSlot.duration;
+		this.attributes["duration"] = this.liveStreamData
+			? this.liveStreamData.duration
+			: this.videoSlot.duration;
 		this.callEvent("AdDurationChange");
 	};
 
@@ -137,11 +208,22 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	timeUpdateHandler = () => {
+		if (this.liveStreamData) {
+			if (this.attributes.remainingTime <= 0) {
+				this.stopAd();
+			}
+		}
+
 		if (this.nextQuartileIndex >= quartileEvents.length) {
 			return;
 		}
-		const percentPlayed =
-			(this.videoSlot.currentTime * 100.0) / this.videoSlot.duration;
+		const currentTime = this.liveStreamData
+			? this.time / 1000
+			: this.videoSlot.currentTime;
+		const duration = this.liveStreamData
+			? this.liveStreamData.duration
+			: this.videoSlot.duration;
+		const percentPlayed = (currentTime * 100.0) / duration;
 		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
 			const lastQuartileEvent =
 				quartileEvents[this.nextQuartileIndex].event;
@@ -149,9 +231,8 @@ export class VPAIDVideoPlayer {
 			this.eventsCallbacks[lastQuartileEvent] &&
 				this.eventsCallbacks[lastQuartileEvent]();
 		}
-		if (this.videoSlot.duration > 0) {
-			this.attributes["remainingTime"] =
-				this.videoSlot.duration - this.videoSlot.currentTime;
+		if (duration > 0) {
+			this.attributes.remainingTime = duration - currentTime;
 		}
 	};
 
@@ -202,7 +283,10 @@ export class VPAIDVideoPlayer {
 		creativeData: any,
 		environmentVars: { slot: HTMLElement; videoSlot: HTMLVideoElement }
 	) => {
-		console.log("initAd");
+		if (this.liveStreamData) {
+			setInterval(() => (this.time += 100), 100);
+		}
+
 		// TODO: do we need to keep this attributes Object?
 		this.attributes["width"] = width;
 		this.attributes["height"] = height;
@@ -241,7 +325,6 @@ export class VPAIDVideoPlayer {
 			this.loadedMetadata()
 		);
 		this.videoSlot.addEventListener("ended", () => this.stopAd());
-		// this.slot.addEventListener("click", () => this.clickAd());
 
 		////////////////////////////////////////////////////////////////////
 		///////////////////// DM ad instanciation //////////////////////////

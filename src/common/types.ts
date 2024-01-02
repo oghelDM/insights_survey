@@ -20,9 +20,9 @@ export enum HORIZONTAL_ALIGN {
 }
 
 export enum VIDEO_QUALITY {
-	LOW,
-	MID,
-	HIGH,
+	LOW = "low",
+	MID = "mid",
+	HIGH = "high",
 }
 
 export interface ComponentBaseType {

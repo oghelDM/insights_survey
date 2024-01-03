@@ -341,6 +341,8 @@ export class VPAIDVideoPlayer {
 			videoSlot: this.videoSlot,
 			onClick: (url: string) => this.clickAd(url),
 			stopAd: () => this.stopAd(),
+			pauseAd: () => this.pauseAd(),
+			resumeAd: () => this.resumeAd(),
 			setAdVolume: (volume: number) => this.setAdVolume(volume),
 		});
 		////////////////////////////////////////////////////////////////////
@@ -417,13 +419,16 @@ export class VPAIDVideoPlayer {
 	expandAd = () => {
 		// this.log("expandAd");
 		this.attributes["expanded"] = true;
-		this.callEvent("AdExpanded");
+		this.callEvent("AdExpandedChange");
 	};
 
 	/**
 	 * Collapses the ad.
 	 */
-	collapseAd = () => (this.attributes["expanded"] = false);
+	collapseAd = () => {
+		this.attributes["expanded"] = false;
+		this.callEvent("AdExpandedChange");
+	};
 
 	/**
 	 * Skips the ad.
@@ -520,6 +525,8 @@ export class VPAIDVideoPlayer {
 	 */
 	setAdVolume = (value: any) => {
 		// this.log("setAdVolume " + value);
+		this.videoSlot.volume = value;
+		this.videoSlot.muted = value === 0;
 		this.attributes["volume"] = value;
 		this.callEvent("AdVolumeChange");
 	};

@@ -22,6 +22,7 @@ export class VPAIDVideoPlayer {
 	videoSlot: HTMLVideoElement;
 	eventsCallbacks: any = {}; // TODO: strongly type
 	time = 0; // time to update the liveStream progress bar if needed
+	previousTime = 0; // time to update the liveStream progress bar if needed
 
 	// TODO: clean this up
 	nextQuartileIndex = 0;
@@ -199,6 +200,7 @@ export class VPAIDVideoPlayer {
 		this.attributes["duration"] = this.liveStreamData
 			? this.liveStreamData.duration
 			: this.videoSlot.duration;
+		this.attributes["remainingTime"] = this.attributes["duration"];
 		this.callEvent("AdDurationChange");
 	};
 
@@ -208,15 +210,23 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	timeUpdateHandler = () => {
-		if (this.liveStreamData) {
-			if (this.attributes.remainingTime <= 0) {
-				this.stopAd();
-			}
+		if (this.liveStreamData && this.attributes.remainingTime <= 0) {
+			this.pauseAd();
+			this.stopAd();
+			return;
 		}
 
 		if (this.nextQuartileIndex >= quartileEvents.length) {
 			return;
 		}
+
+		if (!this.previousTime) {
+			this.previousTime = new Date().getTime();
+		}
+		const now = new Date().getTime();
+		this.time += now - this.previousTime;
+		this.previousTime = now;
+
 		const currentTime = this.liveStreamData
 			? this.time / 1000
 			: this.videoSlot.currentTime;
@@ -231,7 +241,9 @@ export class VPAIDVideoPlayer {
 			this.eventsCallbacks[lastQuartileEvent] &&
 				this.eventsCallbacks[lastQuartileEvent]();
 		}
+
 		if (duration > 0) {
+			this.attributes.duration = duration;
 			this.attributes.remainingTime = duration - currentTime;
 		}
 	};
@@ -283,10 +295,6 @@ export class VPAIDVideoPlayer {
 		creativeData: any,
 		environmentVars: { slot: HTMLElement; videoSlot: HTMLVideoElement }
 	) => {
-		if (this.liveStreamData) {
-			setInterval(() => (this.time += 100), 100);
-		}
-
 		// TODO: do we need to keep this attributes Object?
 		this.attributes["width"] = width;
 		this.attributes["height"] = height;
@@ -400,6 +408,7 @@ export class VPAIDVideoPlayer {
 		// this.log("resumeAd");
 		this.videoSlot.play();
 		this.callEvent("AdPlaying");
+		this.previousTime = new Date().getTime();
 	};
 
 	/**

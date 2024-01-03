@@ -60,7 +60,7 @@ export class DepthMap extends HTMLElement {
 
 	private amplitude = [0, 0]; // x and y amplitude of the depth map effect
 	private target = [0, 0]; // smooth effect
-	private time = 0;
+	private mouseAngle = 0;
 	private isUserInteracting = false;
 	private timeoutId: number;
 	private uniforms: any;
@@ -75,8 +75,6 @@ export class DepthMap extends HTMLElement {
 			width: "100%",
 			height: "100%",
 			backgroundColor: "transparent",
-			left: 0,
-			top: 0,
 			touchAction: "pinch-zoom",
 			...styleProps,
 		};
@@ -170,7 +168,10 @@ export class DepthMap extends HTMLElement {
 			this.mesh = new THREE.Mesh(geometry, material);
 			this.scene.add(this.mesh);
 
-			window.addEventListener("pointermove", this.pointerMove);
+			(this.parentElement || this).addEventListener(
+				"pointermove",
+				this.pointerMove
+			);
 			window.addEventListener("resize", this.onWindowResize);
 
 			this.render();
@@ -201,6 +202,7 @@ export class DepthMap extends HTMLElement {
 		this.target[1] = map(y, 0, innerHeight, -1, 1);
 
 		this.isUserInteracting = true;
+		this.mouseAngle = Math.atan2(this.target[1], this.target[0]);
 
 		window.clearTimeout(this.timeoutId);
 		this.timeoutId = window.setTimeout(
@@ -214,8 +216,9 @@ export class DepthMap extends HTMLElement {
 
 		if (!this.isUserInteracting) {
 			const MAX_AMPLITUDE = 0.6;
-			this.target[0] = Math.cos(this.time * 0.036) * MAX_AMPLITUDE;
-			this.target[1] = Math.sin(this.time * 0.036) * MAX_AMPLITUDE;
+			this.target[0] = Math.cos(this.mouseAngle) * MAX_AMPLITUDE;
+			this.target[1] = Math.sin(this.mouseAngle) * MAX_AMPLITUDE;
+			this.mouseAngle += 0.04;
 		}
 
 		this.amplitude[0] += (this.target[0] - this.amplitude[0]) * 0.1;
@@ -233,7 +236,6 @@ export class DepthMap extends HTMLElement {
 		this.mesh.rotation.x = map(this.amplitude[1], -1, 1, -rotMax, rotMax);
 		this.mesh.rotation.y = map(this.amplitude[0], -1, 1, -rotMax, rotMax);
 
-		this.time += 1;
 		setTimeout(() => this.render(), 1000 / 60);
 	};
 }

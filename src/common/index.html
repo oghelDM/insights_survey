@@ -54,7 +54,7 @@
 					creativeData,
 					environmentVars
 				);
-				// TODO: should we explicitly subscribe to these events?
+
 				[
 					{ event: "AdImpression", value: 0 },
 					{ event: "AdVideoStart", value: 0 },
@@ -78,13 +78,198 @@
 				}, "AdClickThru");
 
 				ad.startAd();
+
+				//////////////////////////////////////
+				/////////// VIDEO CONTROLS ///////////
+				//////////////////////////////////////
+				const playBtn = document.getElementById("playBtn-id");
+				const muteBtn = document.getElementById("muteBtn-id");
+				const fullscreenBtn =
+					document.getElementById("fullscreenBtn-id");
+				const remainingTimeElt =
+					document.getElementById("remainingTime-id");
+				const progressBar = document.getElementById("progress-bar-id");
+
+				playBtn.innerHTML = "⏸️";
+				muteBtn.innerHTML = "🔇";
+				fullscreenBtn.innerHTML = "❇️";
+
+				ad.subscribe(() => {
+					console.log("event from app: AdPlaying");
+					playBtn.innerHTML = "⏸️";
+				}, "AdPlaying");
+				ad.subscribe(() => {
+					console.log("event from app: AdPaused");
+					playBtn.innerHTML = "▶️";
+				}, "AdPaused");
+				ad.subscribe(() => {
+					console.log(
+						"event from app: AdVolumeChange2: ",
+						ad.attributes.volume
+					);
+					muteBtn.innerHTML =
+						ad.attributes.volume === 0 ? "🔈" : "🔇";
+				}, "AdVolumeChange");
+
+				playBtn.addEventListener("click", (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const isPlaying = playBtn.innerHTML === "⏸️";
+					if (isPlaying) {
+						ad.pauseAd();
+					} else {
+						ad.resumeAd();
+					}
+				});
+
+				// for the video to auto-start we have to mute the video first
+				ad.setAdVolume(0);
+				muteBtn.addEventListener("click", (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const isMute = ad.getAdVolume() === 0;
+					ad.setAdVolume(isMute ? 1 : 0);
+				});
+
+				fullscreenBtn.addEventListener("click", (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const isFullScreen = fullscreenBtn.innerHTML === "❎";
+					if (!isFullScreen && !document.fullscreenElement) {
+						slot.requestFullscreen();
+					} else if (
+						isFullScreen &&
+						document.exitFullscreen &&
+						document.fullscreenElement
+					) {
+						document.exitFullscreen();
+					}
+					fullscreenBtn.innerHTML = isFullScreen ? "❇️" : "❎";
+				});
+
+				const intervalId = window.setInterval(() => {
+					const duration = ad.getAdDuration();
+					let remainingTime = ad.getAdRemainingTime();
+					if (duration === undefined || remainingTime === undefined) {
+						return;
+					}
+					if (remainingTime <= 0) {
+						remainingTime = 0;
+						window.clearInterval(intervalId);
+					}
+					progressBar.style.width = `${
+						((duration - remainingTime) / duration) * 100
+					}%`;
+					const nbMinutes = Math.floor(remainingTime / 60);
+					const nbSeconds = Math.round(remainingTime % 60);
+					remainingTimeElt.innerHTML = `${nbMinutes}:${nbSeconds
+						.toString()
+						.padStart(2, "0")}`;
+				}, 100);
 			}, 1000);
 		</script>
 
 		<div id="appId">
-			<video muted controls id="videoId">
+			<video muted id="videoId">
 				<source src="" type="video/mp4" />
 			</video>
+			<div
+				id="video-controls"
+				style="
+					position: absolute;
+					bottom: 0;
+					width: 100%;
+					height: 60px;
+					background-color: rgba(0, 0, 0, 0.6);
+					color: white;
+					z-index: 99;
+				"
+			>
+				<div
+					id="progress-bar"
+					style="
+						position: absolute;
+						bottom: 0;
+						width: 100%;
+						height: 8px;
+						background-color: gray;
+					"
+				>
+					<div
+						id="progress-bar-id"
+						style="
+							position: absolute;
+							width: 0%;
+							height: 100%;
+							background-color: orange;
+						"
+					></div>
+				</div>
+				<div
+					style="
+						display: flex;
+						justify-content: space-between;
+						padding: 0 10px;
+						align-items: center;
+						height: 52px;
+						font-size: 40px;
+						user-select: none;
+						cursor: pointer;
+					"
+				>
+					<div style="display: flex; gap: 4px">
+						<div
+							id="playBtn-id"
+							style="
+								width: 40px;
+								height: 40px;
+								/* background-color: chartreuse; */
+								text-align: center;
+								line-height: 40px;
+							"
+						>
+							⏸️
+						</div>
+						<div
+							id="remainingTime-id"
+							style="
+								width: 40px;
+								height: 40px;
+								text-align: center;
+								line-height: 40px;
+								font-size: 16px;
+								font-family: sans-serif;
+							"
+						>
+							0:00
+						</div>
+					</div>
+					<div style="display: flex; gap: 4px">
+						<div
+							id="muteBtn-id"
+							style="
+								width: 40px;
+								height: 40px;
+								text-align: center;
+								line-height: 40px;
+							"
+						>
+							🔇
+						</div>
+						<div
+							id="fullscreenBtn-id"
+							style="
+								width: 40px;
+								height: 40px;
+								text-align: center;
+								line-height: 40px;
+							"
+						>
+							❇️
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

@@ -16,8 +16,7 @@ const creative: CreativeHandler = (
 			onClick,
 			clickUrl: "https://www.google.com/search?q=depthMap",
 		},
-		// { width: "33.3%", height: "30%", right: 0, top: "23%" }
-		{}
+		{ width: "30%", right: 0 }
 	);
 	root.appendChild(depthMap);
 
@@ -39,7 +38,7 @@ window.getVPAIDAd = () =>
 			// url: "https://www.dailymotion.com/cdn/live/video/x2lefik.m3u8?sec=NTkR1ilZ2-X2I7meMAG74VEKuGaG69b6vw0xg5H_74jX4ehDINQ9-0Rz1-Oj8oqG&dmTs=423062&dmV1st=12f9c0c6-0342-42a6-b82c-8f12e3aa7ad5",
 			url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8",
 			// url: 'https://live-par-1-abr-cdn.livepush.io/live/bigbuckbunnyclip/index.m3u8',
-			duration: 5,
+			duration: 15,
 			Hls: require("../../../common/utils/hlsLib"),
 		}
 	);

@@ -5,8 +5,8 @@
 	"type": "commonjs",
 	"scripts": {
 		"dev": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/creatives/$npm_config_target",
-		"example": "npm run build --target=2023/example/creative.ts",
 		"armani": "npm run build --target=2023/Luxury_Armani_Noel_Interactive_Custom_2311_CAMPAIGN_FR_30s/creative.ts",
+		"example": "./node_modules/.bin/webpack serve --mode development --hot --port=8080 --entry=./src/creatives/examples/videoControls/creative.ts",
 		"build": "webpack --mode production --entry=./src/creatives/$npm_config_target",
 		"lint:check": "eslint . --ext .ts",
 		"lint:fix": "eslint . --ext .ts --fix"

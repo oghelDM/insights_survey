@@ -103,12 +103,9 @@
 					playBtn.innerHTML = "▶️";
 				}, "AdPaused");
 				ad.subscribe(() => {
-					console.log(
-						"event from app: AdVolumeChange2: ",
-						ad.attributes.volume
-					);
-					muteBtn.innerHTML =
-						ad.attributes.volume === 0 ? "🔈" : "🔇";
+					const volume = ad.attributes.volume;
+					console.log("event from app: AdVolumeChange: ", volume);
+					muteBtn.innerHTML = volume === 0 ? "🔇" : "🔈";
 				}, "AdVolumeChange");
 
 				playBtn.addEventListener("click", (e) => {

@@ -55,18 +55,18 @@ export class Cuber extends IndexManager {
 		const container = document.createElement("div");
 		container.id = "id-container";
 		container.style.position = "absolute";
-		container.style.zIndex = "3000000";
+		container.style.zIndex = "9";
 		container.style.width = `${this.cleanProps.focusedElementWidth}%`;
 		container.style.height = `${this.cleanProps.focusedElementHeight}%`;
 		container.style.perspectiveOrigin = perspectiveOrigin as string;
 		container.style.alignItems = "center";
 		container.style.pointerEvents = "none";
-		if (faceRight !== undefined) {
+		if (faceRight !== null) {
 			container.style.right = `${faceRight}%`;
 		} else {
 			container.style.left = `${faceLeft}%`;
 		}
-		if (faceBottom !== undefined) {
+		if (faceBottom !== null) {
 			container.style.bottom = `${faceBottom}%`;
 		} else {
 			container.style.top = `${faceTop}%`;

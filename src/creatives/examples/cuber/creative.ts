@@ -1,6 +1,7 @@
 import { VPAIDVideoPlayer } from "@app";
 import { Cuber } from "@/components/cuber";
 import { ImageDM } from "@/components/image";
+import { createDiv } from "@/utils/divMaker";
 import { CreativeHandler, CreativeProps } from "@/types";
 
 export const videos = [
@@ -39,6 +40,30 @@ const creative: CreativeHandler = (
 		parent: root,
 	});
 	root.appendChild(cuber);
+
+	["left", "right"].forEach((name, i) => {
+		const btn = createDiv(`${name}-id`, {
+			position: "absolute",
+			width: "80px",
+			height: "80px",
+			cursor: "pointer",
+			textAlign: "center",
+			lineHeight: "80px",
+			borderRadius: "5px",
+			left: i === 0 ? "0" : "unset",
+			right: i === 1 ? "0" : "unset",
+			top: "calc(50% - 40px)",
+			backgroundColor: "crimson",
+			userSelect: "none",
+		});
+		btn.innerHTML = name;
+		btn.addEventListener("click", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			cuber.moveIndexBy(i === 0 ? 1 : -1);
+		});
+		root.appendChild(btn);
+	});
 };
 
 window.getVPAIDAd = () =>

@@ -2,9 +2,9 @@ import { IndexManagerType, defaultPropsIndexManager } from "../indexManager";
 
 export interface CuberType extends IndexManagerType {
 	parent: HTMLElement; // the parent DOM element (usually the creative root), necessary to compute the faces dimensions
-	faceLeft?: number; // same as the usual css left property for the focused face
+	faceLeft?: number | null; // same as the usual css left property for the focused face
 	faceRight?: number | null; // same as the usual css right property for the focused face
-	faceTop?: number; // same as the usual css top property for the focused face
+	faceTop?: number | null; // same as the usual css top property for the focused face
 	faceBottom?: number | null; // same as the usual css bottom property for the focused face
 	perspective?: number; // 3D perspective
 	perspectiveOrigin?: string; // defines the 3d transform origin perspective (eg. '50%' or '0% 50%')

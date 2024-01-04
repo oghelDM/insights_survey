@@ -208,6 +208,7 @@ export class IndexManager extends HTMLElement {
 	}
 
 	private onMouseDown = (e: PointerEvent): void => {
+		clearTimeout(this.animationTimeoutId);
 		this.stopAutoPlay();
 
 		this.previousIndex = this.currentIndex;

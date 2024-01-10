@@ -1,9 +1,9 @@
-import gsap from "gsap";
 import { cover, getClientXY, map } from "../../utils/helper";
 import { ScratchType, defaultValuesScratch } from "./defaultValues";
 
 export class Scratch extends HTMLElement {
-	private props: ScratchType;
+	protected cleanProps: Required<ScratchType>;
+
 	private styleProps: any;
 
 	private canvas: HTMLCanvasElement;
@@ -12,7 +12,7 @@ export class Scratch extends HTMLElement {
 	private isReadyToDraw: boolean = false;
 	private cursorOffset = { x: 0, y: 0 }; // the offset that depends on the custom cursor and the resize
 	private imgFront: HTMLImageElement; // the image drawn on the canvas, that is to be scratched away
-	private imgScratch: HTMLImageElement; // the image used to draw on the scratch canvas
+	private imgScratch: HTMLImageElement; // the image used to scratch on the scratch canvas
 	private cursorImage: HTMLImageElement; // the image used as a cursor
 	private timeoutId: number;
 	private originalSize = { width: 1, height: 1 }; // original canvas size, used to resize properly
@@ -20,10 +20,10 @@ export class Scratch extends HTMLElement {
 	constructor(props: ScratchType, styleProps: any = {}) {
 		super();
 
-		this.props = { ...defaultValuesScratch, ...props };
+		this.cleanProps = { ...defaultValuesScratch, ...props };
 		this.styleProps = { ...styleProps };
 
-		const { id, onClick, clickUrl, frontImageUrl } = this.props;
+		const { id, onClick, clickUrl, frontImageUrl } = this.cleanProps;
 
 		this.setAttribute("id", id);
 
@@ -56,9 +56,10 @@ export class Scratch extends HTMLElement {
 	}
 
 	public init = (props?: ScratchType, styleProps?: any) => {
-		this.props = { ...this.props, ...(props || {}) };
+		this.cleanProps = { ...this.cleanProps, ...(props || {}) };
 
-		const { debug, scratchImageUrl, backImageUrl, cursorUrl } = this.props;
+		const { debug, scratchImageUrl, backImageUrl, cursorUrl } =
+			this.cleanProps;
 
 		this.styleProps = {
 			position: "absolute",
@@ -69,6 +70,8 @@ export class Scratch extends HTMLElement {
 			backgroundSize: "cover",
 			backgroundRepeat: "no-repeat",
 			backgroundPosition: "center",
+			transition: "opacity .3s",
+			opacity: 0,
 
 			...(styleProps || {}),
 		};
@@ -133,6 +136,7 @@ export class Scratch extends HTMLElement {
 			imageHeight
 		);
 		this.isReadyToDraw = true;
+		this.style.opacity = "1";
 		// from now on, any drawing on the canvas is punch-through
 		this.context.globalCompositeOperation = "destination-out";
 	};
@@ -142,7 +146,7 @@ export class Scratch extends HTMLElement {
 		this.init();
 	}
 
-	private pointerMove = (e: PointerEvent) => {
+	public pointerMove = (e: PointerEvent) => {
 		e.preventDefault();
 		if (!this.isReadyToDraw) {
 			return;
@@ -152,7 +156,11 @@ export class Scratch extends HTMLElement {
 			scratchSizeCoeff,
 			cursorAutoRotate,
 			timeoutDuration,
-		} = this.props;
+			onAutoRevealStart,
+			onAutoRevealComplete,
+			onUserScratchStart,
+		} = this.cleanProps;
+
 		const boundingClientRect = this.getBoundingClientRect();
 		const { width, height } = boundingClientRect;
 		const { x, y } = getClientXY(e, boundingClientRect);
@@ -200,19 +208,18 @@ export class Scratch extends HTMLElement {
 		}
 
 		if (!this.hasUserInteracted && timeoutDuration) {
+			if (e.type === "custom") {
+				return; // allow for auto/custom pointerEvents, like tooltip tutos
+			}
+			console.log("onUserScratchStartonUserScratchStart");
 			this.hasUserInteracted = true;
+			onUserScratchStart();
 			this.timeoutId = window.setTimeout(() => {
-				const dummy = { value: 1 };
-				gsap.timeline().to(dummy, {
-					value: 0,
-					duration: 1,
-					onUpdate: () => {
-						this.canvas.style.opacity = `${dummy.value}`;
-					},
-					onComplete: () => {
-						this.canvas.style.cursor = "cursor";
-					},
-				});
+				this.canvas.style.transition = "opacity 1s";
+				this.canvas.style.opacity = "0";
+				this.canvas.style.cursor = "unset";
+				onAutoRevealStart();
+				setTimeout(() => onAutoRevealComplete());
 			}, timeoutDuration);
 		}
 	};

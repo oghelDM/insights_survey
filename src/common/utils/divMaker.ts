@@ -6,7 +6,6 @@ interface CssType extends Partial<CSSStyleDeclaration> {
 export const createDiv = (id: string, style: CssType): HTMLElement => {
 	const div = document.createElement("div");
 	div.id = id;
-	// @todo duplicated across multiple files
 	for (const [key, value] of Object.entries(style)) {
 		// @ts-ignore
 		div.style[key] = value;

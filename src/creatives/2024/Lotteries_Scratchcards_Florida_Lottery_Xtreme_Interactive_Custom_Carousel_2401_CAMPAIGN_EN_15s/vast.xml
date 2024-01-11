@@ -1,23 +1,23 @@
 <VAST version="2.0">
-    <Ad id="floridaLotteryJan24">
+    <Ad id="floridaLotteryJanCarousel24">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>floridaLotteryJan24</AdTitle>
+            <AdTitle>floridaLotteryJanCarousel24</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="floridaLotteryJan24c">
+                <Creative id="floridaLotteryJanCarousel24c">
                     <Linear>
                         <Duration>00:00:15</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_2401_CAMPAIGN_EN_15s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/2/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_2401_CAMPAIGN_EN_15s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/2/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
@@ -26,3 +26,4 @@
         </InLine>
     </Ad>
 </VAST>
+<!-- https://statics.dmcdn.net/d/devTools/vast_tools/vast_local.xml -->

@@ -25,6 +25,11 @@ export enum VIDEO_QUALITY {
 	HIGH = "high",
 }
 
+export interface CssType extends Partial<CSSStyleDeclaration> {
+	"-webkit-backface-visibility"?: string;
+	"-webkit-transform"?: string;
+}
+
 export interface ComponentBaseType {
 	id: string; // div id
 	debug?: boolean;

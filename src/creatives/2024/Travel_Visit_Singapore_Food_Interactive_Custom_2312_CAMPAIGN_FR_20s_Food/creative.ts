@@ -10,8 +10,20 @@ const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
 ) => {
-	// const url = "https://api.open-meteo.com/v1/forecast";
-	let tempText: string;
+	const noIteractionTimeOut = 10000;
+
+	const temperatureContainer = createDiv("temperatureContainer-id", {
+		position: "absolute",
+		width: "100%",
+		height: "10%",
+		bottom: "32%",
+		textAlign: "center",
+		color: "white",
+		fontFamily: "sans-serif",
+		userSelect: "none",
+	});
+
+	temperatureContainer.innerHTML = "-";
 
 	const myAsynFunction = async (url: string) => {
 		const params = {
@@ -20,35 +32,25 @@ const creative: CreativeHandler = (
 			current: "temperature_2m",
 			forecast_days: 1,
 		};
-		const responses = await fetchWeatherApi(url, params);
 
-		// Helper function to form time ranges
-		const range = (start: number, stop: number, step: number) =>
-			Array.from({ length: (stop - start) / step }, (_, i) => start + i * step);
+		bg.appendChild(temperatureContainer);
+		try {
+			const responses = await fetchWeatherApi(url, params);
 
-		// Process first location. Add a for-loop for multiple locations or weather models
-		const response = responses[0];
+			// Process first location. Add a for-loop for multiple locations or weather models
+			if (!responses || !Array.isArray(responses) || !responses[0]) {
+				temperatureContainer.innerHTML = `${Math.round(random12(25, 30))}°C`;
+				return;
+			}
 
-		// Attributes for timezone and location
-		const utcOffsetSeconds = response.utcOffsetSeconds();
-		const timezone = response.timezone();
-		const timezoneAbbreviation = response.timezoneAbbreviation();
-		const latitude = response.latitude();
-		const longitude = response.longitude();
+			const response = responses[0];
+			const current = response.current()!;
+			const temperature = Math.round(current.variables(0)!.value());
 
-		const current = response.current()!;
-
-		// Note: The order of weather variables in the URL query and the indices below need to match!
-		const weatherData = {
-			current: {
-				time: new Date((Number(current.time()) + utcOffsetSeconds) * 1000),
-				temperature2m: current.variables(0)!.value(),
-			},
-		};
-
-		return responses;
-
-		// `weatherData` now contains a simple structure with arrays for datetime and weather data
+			temperatureContainer.innerHTML = `${temperature}°C`;
+		} catch {
+			temperatureContainer.innerHTML = `${Math.round(random12(26, 28))}°C`;
+		}
 	};
 
 	const transitionBlock = createDiv("question-id", {
@@ -72,7 +74,7 @@ const creative: CreativeHandler = (
 
 	transitionBlock.appendChild(transitionSmallBlock);
 
-	const bgStyle: CSSStyleType = {
+	const bg = createDiv("bg-id", {
 		position: "absolute",
 		width: "100%",
 		height: "100%",
@@ -81,11 +83,6 @@ const creative: CreativeHandler = (
 		backgroundPosition: "center center",
 		backgroundRepeat: "no-repeat",
 		backgroundSize: "contain",
-		// pointerEvents: "none",
-	};
-
-	const bg = createDiv("bg-id", {
-		...bgStyle,
 		backgroundImage:
 			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_question.png)",
 		transition: "all .5s ease-out",
@@ -99,7 +96,8 @@ const creative: CreativeHandler = (
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/A_Selected.png",
 			selected:
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/A_False.png",
-			bg: "https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
+			bgOpt:
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
 		},
 		{
 			unactive:
@@ -108,7 +106,8 @@ const creative: CreativeHandler = (
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/B_Selected.png",
 			selected:
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/B_True.png",
-			bg: "https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_true.png",
+			bgOpt:
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_true.png",
 		},
 		{
 			unactive:
@@ -117,99 +116,81 @@ const creative: CreativeHandler = (
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/C_Selected.png",
 			selected:
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/C_False.png",
-			bg: "https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
+			bgOpt:
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
 		},
 	];
 
-	const btnStyle: CSSStyleType = {
-		position: "absolute",
-		width: "30%",
-		height: "10%",
-		bottom: "50%",
-		backgroundPosition: "center center",
-		backgroundRepeat: "no-repeat",
-		backgroundSize: "contain",
-		transition: "all .5s ease-out",
-		zIndex: "10",
-		// pointerEvents: "none",
-	};
-
 	let isBtnClicked = false;
 
-	const buttonArray: HTMLElement[] = optElements.map((btn, i) => {
-		let button = createDiv("btn-A-id", {
-			...btnStyle,
-			backgroundImage: `url(${btn.unactive})`,
-			cursor: "pointer",
-		});
-
-		if (i === 0) {
-			button.style.left = "3.3%";
-		} else if (i === 1) {
-			button.style.left = "35%";
-		} else {
-			button.style.right = "3.3%";
-		}
-
-		button.addEventListener("mouseenter", () => {
-			if (!isBtnClicked) {
-				button.style.backgroundImage = `url(${btn.active})`;
-			}
-		});
-
-		button.addEventListener("mouseleave", () => {
-			if (!isBtnClicked) {
-				button.style.backgroundImage = `url(${btn.unactive})`;
-			}
-		});
-
-		root.appendChild(button);
-		// buttonArray.push(button);
-
-		button.addEventListener("click", (e: any) => {
-			e.stopImmediatePropagation();
-			e.stopPropagation();
-			isBtnClicked = true;
-			buttonArray.forEach((element) => {
-				element.style.opacity = "0";
+	const buttonArray: HTMLElement[] = optElements.map(
+		({ unactive, active, bgOpt, selected }, i) => {
+			let button = createDiv(`btn-${i}`, {
+				position: "absolute",
+				width: "30%",
+				height: "10%",
+				bottom: "50%",
+				backgroundPosition: "center center",
+				backgroundRepeat: "no-repeat",
+				backgroundSize: "contain",
+				transition: "all .5s ease-out",
+				zIndex: "10",
+				backgroundImage: `url(${unactive})`,
+				cursor: "pointer",
 			});
-			transitionBlock.style.left = "100%";
-			transitionSmallBlock.style.width = "90%";
-			button.style.backgroundImage = `url(${btn.selected})`;
-			bg.style.backgroundImage = `url(${btn.bg})`;
-			setTimeout(() => {
-				button.style.display = "none";
-			}, 500);
-		});
 
-		return button;
-	});
+			if (i === 0) {
+				button.style.left = "3.3%";
+			} else if (i === 1) {
+				button.style.left = "35%";
+			} else {
+				button.style.right = "3.3%";
+			}
 
-	const tempStyle: CSSStyleType = {
-		position: "absolute",
-		width: "100%",
-		height: "100%",
-		left: "0%",
-		bottom: "0%",
-		color: "white",
-		// pointerEvents: "none",
-	};
+			button.addEventListener("mouseenter", () => {
+				if (!isBtnClicked) {
+					button.style.backgroundImage = `url(${active})`;
+				}
+			});
 
-	const temperature = createDiv("temperature-id", {
-		...tempStyle,
-		transition: "all .5s ease-out",
-	});
+			button.addEventListener("mouseleave", () => {
+				if (!isBtnClicked) {
+					button.style.backgroundImage = `url(${unactive})`;
+				}
+			});
 
-	console.log(
-		"temperature :",
-		myAsynFunction("https://api.open-meteo.com/v1/forecast")
+			root.appendChild(button);
+			// buttonArray.push(button);
+
+			button.addEventListener("click", (e: MouseEvent) => {
+				e.stopImmediatePropagation();
+				e.stopPropagation();
+				isBtnClicked = true;
+				myAsynFunction("https://api.open-meteo.co/v1/forecast");
+				buttonArray.forEach((element) => {
+					element.style.opacity = "0";
+				});
+				transitionBlock.style.left = "100%";
+				transitionSmallBlock.style.width = "90%";
+				button.style.backgroundImage = `url(${selected})`;
+				bg.style.backgroundImage = `url(${bgOpt})`;
+				setTimeout(() => {
+					button.style.display = "none";
+				}, 500);
+			});
+
+			return button;
+		}
 	);
+
+	setTimeout(() => {
+		buttonArray[1].click();
+	}, noIteractionTimeOut);
 
 	root.addEventListener("click", () =>
 		onClick("https://www.google.com/search?q=scratch")
 	);
 
-	bg.appendChild(temperature);
 	root.appendChild(bg);
 	root.appendChild(transitionBlock);
 };

@@ -1,5 +1,5 @@
 import { CreativeProps } from "@/types";
-import { isMobile } from "@/utils/helper";
+import { isMobile, trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
 import { bounceIn, bounceOut, hotSpotBounce } from "@/animations";
@@ -18,6 +18,7 @@ interface HotSpotProduct {
 	spotTop: string; // css top position of the product hotspot
 	cardLeft: string; // css left position of the product card
 	cardTop: string; // css top position of the product card
+	floodLight?: string; // floodlight pixel url to track the hotspot click
 }
 
 interface HotSpotProps {
@@ -33,6 +34,7 @@ interface Trio {
 	hotspot: HTMLElement;
 	card: HTMLElement;
 	closeBtn: HTMLElement;
+	floodLight?: string;
 }
 
 const defaultProps: Required<HotSpotProps> = {
@@ -135,6 +137,7 @@ export const hotSpotsTemplate: HotSpotsType = (
 			hotspot,
 			card,
 			closeBtn,
+			floodLight: product.floodLight,
 		};
 	});
 
@@ -157,7 +160,7 @@ export const hotSpotsTemplate: HotSpotsType = (
 		});
 	});
 
-	const displayCard = ({ hotspot, card }: Trio) => {
+	const displayCard = ({ hotspot, card, floodLight }: Trio) => {
 		trios.forEach((trio) => hideCard(trio, true));
 
 		hotspot.style.pointerEvents = "none";
@@ -167,6 +170,10 @@ export const hotSpotsTemplate: HotSpotsType = (
 		card.style.display = "block";
 		root.appendChild(card); // make sure that the card is above all other elements
 		bounceIn(card, 700);
+
+		if (floodLight) {
+			trackPixel(floodLight);
+		}
 	};
 
 	const hideCard = ({ hotspot, card }: Trio, instant = false) => {

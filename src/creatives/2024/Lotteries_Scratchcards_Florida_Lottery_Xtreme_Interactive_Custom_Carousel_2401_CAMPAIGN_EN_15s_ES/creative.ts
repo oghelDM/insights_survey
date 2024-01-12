@@ -53,19 +53,19 @@ const creative: CreativeHandler = (
 	{ onClick }: CreativeProps
 ) => {
 	const clickUrl =
-		"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.385708328;dc_trk_aid=576817442;dc_trk_cid=208350023;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
+		"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385714214;dc_trk_aid=576888921;dc_trk_cid=208852488;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
 
 	// BG
 	const bg = new ImageDM(
 		"bg-dm",
-		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/elements.png"
+		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/elements_ess.png"
 	);
 	root.appendChild(bg);
 	bg.addEventListener("click", () => onClick(clickUrl));
 
 	const cta = new ImageDM(
 		"cta-dm",
-		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/cta.png",
+		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/cta_es.png",
 		{
 			width: "24%",
 			height: "8%",
@@ -187,7 +187,7 @@ const creative: CreativeHandler = (
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, {
-		low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_low.mp4",
-		mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_mid.mp4",
-		high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_high.mp4",
+		low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_low_es.mp4",
+		mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_mid_es.mp4",
+		high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/video_high_es.mp4",
 	});

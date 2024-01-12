@@ -84,12 +84,12 @@ export class Scratch extends HTMLElement {
 
 		if (cursorUrl) {
 			this.cursorImage = new Image();
-			this.cursorImage.src = cursorUrl;
 			this.cursorImage.onload = () => {
 				this.cursorOffset.x = this.cursorImage.naturalWidth / 2;
 				this.cursorOffset.y = this.cursorImage.naturalHeight / 2;
 				this.canvas.style.cursor = `url(${cursorUrl}), pointer`;
 			};
+			this.cursorImage.src = cursorUrl;
 		}
 
 		this.canvas.style.opacity = "1";

@@ -100,9 +100,13 @@ export class Scratch extends HTMLElement {
 			this.imgScratch.src = scratchImageUrl;
 		}
 
-		const { width, height } = this.getBoundingClientRect();
-		this.canvas.width = Math.ceil(width);
-		this.canvas.height = height;
+		const { left, right, top, bottom } = this.getBoundingClientRect();
+		this.canvas.width =
+			Math.round(devicePixelRatio * right) -
+			Math.round(devicePixelRatio * left);
+		this.canvas.height =
+			Math.round(devicePixelRatio * bottom) -
+			Math.round(devicePixelRatio * top);
 		this.originalSize = {
 			width: this.canvas.width,
 			height: this.canvas.height,

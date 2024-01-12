@@ -178,6 +178,7 @@ const creative: CreativeHandler = (
 		btn.addEventListener("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
+			carousel.stopAutoPlay();
 			carousel.moveIndexBy(i === 0 ? 1 : -1);
 		});
 		carousel.appendChild(btn);

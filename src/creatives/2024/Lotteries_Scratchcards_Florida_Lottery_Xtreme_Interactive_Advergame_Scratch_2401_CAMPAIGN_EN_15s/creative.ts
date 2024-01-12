@@ -72,7 +72,8 @@ const creative: CreativeHandler = (
 		frontImageUrl:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/top_2.png",
 		onClick,
-		clickUrl: "https://www.google.com/search?q=depthMap",
+		clickUrl:
+			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.386006607;dc_trk_aid=576889242;dc_trk_cid=208352216;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
 		scratchSizeCoeff: 1,
 		onAutoRevealStart: () => {
 			console.log("onAutoRevealStart");
@@ -121,9 +122,11 @@ const creative: CreativeHandler = (
 		timeoutDuration: 5000,
 	});
 
-	root.addEventListener("click", () =>
-		onClick("https://www.google.com/search?q=scratch")
-	);
+	// root.addEventListener("click", () =>
+	// 	onClick(
+	// 		"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.386006607;dc_trk_aid=576889242;dc_trk_cid=208352216;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1"
+	// 	)
+	// );
 
 	root.appendChild(scratch);
 	root.appendChild(wording0);

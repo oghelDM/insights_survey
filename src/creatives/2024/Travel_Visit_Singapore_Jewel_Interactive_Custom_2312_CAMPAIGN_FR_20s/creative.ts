@@ -1,9 +1,7 @@
 import { VPAIDVideoPlayer } from "@app";
 import { random12 } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
-import { Scratch } from "@/components/scratch";
-import { CSSStyleType, CreativeHandler, CreativeProps } from "@/types";
-import { bounceIn, bounceOut, hotSpotBounce, rotate } from "@/animations";
+import { CreativeHandler, CreativeProps } from "@/types";
 import { fetchWeatherApi } from "openmeteo";
 
 const creative: CreativeHandler = (
@@ -54,7 +52,7 @@ const creative: CreativeHandler = (
 		}
 	};
 
-	const transitionBlock = createDiv("question-id", {
+	const transitionBlockRed = createDiv("question-id", {
 		position: "absolute",
 		backgroundColor: "red",
 		width: "200%",
@@ -64,7 +62,7 @@ const creative: CreativeHandler = (
 		transition: "all 1s ease-out",
 	});
 
-	const transitionSmallBlock = createDiv("question-id", {
+	const transitionSmallBlockRed = createDiv("question-id", {
 		position: "absolute",
 		backgroundColor: "crimson",
 		width: "0%",
@@ -73,7 +71,27 @@ const creative: CreativeHandler = (
 		transition: "all 1s ease-out",
 	});
 
-	transitionBlock.appendChild(transitionSmallBlock);
+	const transitionBlockGreen = createDiv("question-id", {
+		position: "absolute",
+		backgroundColor: "green",
+		width: "200%",
+		height: "100%",
+		left: "-200%",
+		zIndex: "12",
+		transition: "all 1s ease-out",
+	});
+
+	const transitionSmallBlockGreen = createDiv("question-id", {
+		position: "absolute",
+		backgroundColor: "darkgreen",
+		width: "0%",
+		height: "100%",
+		right: "0",
+		transition: "all 1s ease-out",
+	});
+
+	transitionBlockRed.appendChild(transitionSmallBlockRed);
+	transitionBlockGreen.appendChild(transitionSmallBlockGreen);
 
 	const bg = createDiv("bg-id", {
 		position: "absolute",
@@ -85,40 +103,40 @@ const creative: CreativeHandler = (
 		backgroundRepeat: "no-repeat",
 		backgroundSize: "contain",
 		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_question2.png)",
+			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel/assets/screen_question.png)",
 		transition: "all .5s ease-out",
 	});
 
 	const optElements = [
 		{
 			unactive:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/A.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/A.png",
 			active:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/A_Selected.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/A_Selected.png",
 			selected:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/A_False.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/A_False.png",
 			bgOpt:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/screen_false.png",
 		},
 		{
 			unactive:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/B.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/B.png",
 			active:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/B_Selected.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/B_Selected.png",
 			selected:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/B_True.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/B_False.png",
 			bgOpt:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_true.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/screen_false.png",
 		},
 		{
 			unactive:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/C.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/C.png",
 			active:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/C_Selected.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/C_Selected.png",
 			selected:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/C_False.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/C_True.png",
 			bgOpt:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_false.png",
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/jewel//assets/screen_true.png",
 		},
 	];
 
@@ -169,8 +187,8 @@ const creative: CreativeHandler = (
 				e.stopPropagation();
 				if (!isAnimPlayed) {
 					isAnimPlayed = true;
-					isBtnClicked = true;
 					if (!isBtnClicked) {
+						isBtnClicked = true;
 						myAsynFunction("https://api.open-meteo.co/v1/forecast");
 					} else {
 						bg.appendChild(temperatureContainer);
@@ -181,8 +199,15 @@ const creative: CreativeHandler = (
 					buttonArray.forEach((element) => {
 						element.style.opacity = "0";
 					});
-					transitionBlock.style.left = "125%";
-					transitionSmallBlock.style.width = "90%";
+
+					if (i === 2) {
+						transitionBlockGreen.style.left = "125%";
+						transitionSmallBlockGreen.style.width = "90%";
+					} else {
+						transitionBlockRed.style.left = "125%";
+						transitionSmallBlockRed.style.width = "90%";
+					}
+
 					button.style.backgroundImage = `url(${selected})`;
 					bg.style.backgroundImage = `url(${bgOpt})`;
 					setTimeout(() => {
@@ -197,16 +222,19 @@ const creative: CreativeHandler = (
 
 	setTimeout(() => {
 		if (!isAnimPlayed) {
-			buttonArray[1].click();
+			buttonArray[2].click();
 		}
 	}, noIteractionTimeOut);
 
 	root.addEventListener("click", () =>
-		onClick("https://www.visitsingapore.com/en/")
+		onClick(
+			"https://www.visitsingapore.com/singapore-itineraries/1-day-guide-to-jewel-changi/"
+		)
 	);
 
 	root.appendChild(bg);
-	root.appendChild(transitionBlock);
+	root.appendChild(transitionBlockGreen);
+	root.appendChild(transitionBlockRed);
 };
 
 window.getVPAIDAd = () =>

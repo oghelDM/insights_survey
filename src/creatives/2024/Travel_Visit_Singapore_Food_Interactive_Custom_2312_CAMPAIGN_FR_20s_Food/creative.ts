@@ -16,11 +16,12 @@ const creative: CreativeHandler = (
 		position: "absolute",
 		width: "100%",
 		height: "10%",
-		bottom: "32%",
+		bottom: "33%",
 		textAlign: "center",
 		color: "white",
 		fontFamily: "sans-serif",
 		userSelect: "none",
+		fontSize: "4vi",
 	});
 
 	temperatureContainer.innerHTML = "-";
@@ -39,7 +40,7 @@ const creative: CreativeHandler = (
 
 			// Process first location. Add a for-loop for multiple locations or weather models
 			if (!responses || !Array.isArray(responses) || !responses[0]) {
-				temperatureContainer.innerHTML = `${Math.round(random12(25, 30))}°C`;
+				temperatureContainer.innerHTML = `${Math.round(random12(27, 30))}°C`;
 				return;
 			}
 
@@ -56,9 +57,9 @@ const creative: CreativeHandler = (
 	const transitionBlock = createDiv("question-id", {
 		position: "absolute",
 		backgroundColor: "red",
-		width: "100%",
+		width: "200%",
 		height: "100%",
-		left: "-100%",
+		left: "-200%",
 		zIndex: "12",
 		transition: "all 1s ease-out",
 	});
@@ -84,7 +85,7 @@ const creative: CreativeHandler = (
 		backgroundRepeat: "no-repeat",
 		backgroundSize: "contain",
 		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_question.png)",
+			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Travel_Visit_Singapore_Food_Interactive_Custom_2312_CAMPAIGN_FR_20s/food/assets/screen_question2.png)",
 		transition: "all .5s ease-out",
 	});
 
@@ -121,6 +122,7 @@ const creative: CreativeHandler = (
 		},
 	];
 
+	let isAnimPlayed = false;
 	let isBtnClicked = false;
 
 	const buttonArray: HTMLElement[] = optElements.map(
@@ -165,18 +167,28 @@ const creative: CreativeHandler = (
 			button.addEventListener("click", (e: MouseEvent) => {
 				e.stopImmediatePropagation();
 				e.stopPropagation();
-				isBtnClicked = true;
-				myAsynFunction("https://api.open-meteo.co/v1/forecast");
-				buttonArray.forEach((element) => {
-					element.style.opacity = "0";
-				});
-				transitionBlock.style.left = "100%";
-				transitionSmallBlock.style.width = "90%";
-				button.style.backgroundImage = `url(${selected})`;
-				bg.style.backgroundImage = `url(${bgOpt})`;
-				setTimeout(() => {
-					button.style.display = "none";
-				}, 500);
+				if (!isAnimPlayed) {
+					isAnimPlayed = true;
+					isBtnClicked = true;
+					if (!isBtnClicked) {
+						myAsynFunction("https://api.open-meteo.co/v1/forecast");
+					} else {
+						bg.appendChild(temperatureContainer);
+						temperatureContainer.innerHTML = `${Math.round(
+							random12(27, 29)
+						)}°C`;
+					}
+					buttonArray.forEach((element) => {
+						element.style.opacity = "0";
+					});
+					transitionBlock.style.left = "125%";
+					transitionSmallBlock.style.width = "90%";
+					button.style.backgroundImage = `url(${selected})`;
+					bg.style.backgroundImage = `url(${bgOpt})`;
+					setTimeout(() => {
+						button.style.display = "none";
+					}, 500);
+				}
 			});
 
 			return button;
@@ -184,11 +196,13 @@ const creative: CreativeHandler = (
 	);
 
 	setTimeout(() => {
-		buttonArray[1].click();
+		if (!isAnimPlayed) {
+			buttonArray[1].click();
+		}
 	}, noIteractionTimeOut);
 
 	root.addEventListener("click", () =>
-		onClick("https://www.google.com/search?q=scratch")
+		onClick("https://www.visitsingapore.com/en/")
 	);
 
 	root.appendChild(bg);

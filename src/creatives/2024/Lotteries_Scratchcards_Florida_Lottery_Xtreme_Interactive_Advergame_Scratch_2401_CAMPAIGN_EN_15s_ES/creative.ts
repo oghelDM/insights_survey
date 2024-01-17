@@ -43,7 +43,7 @@ const creative: CreativeHandler = (
 	const wording0 = createDiv("wording0-id", {
 		...wordingStyle,
 		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/wording_0.png)",
+			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/wording_0_es.png)",
 	});
 	const wording1 = createDiv("wording1-id", {
 		...wordingStyle,

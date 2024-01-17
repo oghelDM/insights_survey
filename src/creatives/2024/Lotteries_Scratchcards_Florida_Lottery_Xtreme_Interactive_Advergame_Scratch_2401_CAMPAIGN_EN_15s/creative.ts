@@ -74,6 +74,8 @@ const creative: CreativeHandler = (
 		onClick,
 		clickUrl:
 			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.386006607;dc_trk_aid=576889242;dc_trk_cid=208352216;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
+		cursorUrl:
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/coin.png",
 		scratchSizeCoeff: 1,
 		onAutoRevealStart: () => {
 			console.log("onAutoRevealStart");

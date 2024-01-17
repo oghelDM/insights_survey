@@ -1,0 +1,28 @@
+<VAST version="2.0">
+    <Ad id="ParamountHaloCountdownJan24">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>ParamountHaloCountdownJan24</AdTitle>
+            <ViewableImpression/>
+            <AdVerifications/>
+            <Extensions/>
+            <Creatives>
+                <Creative id="ParamountHaloCountdownJan24c">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/builds/index.js]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/builds/index.js]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

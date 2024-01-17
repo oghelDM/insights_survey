@@ -121,10 +121,7 @@ export class Countdown extends HTMLElement {
 		const options = { minimumIntegerDigits: 2 };
 		const locales = undefined;
 
-		const textDay = Math.floor(delta / day).toLocaleString(
-			locales,
-			options
-		);
+		const textDay = Math.floor(delta / day).toLocaleString(locales, options);
 		const textHour = Math.floor((delta % day) / hour).toLocaleString(
 			locales,
 			options
@@ -138,10 +135,10 @@ export class Countdown extends HTMLElement {
 			options
 		);
 
-		this.dayDiv.innerHTML = textDay;
-		this.hourDiv.innerHTML = textHour;
-		this.minDiv.innerHTML = textMinute;
-		this.secDiv.innerHTML = textSecond;
+		this.dayDiv.innerHTML = `${textDay}j`;
+		this.hourDiv.innerHTML = `${textHour}h`;
+		this.minDiv.innerHTML = `${textMinute}m`;
+		this.secDiv.innerHTML = `${textSecond}s`;
 	};
 }
 

@@ -4,7 +4,7 @@ import { CSSStyleType, CreativeHandler, CreativeProps } from "@/types";
 
 const creative: CreativeHandler = (
 	root: HTMLElement,
-	{ onClick, videoSlot, stopAd, pauseAd }: CreativeProps
+	{ onClick, videoSlot, stopAd, pauseAd, resumeAd }: CreativeProps
 ) => {
 	const trackPixel = (url: string) => {
 		if (typeof window !== "undefined" && window !== null) {
@@ -87,9 +87,12 @@ const creative: CreativeHandler = (
 						element.style.display = "none";
 					});
 					trackPixel(`${btnOps[i].floodlight}`);
+					trackPixel(
+						"https://secure.adnxs.com/seg?add=36183614&gdpr_consent=${GDPR_CONSENT_550}"
+					);
 					bg.style.display = "none";
 					videoSlot.src = `${btnOps[i].videoSrc}`;
-					videoSlot.play();
+					resumeAd();
 					root.addEventListener("click", () =>
 						onClick(`${btnOps[i].redirect}`)
 					);

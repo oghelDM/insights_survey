@@ -58,7 +58,7 @@ const creative: CreativeHandler = (
 	// BG
 	const bg = new ImageDM(
 		"bg-dm",
-		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/elements_ess.png"
+		"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/elements_esp.png"
 	);
 	root.appendChild(bg);
 	bg.addEventListener("click", () => onClick(clickUrl));
@@ -69,7 +69,7 @@ const creative: CreativeHandler = (
 		{
 			width: "24%",
 			height: "8%",
-			left: "45%",
+			left: "46%",
 			bottom: "11%",
 			backgroundSize: "contain",
 			cursor: "pointer",

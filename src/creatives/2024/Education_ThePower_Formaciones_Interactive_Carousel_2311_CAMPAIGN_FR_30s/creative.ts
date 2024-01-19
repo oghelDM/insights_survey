@@ -52,10 +52,10 @@ const creative: CreativeHandler = (
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Education_ThePower_Formaciones_Interactive_Carousel_2311_CAMPAIGN_FR_30s/assets/product3.png",
 			],
 			clickUrls: [
-				"https://www.thepowermba.com/uk/1",
-				"https://www.thepowermba.com/uk/2",
-				"https://www.thepowermba.com/uk/3",
-				"https://www.thepowermba.com/uk/4",
+				"https://thepower.education/mba?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand_mba",
+				"https://edu.thepower.education/fp-prometeo?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand_prometeo",
+				"https://thepower.education/inteligencia-artificial?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand_ia",
+				"https://www.rockthecode.es/new/?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand_rockcode",
 			],
 			debug: false,
 			focusedElementWidth: 100,
@@ -65,7 +65,8 @@ const creative: CreativeHandler = (
 			gap: 0,
 			autoPlay: true,
 			onClick,
-			clickUrl: "https://www.thepowermba.com/uk/generic",
+			clickUrl:
+				"https://thepower.education/?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand",
 			arrows: [arrowLeft, arrowRight],
 			speedCoefficient: 1.2,
 		},
@@ -73,7 +74,9 @@ const creative: CreativeHandler = (
 	);
 
 	root.addEventListener("click", () =>
-		onClick("https://www.thepowermba.com/uk/generic")
+		onClick(
+			"https://thepower.education/?utm_medium=paid-rtb&utm_source=dailymotion&utm_campaign=thepower_tr_brand"
+		)
 	);
 	root.appendChild(bg);
 	root.appendChild(carousel);

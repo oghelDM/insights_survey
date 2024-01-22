@@ -5,6 +5,21 @@ import { Scratch } from "@/components/scratch";
 import { CSSStyleType, CreativeHandler, CreativeProps } from "@/types";
 import { bounceIn, bounceOut, hotSpotBounce, rotate } from "@/animations";
 
+const ALL_DATA = {
+	en: {
+		assetsUrl: "EN/1",
+		redirection:
+			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.386006607;dc_trk_aid=576889242;dc_trk_cid=208352216;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
+	},
+	es: {
+		assetsUrl: "ES/1",
+		redirection:
+			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385708370;dc_trk_aid=576892002;dc_trk_cid=208352222;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
+	},
+};
+
+const data = ALL_DATA.es;
+
 const shineCoordinates = [
 	{ left: 7, bottom: 29.5, width: 2 },
 	{ left: 18, bottom: 13, width: 3 },
@@ -42,13 +57,11 @@ const creative: CreativeHandler = (
 	};
 	const wording0 = createDiv("wording0-id", {
 		...wordingStyle,
-		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/wording_0_es.png)",
+		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_0.png)`,
 	});
 	const wording1 = createDiv("wording1-id", {
 		...wordingStyle,
-		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/wording_1_es.png)",
+		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_1.png)`,
 		scale: "0",
 	});
 
@@ -58,8 +71,7 @@ const creative: CreativeHandler = (
 		height: "16%",
 		left: "68%",
 		bottom: "37%",
-		backgroundImage:
-			"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/tuto.png)",
+		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/tuto.png)`,
 		opacity: "0",
 		transition: "opacity .5s, left 1.1s, bottom 1.1s",
 	});
@@ -67,15 +79,11 @@ const creative: CreativeHandler = (
 	const scratch = new Scratch({
 		id: "scratchDM",
 		debug: false,
-		backImageUrl:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/bottom_es.png",
-		frontImageUrl:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/top_es.png",
+		backImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/bottom.png`,
+		frontImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/top.png`,
 		onClick,
-		clickUrl:
-			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385708370;dc_trk_aid=576892002;dc_trk_cid=208352222;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
-		cursorUrl:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/coin.png",
+		clickUrl: data.redirection,
+		cursorUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/coin.png`,
 		scratchSizeCoeff: 1,
 		onAutoRevealStart: () => {
 			console.log("onAutoRevealStart");
@@ -124,12 +132,6 @@ const creative: CreativeHandler = (
 		timeoutDuration: 5000,
 	});
 
-	// root.addEventListener("click", () =>
-	// 	onClick(
-	// 		"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385708370;dc_trk_aid=576892002;dc_trk_cid=208352222;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1"
-	// 	)
-	// );
-
 	root.appendChild(scratch);
 	root.appendChild(wording0);
 	root.appendChild(wording1);
@@ -144,8 +146,7 @@ const creative: CreativeHandler = (
 			left: `${left}%`,
 			bottom: `${bottom}%`,
 			opacity: "0",
-			backgroundImage:
-				"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/shine.png)",
+			backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/shine.png)`,
 		});
 
 		rotate(star, random12(3000, 7500));
@@ -179,7 +180,7 @@ const creative: CreativeHandler = (
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, {
-		low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/video_low_es.mp4",
-		mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/video_mid_es.mp4",
-		high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/video_high_es.mp4",
+		low: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_low.mp4`,
+		mid: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_mid.mp4`,
+		high: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_high.mp4`,
 	});

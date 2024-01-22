@@ -1,3 +1,10 @@
+export const trackPixel = (url: string) => {
+	if (typeof window !== "undefined" && window !== null) {
+		const i = new Image();
+		i.src = url;
+	}
+};
+
 // check if device is mobile
 export const isMobile = (): boolean => {
 	const nav =

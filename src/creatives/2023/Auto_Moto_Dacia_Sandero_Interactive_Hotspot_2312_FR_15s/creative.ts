@@ -1,5 +1,5 @@
 import { VPAIDVideoPlayer } from "@app";
-import { isMobile } from "@/utils/helper";
+import { isMobile, trackPixel } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { CreativeHandler, CreativeProps } from "@/types";
 import { bounceIn, bounceOut, hotSpotBounce } from "@/animations";
@@ -8,6 +8,7 @@ interface Trio {
 	hotspot: HTMLElement;
 	card: HTMLElement;
 	closeBtn: HTMLElement;
+	floodLight: string;
 }
 
 const CLICK_URL =
@@ -20,29 +21,35 @@ const creative: CreativeHandler = (
 	/////// BG ////////
 	const bg = new ImageDM(
 		"bg-dm",
-		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/bg1.png"
+		"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/v2/bg.png"
 	);
 	bg.addEventListener("click", () => onClick(CLICK_URL));
 	root.appendChild(bg);
 
 	const products = [
 		{
-			spotLeft: "94%",
-			spotTop: "33%",
+			spotLeft: "85%",
+			spotTop: "45%",
 			cardLeft: "66%",
 			cardTop: "16%",
+			floodLight:
+				"https://ad.doubleclick.net/ddm/activity/src=13920045;type=invmedia;cat=adops001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		},
+		{
+			spotLeft: "74%",
+			spotTop: "38%",
+			cardLeft: "66%",
+			cardTop: "16%",
+			floodLight:
+				"https://ad.doubleclick.net/ddm/activity/src=13920045;type=invmedia;cat=adops002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		},
 		{
 			spotLeft: "81%",
-			spotTop: "32%",
+			spotTop: "36%",
 			cardLeft: "66%",
 			cardTop: "16%",
-		},
-		{
-			spotLeft: "64%",
-			spotTop: "39%",
-			cardLeft: "66%",
-			cardTop: "16%",
+			floodLight:
+				"https://ad.doubleclick.net/ddm/activity/src=13920045;type=invmedia;cat=adops003;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		},
 	];
 
@@ -71,7 +78,7 @@ const creative: CreativeHandler = (
 		card.style.height = "56%";
 		card.style.left = `${product.cardLeft}`;
 		card.style.top = `${product.cardTop}`;
-		card.style.backgroundImage = `url(https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/product${i}.png)`;
+		card.style.backgroundImage = `url(https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/v2/product${i}.png)`;
 		card.style.backgroundSize = "contain";
 		card.style.backgroundRepeat = "no-repeat";
 		card.style.zIndex = "10";
@@ -95,6 +102,7 @@ const creative: CreativeHandler = (
 			hotspot,
 			card,
 			closeBtn,
+			floodLight: product.floodLight,
 		};
 	});
 
@@ -122,7 +130,7 @@ const creative: CreativeHandler = (
 		});
 	});
 
-	const displayCard = ({ hotspot, card }: Trio) => {
+	const displayCard = ({ hotspot, card, floodLight }: Trio) => {
 		trios.forEach((trio) => hideCard(trio, true));
 
 		hotspot.style.pointerEvents = "none";
@@ -132,6 +140,7 @@ const creative: CreativeHandler = (
 		card.style.display = "block";
 		root.appendChild(card); // make sure that the card is above all other elements
 		bounceIn(card, 700);
+		trackPixel(floodLight);
 	};
 
 	const hideCard = ({ hotspot, card }: Trio, instant = false) => {
@@ -154,7 +163,7 @@ const creative: CreativeHandler = (
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, {
-		low: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_low.mp4",
-		mid: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_mid.mp4",
-		high: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/video_high.mp4",
+		low: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/v2/video_low.mp4",
+		mid: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/v2/video_mid.mp4",
+		high: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2312_FR_15s/assets/v2/video_high.mp4",
 	});

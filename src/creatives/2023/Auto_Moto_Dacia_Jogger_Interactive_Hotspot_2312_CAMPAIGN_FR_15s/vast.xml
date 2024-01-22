@@ -1,23 +1,23 @@
 <VAST version="2.0">
-    <Ad id="daciaJoggerDec24">
+    <Ad id="daciaJoggerDec23">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>daciaJoggerDec24</AdTitle>
+            <AdTitle>daciaJoggerDec23</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="daciaJoggerDec24c">
+                <Creative id="daciaJoggerDec23c">
                     <Linear>
                         <Duration>00:00:15</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/builds/2/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/builds/2/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

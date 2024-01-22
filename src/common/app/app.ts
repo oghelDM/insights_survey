@@ -174,22 +174,6 @@ export class VPAIDVideoPlayer {
 		}
 	};
 
-	// clickAdCustom = (productUrl, productName, clientTracking) => {
-	//   let url = productUrl;
-	//   // trackPixel(clientTracking);
-
-	//   if ("AdClickThru" in this.eventsCallbacks) {
-	//     this.eventsCallbacks["AdClickThru"](url, "0", true);
-	//   }
-	// };
-
-	trackPixel = (url: string) => {
-		if (typeof window !== "undefined" && window !== null) {
-			const i = new Image();
-			i.src = url;
-		}
-	};
-
 	/**
 	 * Called by the video element when video metadata is loaded.
 	 * @private

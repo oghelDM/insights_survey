@@ -1,4 +1,5 @@
 import { VPAIDVideoPlayer } from "@app";
+import { trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { CSSStyleType, CreativeHandler, CreativeProps } from "@/types";
 
@@ -6,16 +7,7 @@ const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick, videoSlot, stopAd, pauseAd, resumeAd }: CreativeProps
 ) => {
-	const trackPixel = (url: string) => {
-		if (typeof window !== "undefined" && window !== null) {
-			const i = new Image();
-			i.src = url;
-		}
-	};
-
-	setTimeout(() => {
-		pauseAd();
-	}, 2000);
+	setTimeout(() => pauseAd(), 2000);
 
 	const bg = createDiv("bg-id", {
 		position: "absolute",

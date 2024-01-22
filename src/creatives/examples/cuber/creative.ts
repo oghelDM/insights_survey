@@ -4,12 +4,6 @@ import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
 import { CreativeHandler, CreativeProps } from "@/types";
 
-export const videos = [
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_low.mp4",
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_mid.mp4",
-	"https://statics.dmcdn.net/d/vpaid/split/assets/video_high.mp4",
-];
-
 const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps

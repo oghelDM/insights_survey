@@ -17,7 +17,7 @@ const creative: CreativeHandler = (
 	const bg = new ImageDM(
 		"bg-dm",
 		"https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Yelloh_Village_ArtisansBonheur_Interactive_FastImpact_2312_20s/assets/bg.png",
-		{ pointerEvents: "none", opacity: 0, transition: "opacity .4s" }
+		{ pointerEvents: "none", opacity: "0", transition: "opacity .4s" }
 	);
 
 	const cta = createDiv("cta-dm", {

@@ -20,8 +20,7 @@ export const defaultValuesScratch: Required<ScratchType> = {
 	onAutoRevealStart: () => console.log("auto reveal start"),
 	onAutoRevealComplete: () => console.log("auto reveal complete"),
 	onUserScratchStart: () => console.log("user scratch start"),
-	cursorUrl:
-		"https://statics.dmcdn.net/d/TESTS/components/scratch/target.png",
+	cursorUrl: "https://statics.dmcdn.net/d/TESTS/components/scratch/target.png",
 	timeoutDuration: 4000,
 	backImageUrl:
 		"https://statics.dmcdn.net/d/TESTS/components/scratch/back_voda.png",

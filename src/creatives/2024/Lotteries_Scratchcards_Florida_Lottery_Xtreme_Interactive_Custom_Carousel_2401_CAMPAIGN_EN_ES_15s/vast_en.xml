@@ -1,0 +1,28 @@
+<VAST version="2.0">
+    <Ad id="floridaLotteryJanCarousel24">
+        <InLine>
+            <AdSystem>StudioDM</AdSystem>
+            <AdTitle>floridaLotteryJanCarousel24</AdTitle>
+            <ViewableImpression/>
+            <AdVerifications/>
+            <Extensions/>
+            <Creatives>
+                <Creative id="floridaLotteryJanCarousel24c">
+                    <Linear>
+                        <Duration>00:00:15</Duration>
+                        <TrackingEvents/>
+                        <VideoClicks/>
+                        <MediaFiles>
+                            <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/8/index.js]]>
+                            </MediaFile>
+                            <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/8/index.js]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>

@@ -59,7 +59,7 @@ export const fastImpactTemplate: FastImpactType = (
 
 	const bg = new ImageDM("bg-dm", bgUrl, {
 		pointerEvents: "none",
-		opacity: 0,
+		opacity: "0",
 		transition: "opacity .4s",
 	});
 

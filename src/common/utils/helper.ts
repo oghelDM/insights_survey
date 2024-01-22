@@ -32,7 +32,6 @@ const isScreenPortrait = (): boolean =>
 
 // update a DOM element display depending on device and orientation
 export const updateDisplay = (domElement: HTMLElement): void => {
-	console.log("updateDisplay element: ", domElement);
 	const isLandscape = isScreenPortrait();
 	const isMobileDevice = isMobile();
 

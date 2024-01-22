@@ -21,7 +21,7 @@ const creative: CreativeHandler = (
 	const bg = new ImageDM(
 		"bg-dm",
 		`https://statics.dmcdn.net/d/PRODUCTION/2023/Travel_Sandaya_Club_Fast_Impact_2312_CAMPAIGN_FR_20s/assets/${MODE}/bg.png`,
-		{ pointerEvents: "none", opacity: 0, transition: "opacity .4s" }
+		{ pointerEvents: "none", opacity: "0", transition: "opacity .4s" }
 	);
 
 	const cta = createDiv("cta-dm", {

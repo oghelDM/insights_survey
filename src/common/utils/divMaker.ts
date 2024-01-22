@@ -1,7 +1,4 @@
-interface CssType extends Partial<CSSStyleDeclaration> {
-	"-webkit-backface-visibility"?: string;
-	"-webkit-transform"?: string;
-}
+import { CssType } from "@/types";
 
 export const createDiv = (id: string, style: CssType): HTMLElement => {
 	const div = document.createElement("div");

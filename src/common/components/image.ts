@@ -1,5 +1,7 @@
+import { CssType } from "@/types";
+
 export class ImageDM extends HTMLElement {
-	constructor(id: string, imageUrl: string, style: any = {}) {
+	constructor(id: string, imageUrl: string, style: CssType = {}) {
 		super();
 
 		this.setAttribute("id", id);

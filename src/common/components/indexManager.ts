@@ -301,11 +301,15 @@ export class IndexManager extends HTMLElement {
 		deltaIndex: number = 1
 	): void => {
 		this.autoPlayTimeoutId = window.setTimeout(() => {
-			this.autoPlayIntervalId = window.setInterval(
-				() =>
-					this.goToIndex(Math.round(this.currentIndex + deltaIndex)),
-				frequency * 1000
-			);
+			let nbAutoSwipe = 0;
+			this.autoPlayIntervalId = window.setInterval(() => {
+				this.goToIndex(Math.round(this.currentIndex + deltaIndex));
+
+				// prevent IMA lag after too many swipes
+				if (++nbAutoSwipe === this.cleanProps.productUrls.length) {
+					window.clearInterval(this.autoPlayIntervalId);
+				}
+			}, frequency * 1000);
 		}, delay);
 	};
 

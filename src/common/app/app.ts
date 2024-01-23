@@ -1,6 +1,7 @@
+import { LiveStreamData } from "@/types";
 import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
-import { CreativeHandler, VIDEO_QUALITY } from "@/types";
+import { Creative, CreativeProps } from "@/creative";
 import { isMac, pickVideo, updateDisplay } from "@/utils/helper";
 
 export class VPAIDVideoPlayer {
@@ -20,6 +21,7 @@ export class VPAIDVideoPlayer {
 	}; // TODO: strongly type?
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
+	liveStreamData: LiveStreamData | undefined;
 	eventsCallbacks: any = {}; // TODO: strongly type
 	time = 0; // time to update the liveStream progress bar if needed
 	previousTime = 0; // time to update the liveStream progress bar if needed
@@ -28,17 +30,16 @@ export class VPAIDVideoPlayer {
 	nextQuartileIndex = 0;
 	// A creativeWrapper to keep the creative content centered
 	creativeWrapper: HTMLElement;
-	// A container dedicated to the displayed elements
-	creativeContent: HTMLElement;
+	// A container dedicated to the creative
+	creativeRoot: HTMLElement;
+
+	creative: Creative;
 
 	constructor(
-		private creative: CreativeHandler,
-		private videoUrls: { [K in VIDEO_QUALITY]: string },
-		private liveStreamData?: {
-			url: string;
-			duration: number;
-			Hls: any;
-		}
+		private CreativeClass: new (
+			root: HTMLElement,
+			creativeProps: CreativeProps
+		) => Creative
 	) {}
 
 	/**
@@ -55,6 +56,23 @@ export class VPAIDVideoPlayer {
 		}
 		this.updateVideoPlayerSize();
 
+		if (!this.creative) {
+			////////////////////////////////////////////////////////////////////
+			///////////////////// DM ad instanciation //////////////////////////
+			////////////////////////////////////////////////////////////////////
+			this.creative = new this.CreativeClass(this.creativeRoot, {
+				videoSlot: this.videoSlot,
+				onClick: (url: string) => this.clickAd(url),
+				stopAd: () => this.stopAd(),
+				pauseAd: () => this.pauseAd(),
+				resumeAd: () => this.resumeAd(),
+				setAdVolume: (volume: number) => this.setAdVolume(volume),
+			});
+			////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////
+		}
+		this.liveStreamData = this.creative.getLiveStreamData();
 		if (this.liveStreamData) {
 			this.loadVideoStream(
 				this.liveStreamData.url,
@@ -68,24 +86,26 @@ export class VPAIDVideoPlayer {
 	playVideoFile = () => {
 		this.liveStreamData = undefined;
 
+		const { low, mid, high } = this.creative.getVideos();
+
 		const videos = [
 			{
 				mimeType: "video/mp4",
 				width: 853,
 				height: 480,
-				url: this.videoUrls.low,
+				url: low,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1280,
 				height: 720,
-				url: this.videoUrls.mid,
+				url: mid,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1920,
 				height: 1080,
-				url: this.videoUrls.high,
+				url: high,
 			},
 		];
 
@@ -294,19 +314,19 @@ export class VPAIDVideoPlayer {
 			height: "100%",
 		});
 
-		this.creativeContent = createDiv("creativeContent", {
+		this.creativeRoot = createDiv("creative-root", {
 			position: "relative",
 			overflow: "hidden",
 			aspectRatio: "16 / 9",
 			margin: "auto",
 		});
-		updateDisplay(this.creativeContent);
+		updateDisplay(this.creativeRoot);
 
 		// slot and videoSlot are passed as part of the environmentVars
 		this.slot = environmentVars.slot;
 		this.videoSlot = environmentVars.videoSlot;
 
-		this.creativeWrapper.appendChild(this.creativeContent);
+		this.creativeWrapper.appendChild(this.creativeRoot);
 		this.slot.appendChild(this.creativeWrapper);
 
 		this.updateVideoSlot();
@@ -317,21 +337,6 @@ export class VPAIDVideoPlayer {
 			this.loadedMetadata()
 		);
 		this.videoSlot.addEventListener("ended", () => this.stopAd());
-
-		////////////////////////////////////////////////////////////////////
-		///////////////////// DM ad instanciation //////////////////////////
-		////////////////////////////////////////////////////////////////////
-		this.creative(this.creativeContent, {
-			videoSlot: this.videoSlot,
-			onClick: (url: string) => this.clickAd(url),
-			stopAd: () => this.stopAd(),
-			pauseAd: () => this.pauseAd(),
-			resumeAd: () => this.resumeAd(),
-			setAdVolume: (volume: number) => this.setAdVolume(volume),
-		});
-		////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////
 
 		// expected VPAID callback
 		this.callEvent("AdLoaded");
@@ -371,7 +376,7 @@ export class VPAIDVideoPlayer {
 		this.attributes["height"] = height;
 		this.attributes["viewMode"] = viewMode;
 		this.updateVideoPlayerSize();
-		updateDisplay(this.creativeContent);
+		updateDisplay(this.creativeRoot);
 		this.callEvent("AdSizeChange");
 
 		// triggers the components resize
@@ -391,7 +396,9 @@ export class VPAIDVideoPlayer {
 	 * Resumes the ad.
 	 */
 	resumeAd = () => {
-		// this.log("resumeAd");
+		if (!this.creative.canResumeVideo) {
+			return;
+		}
 		this.videoSlot.play();
 		this.callEvent("AdPlaying");
 		this.previousTime = new Date().getTime();

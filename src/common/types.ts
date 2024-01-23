@@ -19,12 +19,6 @@ export enum HORIZONTAL_ALIGN {
 	RIGHT = "right",
 }
 
-export enum VIDEO_QUALITY {
-	LOW = "low",
-	MID = "mid",
-	HIGH = "high",
-}
-
 export interface CssType extends Partial<CSSStyleDeclaration> {
 	"-webkit-backface-visibility"?: string;
 	"-webkit-transform"?: string;
@@ -37,21 +31,13 @@ export interface ComponentBaseType {
 	onClick: (url: string) => void; // onClick callback
 }
 
-export interface CreativeProps {
-	videoSlot: HTMLVideoElement;
-	onClick: (url: string) => void;
-	stopAd: () => void;
-	pauseAd: () => void;
-	resumeAd: () => void;
-	setAdVolume: (volume: number) => void;
-}
-
-export type CreativeHandler = (
-	root: HTMLElement,
-	creativeProps: CreativeProps
-) => void;
-
 export type CSSStyleType = { [key: string]: string };
+
+export type LiveStreamData = {
+	url: string;
+	duration: number;
+	Hls: any;
+};
 
 export const defaultComponentValues: Required<ComponentBaseType> = {
 	id: "default-component-id",

@@ -7,6 +7,7 @@ import { Creative, CreativeProps } from "@/creative";
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
+
 		// BG
 		const bg = new ImageDM(
 			"bg-dm",

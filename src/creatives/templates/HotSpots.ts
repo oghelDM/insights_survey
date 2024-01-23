@@ -1,7 +1,7 @@
-import { CreativeProps } from "@/types";
-import { isMobile, trackPixel } from "@/utils/helper";
+import { CreativeProps } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
+import { isMobile, trackPixel } from "@/utils/helper";
 import { bounceIn, bounceOut, hotSpotBounce } from "@/animations";
 
 export type HotSpotsType = (

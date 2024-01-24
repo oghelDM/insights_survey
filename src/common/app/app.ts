@@ -1,8 +1,22 @@
 import { LiveStreamData } from "@/types";
-import { quartileEvents } from "@/constants";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 import { isMac, pickVideo, updateDisplay } from "@/utils/helper";
+
+const quartileEvents = [
+	{ event: "AdImpression", value: 0 },
+	{ event: "AdVideoStart", value: 0 },
+	{ event: "AdVideoFirstQuartile", value: 25 },
+	{ event: "AdVideoMidpoint", value: 50 },
+	{ event: "AdVideoThirdQuartile", value: 75 },
+	{ event: "AdVideoComplete", value: 100 },
+];
+
+interface IMyClass {
+	new (root: HTMLElement, creativeProps: CreativeProps): Creative;
+}
+
+let CreativeClass: IMyClass;
 
 export class VPAIDVideoPlayer {
 	attributes: any = {
@@ -35,12 +49,9 @@ export class VPAIDVideoPlayer {
 
 	creative: Creative;
 
-	constructor(
-		private CreativeClass: new (
-			root: HTMLElement,
-			creativeProps: CreativeProps
-		) => Creative
-	) {}
+	constructor(_CreativeClass: IMyClass) {
+		CreativeClass = _CreativeClass;
+	}
 
 	/**
 	 * Creates or updates the video slot and fills it with a supported video.
@@ -60,7 +71,7 @@ export class VPAIDVideoPlayer {
 			////////////////////////////////////////////////////////////////////
 			///////////////////// DM ad instanciation //////////////////////////
 			////////////////////////////////////////////////////////////////////
-			this.creative = new this.CreativeClass(this.creativeRoot, {
+			this.creative = new CreativeClass(this.creativeRoot, {
 				videoSlot: this.videoSlot,
 				onClick: (url: string) => this.clickAd(url),
 				stopAd: () => this.stopAd(),
@@ -330,6 +341,7 @@ export class VPAIDVideoPlayer {
 		this.slot.appendChild(this.creativeWrapper);
 
 		this.updateVideoSlot();
+
 		this.videoSlot.addEventListener("timeupdate", () =>
 			this.timeUpdateHandler()
 		);

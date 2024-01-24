@@ -7,14 +7,15 @@ const creative: CreativeHandler = (
 	root: HTMLElement,
 	{ onClick }: CreativeProps
 ) => {
+	const clickUrl =
+		"https://ad.doubleclick.net/ddm/trackclk/N5615.280320.DAILYMOTIONFR/B31410726.386379146;dc_trk_aid=577593956;dc_trk_cid=208892177;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
+
 	const bg = new ImageDM(
 		"bg-DM",
 		"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/bg2.png"
 	);
 	root.appendChild(bg);
 
-	// const date = new Date();
-	// date.setHours((date.getHours() + 2) % 24);
 	const date = new Date("Feb 08, 2024 00:00:01"); // also works like that
 
 	const countdown = new Countdown(
@@ -23,7 +24,7 @@ const creative: CreativeHandler = (
 			date,
 			elementWidth: "3em",
 			debug: false,
-			clickUrl: "https://www.google.com/search?q=countdown",
+			clickUrl,
 			isOverMessage: " ",
 			onClick,
 		},
@@ -38,11 +39,7 @@ const creative: CreativeHandler = (
 	);
 	root.appendChild(countdown);
 
-	root.addEventListener("click", () =>
-		onClick(
-			"https://www.primevideo.com/offers/nonprimehomepage/ref=dv_web_force_root"
-		)
-	);
+	root.addEventListener("click", () => onClick(clickUrl));
 };
 
 window.getVPAIDAd = () =>

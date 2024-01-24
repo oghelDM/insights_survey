@@ -16,7 +16,7 @@ const creative: CreativeHandler = (
 	);
 	root.appendChild(bg);
 
-	const date = new Date("Feb 08, 2024 00:00:01"); // also works like that
+	const date = new Date("Feb 08, 2024 00:00:01");
 
 	const countdown = new Countdown(
 		{
@@ -27,6 +27,7 @@ const creative: CreativeHandler = (
 			clickUrl,
 			isOverMessage: " ",
 			onClick,
+			suffixes: ["s", "m", "h", "j"],
 		},
 		{
 			width: "26%",
@@ -44,7 +45,7 @@ const creative: CreativeHandler = (
 
 window.getVPAIDAd = () =>
 	new VPAIDVideoPlayer(creative, {
-		low: `https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4`,
-		mid: `https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4`,
-		high: `https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_high.mp4`,
+		low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4",
+		mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_mid.mp4",
+		high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_high.mp4",
 	});

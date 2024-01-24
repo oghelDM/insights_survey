@@ -11,6 +11,7 @@ export interface CreativeProps {
 
 export class Creative extends HTMLElement {
 	public canResumeVideo = true; // allows the creative to prevent the user from resuming the ad through the play button
+	public canPauseVideo = true; // allows the creative to prevent the user from pausing the ad through the pause button
 
 	public getVideos() {
 		return {
@@ -23,4 +24,6 @@ export class Creative extends HTMLElement {
 	public getLiveStreamData(): LiveStreamData | undefined {
 		return undefined;
 	}
+
+	public videoTimeUpdate(completionPercent: number): void {}
 }

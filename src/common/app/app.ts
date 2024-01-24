@@ -217,6 +217,12 @@ export class VPAIDVideoPlayer {
 			: this.videoSlot.duration;
 		this.attributes["remainingTime"] = this.attributes["duration"];
 		this.callEvent("AdDurationChange");
+
+		// allows to re-trigger the quartile events when changing the videoSlot src
+		// make sure that the AdImpression evet is triggered only once
+		if (this.nextQuartileIndex > 0) {
+			this.nextQuartileIndex = 1;
+		}
 	};
 
 	/**
@@ -249,6 +255,7 @@ export class VPAIDVideoPlayer {
 			? this.liveStreamData.duration
 			: this.videoSlot.duration;
 		const percentPlayed = (currentTime * 100.0) / duration;
+		this.creative.videoTimeUpdate(percentPlayed);
 		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
 			const lastQuartileEvent =
 				quartileEvents[this.nextQuartileIndex].event;
@@ -400,6 +407,9 @@ export class VPAIDVideoPlayer {
 	 */
 	pauseAd = () => {
 		// this.log("pauseAd");
+		if (!this.creative.canPauseVideo) {
+			return;
+		}
 		this.videoSlot.pause();
 		this.callEvent("AdPaused");
 	};

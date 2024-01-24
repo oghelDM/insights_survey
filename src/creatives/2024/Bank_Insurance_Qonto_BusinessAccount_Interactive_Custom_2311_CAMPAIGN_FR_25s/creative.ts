@@ -5,15 +5,16 @@ import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 
 class QontoCreative extends Creative {
+	completionFloodlights: string[];
+	currentFloodlightIndex = 0;
+
 	constructor(root: HTMLElement, creativeProps: CreativeProps) {
 		super();
 
-		const { onClick, videoSlot, stopAd, pauseAd, resumeAd } = creativeProps;
+		this.canResumeVideo = false;
+		this.canPauseVideo = false;
 
-		setTimeout(() => {
-			pauseAd();
-			this.canResumeVideo = false;
-		}, 2000);
+		const { onClick, videoSlot, stopAd, pauseAd, resumeAd } = creativeProps;
 
 		const bg = createDiv("bg-id", {
 			position: "absolute",
@@ -36,6 +37,13 @@ class QontoCreative extends Creative {
 					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/20s/video_low.mp4",
 				redirect:
 					"https://qonto.com/de?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=de_awareness_branding-0124&utm_content=custom_smb_all&utm_term=video_smb_20s",
+				completionFloodlights: [
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto003;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto004;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+				],
 			},
 			{
 				top: "49%",
@@ -45,6 +53,13 @@ class QontoCreative extends Creative {
 					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/15s/video_low.mp4",
 				redirect:
 					"https://qonto.com/de/creation?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=de_awareness_branding-0124&utm_content=custom_company-creators_all&utm_term=video_company-creators_15s",
+				completionFloodlights: [
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto005;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto006;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto007;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto008;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+				],
 			},
 			{
 				top: "67.2%",
@@ -62,8 +77,11 @@ class QontoCreative extends Creative {
 			cursor: "pointer",
 		};
 		const buttonArray: HTMLElement[] = btnOps.map(
-			({ top, floodlight, videoSrc, redirect }) => {
-				const btn = createDiv("wording0-id", { ...btnStyle, top });
+			(
+				{ top, floodlight, videoSrc, redirect, completionFloodlights },
+				i
+			) => {
+				const btn = createDiv(`btn-${i}`, { ...btnStyle, top });
 
 				btn.addEventListener("click", (e: Event) => {
 					e.stopImmediatePropagation();
@@ -72,6 +90,7 @@ class QontoCreative extends Creative {
 					trackPixel(floodlight);
 
 					this.canResumeVideo = true;
+					this.canPauseVideo = true;
 					if (videoSrc && redirect) {
 						buttonArray.forEach(
 							(element) => (element.style.display = "none")
@@ -83,6 +102,8 @@ class QontoCreative extends Creative {
 						videoSlot.src = videoSrc;
 						resumeAd();
 						root.addEventListener("click", () => onClick(redirect));
+
+						this.completionFloodlights = completionFloodlights;
 					} else {
 						stopAd();
 					}
@@ -94,6 +115,17 @@ class QontoCreative extends Creative {
 		);
 
 		root.appendChild(bg);
+	}
+
+	public videoTimeUpdate(completionPercent: number): void {
+		if (this.completionFloodlights && !isNaN(completionPercent)) {
+			if (completionPercent >= 25 * this.currentFloodlightIndex) {
+				trackPixel(
+					this.completionFloodlights[this.currentFloodlightIndex]
+				);
+				this.currentFloodlightIndex += 1;
+			}
+		}
 	}
 
 	public getVideos() {

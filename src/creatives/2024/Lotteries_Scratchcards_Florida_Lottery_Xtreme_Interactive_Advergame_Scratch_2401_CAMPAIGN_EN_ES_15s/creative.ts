@@ -40,6 +40,7 @@ const shineCoordinates = [
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
+
 		let stars: HTMLElement[];
 		let timeoutId: number;
 		let intervalId: number;

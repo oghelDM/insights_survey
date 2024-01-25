@@ -1,7 +1,22 @@
-import { quartileEvents } from "@/constants";
+import { LiveStreamData } from "@/types";
 import { createDiv } from "@/utils/divMaker";
-import { CreativeHandler, VIDEO_QUALITY } from "@/types";
+import { Creative, CreativeProps } from "@/creative";
 import { isMac, pickVideo, updateDisplay } from "@/utils/helper";
+
+const quartileEvents = [
+	{ event: "AdImpression", value: 0 },
+	{ event: "AdVideoStart", value: 0 },
+	{ event: "AdVideoFirstQuartile", value: 25 },
+	{ event: "AdVideoMidpoint", value: 50 },
+	{ event: "AdVideoThirdQuartile", value: 75 },
+	{ event: "AdVideoComplete", value: 100 },
+];
+
+interface IMyClass {
+	new (root: HTMLElement, creativeProps: CreativeProps): Creative;
+}
+
+let CreativeClass: IMyClass;
 
 export class VPAIDVideoPlayer {
 	attributes: any = {
@@ -20,6 +35,7 @@ export class VPAIDVideoPlayer {
 	}; // TODO: strongly type?
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
+	liveStreamData: LiveStreamData | undefined;
 	eventsCallbacks: any = {}; // TODO: strongly type
 	time = 0; // time to update the liveStream progress bar if needed
 	previousTime = 0; // time to update the liveStream progress bar if needed
@@ -28,18 +44,14 @@ export class VPAIDVideoPlayer {
 	nextQuartileIndex = 0;
 	// A creativeWrapper to keep the creative content centered
 	creativeWrapper: HTMLElement;
-	// A container dedicated to the displayed elements
-	creativeContent: HTMLElement;
+	// A container dedicated to the creative
+	creativeRoot: HTMLElement;
 
-	constructor(
-		private creative: CreativeHandler,
-		private videoUrls: { [K in VIDEO_QUALITY]: string },
-		private liveStreamData?: {
-			url: string;
-			duration: number;
-			Hls: any;
-		}
-	) {}
+	creative: Creative;
+
+	constructor(_CreativeClass: IMyClass) {
+		CreativeClass = _CreativeClass;
+	}
 
 	/**
 	 * Creates or updates the video slot and fills it with a supported video.
@@ -55,6 +67,23 @@ export class VPAIDVideoPlayer {
 		}
 		this.updateVideoPlayerSize();
 
+		if (!this.creative) {
+			////////////////////////////////////////////////////////////////////
+			///////////////////// DM ad instanciation //////////////////////////
+			////////////////////////////////////////////////////////////////////
+			this.creative = new CreativeClass(this.creativeRoot, {
+				videoSlot: this.videoSlot,
+				onClick: (url: string) => this.clickAd(url),
+				stopAd: () => this.stopAd(),
+				pauseAd: () => this.pauseAd(),
+				resumeAd: () => this.resumeAd(),
+				setAdVolume: (volume: number) => this.setAdVolume(volume),
+			});
+			////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////
+		}
+		this.liveStreamData = this.creative.getLiveStreamData();
 		if (this.liveStreamData) {
 			this.loadVideoStream(
 				this.liveStreamData.url,
@@ -68,24 +97,26 @@ export class VPAIDVideoPlayer {
 	playVideoFile = () => {
 		this.liveStreamData = undefined;
 
+		const { low, mid, high } = this.creative.getVideos();
+
 		const videos = [
 			{
 				mimeType: "video/mp4",
 				width: 853,
 				height: 480,
-				url: this.videoUrls.low,
+				url: low,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1280,
 				height: 720,
-				url: this.videoUrls.mid,
+				url: mid,
 			},
 			{
 				mimeType: "video/mp4",
 				width: 1920,
 				height: 1080,
-				url: this.videoUrls.high,
+				url: high,
 			},
 		];
 
@@ -186,6 +217,12 @@ export class VPAIDVideoPlayer {
 			: this.videoSlot.duration;
 		this.attributes["remainingTime"] = this.attributes["duration"];
 		this.callEvent("AdDurationChange");
+
+		// allows to re-trigger the quartile events when changing the videoSlot src
+		// make sure that the AdImpression evet is triggered only once
+		if (this.nextQuartileIndex > 0) {
+			this.nextQuartileIndex = 1;
+		}
 	};
 
 	/**
@@ -218,6 +255,7 @@ export class VPAIDVideoPlayer {
 			? this.liveStreamData.duration
 			: this.videoSlot.duration;
 		const percentPlayed = (currentTime * 100.0) / duration;
+		this.creative.videoTimeUpdate(percentPlayed);
 		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
 			const lastQuartileEvent =
 				quartileEvents[this.nextQuartileIndex].event;
@@ -294,22 +332,23 @@ export class VPAIDVideoPlayer {
 			height: "100%",
 		});
 
-		this.creativeContent = createDiv("creativeContent", {
+		this.creativeRoot = createDiv("creative-root", {
 			position: "relative",
 			overflow: "hidden",
 			aspectRatio: "16 / 9",
 			margin: "auto",
 		});
-		updateDisplay(this.creativeContent);
+		updateDisplay(this.creativeRoot);
 
 		// slot and videoSlot are passed as part of the environmentVars
 		this.slot = environmentVars.slot;
 		this.videoSlot = environmentVars.videoSlot;
 
-		this.creativeWrapper.appendChild(this.creativeContent);
+		this.creativeWrapper.appendChild(this.creativeRoot);
 		this.slot.appendChild(this.creativeWrapper);
 
 		this.updateVideoSlot();
+
 		this.videoSlot.addEventListener("timeupdate", () =>
 			this.timeUpdateHandler()
 		);
@@ -317,21 +356,6 @@ export class VPAIDVideoPlayer {
 			this.loadedMetadata()
 		);
 		this.videoSlot.addEventListener("ended", () => this.stopAd());
-
-		////////////////////////////////////////////////////////////////////
-		///////////////////// DM ad instanciation //////////////////////////
-		////////////////////////////////////////////////////////////////////
-		this.creative(this.creativeContent, {
-			videoSlot: this.videoSlot,
-			onClick: (url: string) => this.clickAd(url),
-			stopAd: () => this.stopAd(),
-			pauseAd: () => this.pauseAd(),
-			resumeAd: () => this.resumeAd(),
-			setAdVolume: (volume: number) => this.setAdVolume(volume),
-		});
-		////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////
-		////////////////////////////////////////////////////////////////////
 
 		// expected VPAID callback
 		this.callEvent("AdLoaded");
@@ -371,7 +395,7 @@ export class VPAIDVideoPlayer {
 		this.attributes["height"] = height;
 		this.attributes["viewMode"] = viewMode;
 		this.updateVideoPlayerSize();
-		updateDisplay(this.creativeContent);
+		updateDisplay(this.creativeRoot);
 		this.callEvent("AdSizeChange");
 
 		// triggers the components resize
@@ -383,6 +407,9 @@ export class VPAIDVideoPlayer {
 	 */
 	pauseAd = () => {
 		// this.log("pauseAd");
+		if (!this.creative.canPauseVideo) {
+			return;
+		}
 		this.videoSlot.pause();
 		this.callEvent("AdPaused");
 	};
@@ -391,7 +418,9 @@ export class VPAIDVideoPlayer {
 	 * Resumes the ad.
 	 */
 	resumeAd = () => {
-		// this.log("resumeAd");
+		if (!this.creative.canResumeVideo) {
+			return;
+		}
 		this.videoSlot.play();
 		this.callEvent("AdPlaying");
 		this.previousTime = new Date().getTime();

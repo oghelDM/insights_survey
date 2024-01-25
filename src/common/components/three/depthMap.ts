@@ -168,9 +168,8 @@ export class DepthMap extends HTMLElement {
 			this.mesh = new THREE.Mesh(geometry, material);
 			this.scene.add(this.mesh);
 
-			(this.parentElement || this).addEventListener(
-				"pointermove",
-				this.pointerMove
+			(this.parentElement || this).addEventListener("pointermove", (e) =>
+				this.pointerMove(e)
 			);
 			window.addEventListener("resize", this.onWindowResize);
 
@@ -196,10 +195,10 @@ export class DepthMap extends HTMLElement {
 
 	pointerMove = (e: PointerEvent) => {
 		const { x, y } = getClientXY(e);
-		const { innerWidth, innerHeight } = window;
+		const { width, height } = this.getBoundingClientRect();
 
-		this.target[0] = map(x, 0, innerWidth, -1, 1);
-		this.target[1] = map(y, 0, innerHeight, -1, 1);
+		this.target[0] = map(x, 0, width, -1, 1);
+		this.target[1] = map(y, 0, height, -1, 1);
 
 		this.isUserInteracting = true;
 		this.mouseAngle = Math.atan2(this.target[1], this.target[0]);

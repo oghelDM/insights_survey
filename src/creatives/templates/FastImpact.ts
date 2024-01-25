@@ -1,4 +1,4 @@
-import { CreativeProps } from "@/types";
+import { CreativeProps } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
 

@@ -2,8 +2,9 @@ import { VPAIDVideoPlayer } from "@app";
 import { random12 } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { Scratch } from "@/components/scratch";
-import { CSSStyleType, CreativeHandler, CreativeProps } from "@/types";
+import { CSSStyleType } from "@/types";
 import { bounceIn, bounceOut, hotSpotBounce, rotate } from "@/animations";
+import { Creative, CreativeProps } from "@/creative";
 
 const ALL_DATA = {
 	en: {
@@ -36,151 +37,156 @@ const shineCoordinates = [
 	{ left: 91, bottom: 69, width: 4 },
 ];
 
-const creative: CreativeHandler = (
-	root: HTMLElement,
-	{ onClick }: CreativeProps
-) => {
-	let stars: HTMLElement[];
-	let timeoutId: number;
-	let intervalId: number;
+class MyCreative extends Creative {
+	constructor(root: HTMLElement, { onClick }: CreativeProps) {
+		super();
 
-	const wordingStyle: CSSStyleType = {
-		position: "absolute",
-		width: "38%",
-		height: "30%",
-		left: "2%",
-		bottom: "5%",
-		backgroundPosition: "center center",
-		backgroundRepeat: "no-repeat",
-		backgroundSize: "contain",
-		pointerEvents: "none",
-	};
-	const wording0 = createDiv("wording0-id", {
-		...wordingStyle,
-		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_0.png)`,
-	});
-	const wording1 = createDiv("wording1-id", {
-		...wordingStyle,
-		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_1.png)`,
-		scale: "0",
-	});
+		let stars: HTMLElement[];
+		let timeoutId: number;
+		let intervalId: number;
 
-	const tooltip = createDiv("tooltip-id", {
-		...wordingStyle,
-		width: "9%",
-		height: "16%",
-		left: "68%",
-		bottom: "37%",
-		backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/tuto.png)`,
-		opacity: "0",
-		transition: "opacity .5s, left 1.1s, bottom 1.1s",
-	});
-
-	const scratch = new Scratch({
-		id: "scratchDM",
-		debug: false,
-		backImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/bottom.png`,
-		frontImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/top.png`,
-		onClick,
-		clickUrl: data.redirection,
-		cursorUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/coin.png`,
-		scratchSizeCoeff: 1,
-		onAutoRevealStart: () => {
-			console.log("onAutoRevealStart");
-			window.clearInterval(intervalId);
-			window.clearTimeout(timeoutId);
-			bounceOut(wording0, 450, 0);
-			bounceIn(wording1, 450, 300);
-			tooltip.style.opacity = "0";
-			stars.forEach((star) =>
-				star.animate(
-					[
-						{ opacity: 0 },
-						{ opacity: 1 },
-						{ opacity: 1 },
-						{ opacity: 1 },
-						{ opacity: 1 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-						{ opacity: 0 },
-					],
-					{
-						delay: random12(0, 1200),
-						duration: 1000, //random12(1000, 2000),
-						fill: "forwards",
-						easing: "linear",
-						iterations: Infinity,
-					}
-				)
-			);
-		},
-		onUserScratchStart: () => {
-			console.log("user scratch start");
-			tooltip.style.display = "none";
-		},
-		timeoutDuration: 5000,
-	});
-
-	root.appendChild(scratch);
-	root.appendChild(wording0);
-	root.appendChild(wording1);
-	root.appendChild(tooltip);
-
-	stars = shineCoordinates.map(({ left, bottom, width }, i) => {
-		const star = createDiv(`star-${i}-id`, {
+		const wordingStyle: CSSStyleType = {
+			position: "absolute",
+			width: "38%",
+			height: "30%",
+			left: "2%",
+			bottom: "5%",
+			backgroundPosition: "center center",
+			backgroundRepeat: "no-repeat",
+			backgroundSize: "contain",
+			pointerEvents: "none",
+		};
+		const wording0 = createDiv("wording0-id", {
 			...wordingStyle,
-			width: `${width}%`,
-			height: "unset",
-			aspectRatio: "1 / 1",
-			left: `${left}%`,
-			bottom: `${bottom}%`,
-			opacity: "0",
-			backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/shine.png)`,
+			backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_0.png)`,
+		});
+		const wording1 = createDiv("wording1-id", {
+			...wordingStyle,
+			backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/wording_1.png)`,
+			scale: "0",
 		});
 
-		rotate(star, random12(3000, 7500));
-		hotSpotBounce(star, random12(1000, 1300), random12(0, 2000));
+		const tooltip = createDiv("tooltip-id", {
+			...wordingStyle,
+			width: "9%",
+			height: "16%",
+			left: "68%",
+			bottom: "37%",
+			backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/tuto.png)`,
+			opacity: "0",
+			transition: "opacity .5s, left 1.1s, bottom 1.1s",
+		});
 
-		root.appendChild(star);
+		const scratch = new Scratch({
+			id: "scratchDM",
+			debug: false,
+			backImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/bottom.png`,
+			frontImageUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/top.png`,
+			onClick,
+			clickUrl: data.redirection,
+			cursorUrl: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/coin.png`,
+			scratchSizeCoeff: 1,
+			onAutoRevealStart: () => {
+				console.log("onAutoRevealStart");
+				window.clearInterval(intervalId);
+				window.clearTimeout(timeoutId);
+				bounceOut(wording0, 450, 0);
+				bounceIn(wording1, 450, 300);
+				tooltip.style.opacity = "0";
+				stars.forEach((star) =>
+					star.animate(
+						[
+							{ opacity: 0 },
+							{ opacity: 1 },
+							{ opacity: 1 },
+							{ opacity: 1 },
+							{ opacity: 1 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+							{ opacity: 0 },
+						],
+						{
+							delay: random12(0, 1200),
+							duration: 1000, //random12(1000, 2000),
+							fill: "forwards",
+							easing: "linear",
+							iterations: Infinity,
+						}
+					)
+				);
+			},
+			onUserScratchStart: () => {
+				console.log("user scratch start");
+				tooltip.style.display = "none";
+			},
+			timeoutDuration: 5000,
+		});
 
-		return star;
-	});
+		root.appendChild(scratch);
+		root.appendChild(wording0);
+		root.appendChild(wording1);
+		root.appendChild(tooltip);
 
-	const moveTooltip = (toto: boolean) => {
-		tooltip.style.opacity = "1";
-		tooltip.style.left = `${toto ? 75 : 68}%`;
-		tooltip.style.bottom = `${toto ? 17 : 37}%`;
-		timeoutId = window.setTimeout(() => moveTooltip(!toto), 1700);
-	};
+		stars = shineCoordinates.map(({ left, bottom, width }, i) => {
+			const star = createDiv(`star-${i}-id`, {
+				...wordingStyle,
+				width: `${width}%`,
+				height: "unset",
+				aspectRatio: "1 / 1",
+				left: `${left}%`,
+				bottom: `${bottom}%`,
+				opacity: "0",
+				backgroundImage: `url(https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/shine.png)`,
+			});
 
-	timeoutId = window.setTimeout(() => {
-		moveTooltip(true);
-		intervalId = window.setInterval(() => {
-			const { left, top } = tooltip.getBoundingClientRect();
-			scratch.pointerMove(
-				new PointerEvent("custom", {
-					clientX: left,
-					clientY: top,
-				})
-			);
-		}, 100);
-	}, 3000);
-};
+			rotate(star, random12(3000, 7500));
+			hotSpotBounce(star, random12(1000, 1300), random12(0, 2000));
 
-window.getVPAIDAd = () =>
-	new VPAIDVideoPlayer(creative, {
-		low: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_low.mp4`,
-		mid: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_mid.mp4`,
-		high: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_high.mp4`,
-	});
+			root.appendChild(star);
+
+			return star;
+		});
+
+		const moveTooltip = (toto: boolean) => {
+			tooltip.style.opacity = "1";
+			tooltip.style.left = `${toto ? 75 : 68}%`;
+			tooltip.style.bottom = `${toto ? 17 : 37}%`;
+			timeoutId = window.setTimeout(() => moveTooltip(!toto), 1700);
+		};
+
+		timeoutId = window.setTimeout(() => {
+			moveTooltip(true);
+			intervalId = window.setInterval(() => {
+				const { left, top } = tooltip.getBoundingClientRect();
+				scratch.pointerMove(
+					new PointerEvent("custom", {
+						clientX: left,
+						clientY: top,
+					})
+				);
+			}, 100);
+		}, 3000);
+	}
+
+	public getVideos() {
+		return {
+			low: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_low.mp4`,
+			mid: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_mid.mp4`,
+			high: `https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Advergame_Scratch_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/video_high.mp4`,
+		};
+	}
+}
+customElements.define("dm-creative", MyCreative);
+
+window.getVPAIDAd = () => new VPAIDVideoPlayer(MyCreative);

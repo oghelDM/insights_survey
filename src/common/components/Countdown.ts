@@ -7,6 +7,7 @@ interface CountdownType extends ComponentBaseType {
 	fontUrl?: string; // font url (.ttf) to use to display the countdown
 	textAlign?: HORIZONTAL_ALIGN; // horizontal alignment of each text
 	elementWidth: string; // the width of each textField element, use the same unit as the fontSize
+	suffixes?: string[]; // an optional suffix for each time element: seconds, minutes, hours and days
 }
 
 export class Countdown extends HTMLElement {
@@ -18,6 +19,7 @@ export class Countdown extends HTMLElement {
 	private hourDiv: HTMLElement;
 	private minDiv: HTMLElement;
 	private secDiv: HTMLElement;
+	private suffixes: string[];
 
 	constructor(props: CountdownType, style: CSSStyleType = {}) {
 		super();
@@ -32,11 +34,13 @@ export class Countdown extends HTMLElement {
 			clickUrl,
 			textAlign = HORIZONTAL_ALIGN.CENTER,
 			elementWidth,
+			suffixes = ["", "", "", ""],
 		} = props;
 
 		this.setAttribute("id", id);
 
 		this.isOverMessage = isOverMessage;
+		this.suffixes = suffixes;
 		this.dateMilliseconds = date.getTime();
 
 		let justifyContent = "space-between";
@@ -138,10 +142,10 @@ export class Countdown extends HTMLElement {
 			options
 		);
 
-		this.dayDiv.innerHTML = textDay;
-		this.hourDiv.innerHTML = textHour;
-		this.minDiv.innerHTML = textMinute;
-		this.secDiv.innerHTML = textSecond;
+		this.dayDiv.innerHTML = `${textDay}${this.suffixes[3] ?? ""}`;
+		this.hourDiv.innerHTML = `${textHour}${this.suffixes[2] ?? ""}`;
+		this.minDiv.innerHTML = `${textMinute}${this.suffixes[1] ?? ""}`;
+		this.secDiv.innerHTML = `${textSecond}${this.suffixes[0] ?? ""}`;
 	};
 }
 

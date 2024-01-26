@@ -71,7 +71,7 @@ const ALL_DATA = {
 	},
 };
 
-const data = ALL_DATA.food;
+const data = ALL_DATA.masjid;
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
@@ -82,7 +82,7 @@ class MyCreative extends Creative {
 			position: "absolute",
 			width: "100%",
 			height: "10%",
-			bottom: "33%",
+			bottom: data === ALL_DATA.masjid ? "26%" : "33%",
 			textAlign: "center",
 			color: "white",
 			fontFamily: "sans-serif",
@@ -251,6 +251,7 @@ class MyCreative extends Creative {
 							randomizeTemparature();
 						}
 
+						button.style.opacity = "1";
 						button.style.backgroundImage = `url(${selected})`;
 						setTimeout(() => {
 							if (i === data.winIndex) {

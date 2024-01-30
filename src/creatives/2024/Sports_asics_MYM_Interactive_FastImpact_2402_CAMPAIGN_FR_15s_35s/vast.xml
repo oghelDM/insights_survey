@@ -14,10 +14,10 @@
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Sports_asics_MYM_Interactive_FastImpact_2312_CAMPAIGN_FR_15s_15s_30s/builds/15s_2/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Sports_asics_MYM_Interactive_FastImpact_2402_CAMPAIGN_FR_15s_35s/builds/35s/1/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Sports_asics_MYM_Interactive_FastImpact_2312_CAMPAIGN_FR_15s_15s_30s/builds/15s_2/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Sports_asics_MYM_Interactive_FastImpact_2402_CAMPAIGN_FR_15s_35s/builds/35s/1/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

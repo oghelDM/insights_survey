@@ -118,8 +118,15 @@ class QontoCreative extends Creative {
 	}
 
 	public videoTimeUpdate(completionPercent: number): void {
-		if (this.completionFloodlights && !isNaN(completionPercent)) {
-			if (completionPercent >= 25 * this.currentFloodlightIndex) {
+		if (
+			this.completionFloodlights &&
+			!isNaN(completionPercent) &&
+			this.currentFloodlightIndex < this.completionFloodlights.length
+		) {
+			if (
+				completionPercent >=
+				Math.min(25 * this.currentFloodlightIndex, 95) // force the last floodlight before the video reaches 100%
+			) {
 				trackPixel(
 					this.completionFloodlights[this.currentFloodlightIndex]
 				);

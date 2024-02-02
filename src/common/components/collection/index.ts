@@ -1,53 +1,67 @@
+import { CssType } from "@/types";
+import { keepSafe } from "@/utils/helper";
 import { createDiv } from "../../utils/divMaker";
+import { BaseComponent } from "../BaseComponent";
 import { CollectionType, defaultValuesCollection } from "./defaultValues";
 
-export class Collection extends HTMLElement {
+export class Collection extends BaseComponent {
 	protected cleanProps: Required<CollectionType>;
 	private products: HTMLElement[];
 	private nbProducts: number;
 	private isAnimationPlaying = false;
 	private currIdx = 0; // the index of the currently displayed product
-	private nextIdx = 0; // the index of the incoming product
 
-	constructor(props: CollectionType, style: any = {}) {
-		super();
+	constructor(props: CollectionType, style: CssType = {}) {
+		super(props, {
+			position: "absolute",
+			height: "100%",
+			width: "100%",
+			backgroundColor: props.debug ? "#00ff88ff" : "unset",
+			...style,
+		});
 
-		this.init(props, style);
+		this.init(props);
 	}
 
-	public init = (props: CollectionType, style: any = {}) => {
+	public init = (props: CollectionType) => {
 		this.cleanProps = {
 			...defaultValuesCollection,
 			...props,
 		};
 
 		const {
-			productUrls: products,
+			productUrls,
 			id,
 			clickUrls,
 			onClick,
-			focusedProductStyle,
+			styleProductFocused,
 			startIndex,
 			arrows,
+			debug,
 		} = this.cleanProps;
 
-		this.currIdx = startIndex;
+		this.nbProducts = productUrls.length;
+		this.currIdx = keepSafe(startIndex, this.nbProducts);
 
-		this.products = products.map((url, index) => {
-			const element = createDiv(`${id}-${index}`, {
-				...focusedProductStyle,
+		this.products = productUrls.map((url, index) => {
+			const isCurrentProduct = index === this.currIdx;
+			const element = createDiv(`${id}-product-${index}`, {
+				...styleProductFocused,
 				backgroundImage: `url(${url})`,
-				outline: this.cleanProps.debug ? "1px solid pink" : "unset",
-				/* added to fix webkit bug jitter */
-				"-webkit-backface-visibility": "hidden",
-				"-webkit-transform": "perspective(1000px)",
+				outline: debug ? "1px solid pink" : "unset",
+				pointerEvents:
+					clickUrls[this.currIdx] && isCurrentProduct
+						? "auto"
+						: "none",
+				cursor: clickUrls[index] ? "pointer" : "unset",
+				opacity: isCurrentProduct ? "1" : "0",
 			});
 
 			// position the elements behind the interactive div
-			this.insertBefore(element, this.childNodes[0]);
+			// this.insertBefore(element, this.childNodes[0]);
+			this.appendChild(element);
 			if (clickUrls[index]) {
 				element.addEventListener("click", (e) => {
-					console.log("click on product: ", index);
 					e.preventDefault();
 					e.stopPropagation();
 					onClick(clickUrls[index]);
@@ -55,51 +69,98 @@ export class Collection extends HTMLElement {
 			}
 			return element;
 		});
-		this.nbProducts = products.length;
+		// make sure the first product is above all other ones
+		this.appendChild(this.products[this.currIdx]);
 
 		arrows.forEach((arrow, i) =>
 			arrow.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				// this.stopAutoPlay();
-				// this.moveIndexBy(i === 0 ? 1 : -1);
+				if (i === 0) {
+					this.goToPrevious();
+				} else {
+					this.goToNext();
+				}
 			})
 		);
 	};
 
-	private animateYo = (domElem: HTMLElement, isRight: boolean): Animation =>
-		domElem.animate(
-			[{ left: isRight ? "-100%" : "100%" }, { left: "0%" }],
+	public goToPrevious = () => {
+		if (!this.isAnimationPlaying) {
+			this.startAnimation(true);
+		}
+	};
+
+	public goToNext = () => {
+		if (!this.isAnimationPlaying) {
+			this.startAnimation(false);
+		}
+	};
+
+	private startAnimation = (isLeft: boolean) => {
+		const {
+			styleProductFocused,
+			styleProductOutLeft,
+			styleProductOutRight,
+			styleProductInLeft,
+			styleProductInRight,
+			introAnimationProperties,
+			outroAnimationProperties,
+			clickUrls,
+		} = this.cleanProps;
+
+		const nextIdx = keepSafe(
+			this.currIdx + (isLeft ? -1 : 1),
+			this.nbProducts
+		);
+		const currProduct =
+			this.products[keepSafe(this.currIdx, this.nbProducts)];
+		const nextProduct = this.products[nextIdx];
+
+		nextProduct.style.pointerEvents = "auto";
+		currProduct.style.pointerEvents = "none";
+
+		// // make sure to reset the css properties
+		// currProduct.getAnimations()[0]?.cancel();
+		// nextProduct.getAnimations()[0]?.cancel();
+		// for (const [key, value] of Object.entries(styleProductFocused)) {
+		// 	(nextProduct.style as any)[key] = value;
+		// }
+
+		let animDoneCounter = 0;
+		const animationDone = () => {
+			animDoneCounter += 1;
+			if (animDoneCounter === 2) {
+				this.currIdx = nextIdx;
+				this.isAnimationPlaying = false;
+			}
+		};
+
+		this.isAnimationPlaying = true;
+		const outroAnim = currProduct.animate(
+			[
+				styleProductFocused,
+				isLeft ? styleProductOutLeft : styleProductOutRight,
+			] as any,
 			{
-				// delay: delay,
-				duration: 460,
+				...introAnimationProperties,
 				fill: "forwards",
-				easing: "cubic-bezier(.01,.58,.17,1)",
 				iterations: 1,
 			}
 		);
-
-	private animateCSS = (
-		currProduct: HTMLElement,
-		nextProduct: HTMLElement,
-		isRight: boolean
-	) => {
-		currProduct.style.opacity = "1";
-		nextProduct.style.opacity = "1";
-		const animation = this.animateYo(nextProduct, isRight);
-		animation.addEventListener("finish", () =>
-			this.animationEnd(currProduct, nextProduct)
+		const introAnim = nextProduct.animate(
+			[
+				isLeft ? styleProductInRight : styleProductInLeft,
+				styleProductFocused,
+			] as any,
+			{
+				...outroAnimationProperties,
+				fill: "forwards",
+				iterations: 1,
+			}
 		);
-	};
-
-	private animationEnd = (
-		currProduct: HTMLElement,
-		nextProduct: HTMLElement
-	) => {
-		this.isAnimationPlaying = false;
-		nextProduct.style.left = "0";
-		currProduct.style.opacity = "0";
-		this.currIdx = this.nextIdx;
+		outroAnim.addEventListener("finish", animationDone);
+		introAnim.addEventListener("finish", animationDone);
 	};
 }
 

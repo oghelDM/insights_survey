@@ -7,9 +7,23 @@ import {
 export interface CollectionType extends ComponentBaseType {
 	productUrls: string[]; // image elements
 	clickUrls?: string[]; // productredirections
-	focusedProductStyle?: CssType;
 	startIndex?: number;
 	arrows?: HTMLElement[];
+	styleProductFocused?: CssType;
+	styleProductOutLeft?: CssType;
+	styleProductOutRight?: CssType;
+	styleProductInLeft?: CssType;
+	styleProductInRight?: CssType;
+	introAnimationProperties?: {
+		delay: number;
+		duration: number;
+		easing: string;
+	};
+	outroAnimationProperties?: {
+		delay: number;
+		duration: number;
+		easing: string;
+	};
 }
 
 export const defaultValuesCollection: Required<CollectionType> = {
@@ -17,18 +31,37 @@ export const defaultValuesCollection: Required<CollectionType> = {
 	id: "collection-dm",
 	onClick: () => console.log("click on collection"),
 	productUrls: [
-		"https://images.unsplash.com/photo-1696464795756-2d92a11c504f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-		"https://images.unsplash.com/photo-1695496573688-3e0e8ac8657e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-		"https://images.unsplash.com/photo-1695456261833-3794ab617deb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0Mnx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-		"https://plus.unsplash.com/premium_photo-1694670200212-3122e7c5c9b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2NHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-		"https://images.unsplash.com/photo-1695878026745-1d07d1088045?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw2N3x8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-1.png",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-2.png",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-3.png",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-4.png",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-5.png",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-6.png",
 	],
-	focusedProductStyle: {
+	styleProductFocused: {
 		width: "100%",
 		height: "100%",
 		backgroundPosition: "center center",
-		backgroundSize: "cover",
+		backgroundSize: "contain",
 		backgroundRepeat: "no-repeat",
+		left: "0%",
+		opacity: "1",
+		position: "absolute",
+		rotate: "0deg",
+	},
+	styleProductOutLeft: { left: "-100%", opacity: "0", rotate: "-20deg" },
+	styleProductOutRight: { left: "100%", opacity: "0", rotate: "20deg" },
+	styleProductInLeft: { left: "-100%", opacity: "0", rotate: "10deg" },
+	styleProductInRight: { left: "100%", opacity: "0", rotate: "-10deg" },
+	introAnimationProperties: {
+		delay: 0,
+		duration: 400,
+		easing: "cubic-bezier(.01,.58,.17,1)",
+	},
+	outroAnimationProperties: {
+		delay: 300,
+		duration: 400,
+		easing: "cubic-bezier(.01,.58,.17,1)",
 	},
 	arrows: [],
 	startIndex: 0,

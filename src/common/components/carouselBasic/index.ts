@@ -1,20 +1,20 @@
 import { IndexManager } from "../indexManager";
 import { createDiv } from "../../utils/divMaker";
 import { keepSafe, map, trackPixel } from "../../utils/helper";
-import { HORIZONTAL_ALIGN, VERTICAL_ALIGN } from "../../types";
+import { CssType, HORIZONTAL_ALIGN, VERTICAL_ALIGN } from "../../types";
 import { CarouselBasicType, defaultValuesCarouselBasic } from "./defaultValues";
 
 export class CarouselBasic extends IndexManager {
 	protected cleanProps: Required<CarouselBasicType>;
 	private products: HTMLElement[];
 
-	constructor(props: CarouselBasicType, style: any = {}) {
+	constructor(props: CarouselBasicType, style: CssType = {}) {
 		super();
 
 		this.init(props, style);
 	}
 
-	public init = (props: CarouselBasicType, style: any = {}) => {
+	public init = (props: CarouselBasicType, style: CssType = {}) => {
 		this.cleanProps = {
 			...defaultValuesCarouselBasic,
 			...props,

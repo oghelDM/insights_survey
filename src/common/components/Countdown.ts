@@ -49,7 +49,7 @@ export class Countdown extends HTMLElement {
 		} else if (textAlign === HORIZONTAL_ALIGN.RIGHT) {
 			justifyContent = "flex-end";
 		}
-		const actualStyle = {
+		const actualStyle: CssType = {
 			position: "absolute",
 			height: "3.5vi",
 			lineHeight: "3.5vi",

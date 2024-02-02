@@ -1,6 +1,6 @@
 import { createDiv } from "../utils/divMaker";
 import { getClientXY, keepSafe, map } from "../utils/helper";
-import { ComponentBaseType, defaultComponentValues } from "../types";
+import { ComponentBaseType, CssType, defaultComponentValues } from "../types";
 
 export interface IndexManagerType extends ComponentBaseType {
 	focusedElementWidth: number; // the width in percent, occupied by the focused element
@@ -68,7 +68,7 @@ export class IndexManager extends HTMLElement {
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
 
-	public init(props: IndexManagerType, style: any) {
+	public init(props: IndexManagerType, style: CssType) {
 		// clean-up previous instance
 		window.clearTimeout(this.autoPlayTimeoutId);
 		window.clearInterval(this.autoPlayIntervalId);
@@ -96,12 +96,12 @@ export class IndexManager extends HTMLElement {
 		this.currentIndex = startIndex;
 		this.nbProducts = productUrls.length;
 
-		const actualStyle = {
+		const actualStyle: CssType = {
 			display: "block",
 			position: "absolute",
 			width: "100%",
 			height: "100%",
-			opacity: 1,
+			opacity: "1",
 			backgroundColor: debug ? "rgba(0,0,255,.4)" : "unset",
 			overflow: "hidden",
 

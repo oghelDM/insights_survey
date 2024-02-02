@@ -55,7 +55,7 @@ class MyCreative extends Creative {
 				arrows: [arrowLeft, arrowRight],
 				speedCoefficient: 1.2,
 			},
-			{ width: "33.3%", height: "30%", right: 0, top: "23%" }
+			{ width: "33.3%", height: "30%", right: "0", top: "23%" }
 		);
 
 		root.addEventListener("click", () =>

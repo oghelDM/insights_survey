@@ -170,7 +170,7 @@ class MyCreative extends Creative {
 				fadeObjects,
 				autoPlay: true,
 			},
-			{ width: "34%", height: "83%", right: 0 }
+			{ width: "34%", height: "83%", right: "0" }
 		);
 		root.appendChild(carousel);
 

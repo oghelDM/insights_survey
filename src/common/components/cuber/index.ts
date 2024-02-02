@@ -1,4 +1,4 @@
-import { CSSStyleType } from "@/types";
+import { CssType } from "@/types";
 import { IndexManager } from "../indexManager";
 import { CuberType, defaultValuesCuber } from "./defaultValues";
 
@@ -15,7 +15,7 @@ export class Cuber extends IndexManager {
 		this.init(props, style);
 	}
 
-	public init(props: CuberType, style: CSSStyleType) {
+	public init(props: CuberType, style: CssType) {
 		this.cleanProps = { ...defaultValuesCuber, ...props };
 
 		super.init(this.cleanProps, style);

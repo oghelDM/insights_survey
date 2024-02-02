@@ -31,8 +31,6 @@ export interface ComponentBaseType {
 	onClick: (url: string) => void; // onClick callback
 }
 
-export type CSSStyleType = { [key: string]: string };
-
 export type LiveStreamData = {
 	url: string;
 	duration: number;

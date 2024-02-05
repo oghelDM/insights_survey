@@ -1,34 +1,13 @@
-import { CSSStyleType } from "@/types";
+import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
 import { trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 
-class QontoCreative extends Creative {
-	completionFloodlights: string[];
-	currentFloodlightIndex = 0;
-
-	constructor(root: HTMLElement, creativeProps: CreativeProps) {
-		super();
-
-		this.canResumeVideo = false;
-		this.canPauseVideo = false;
-
-		const { onClick, videoSlot, stopAd, pauseAd, resumeAd } = creativeProps;
-
-		const bg = createDiv("bg-id", {
-			position: "absolute",
-			width: "100%",
-			height: "100%",
-			backgroundPosition: "center center",
-			backgroundRepeat: "no-repeat",
-			backgroundSize: "contain",
-			pointerEvents: "none",
-			backgroundImage:
-				"url(https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/bg.png)",
-		});
-
-		const btnOps = [
+const DATA = {
+	DE: {
+		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/bg.png",
+		btns: [
 			{
 				top: "31.3%",
 				floodlight:
@@ -66,17 +45,82 @@ class QontoCreative extends Creative {
 				floodlight:
 					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			},
-		];
+		],
+	},
+	SP: {
+		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/bg.png",
+		btns: [
+			{
+				top: "29.3%",
+				floodlight: "",
+				videoSrc:
+					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer1/video_low.mp4",
+				redirect:
+					"https://qonto.com/es?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_micro_all&utm_term=video_micro_15s",
+				completionFloodlights: [],
+			},
+			{
+				top: "44.3%",
+				floodlight: "",
+				videoSrc:
+					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer2/video_low.mp4",
+				redirect:
+					"https://qonto.com/es?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_small_all&utm_term=video_small_15s",
+				completionFloodlights: [],
+			},
+			{
+				top: "59.3%",
+				floodlight: "",
+				videoSrc:
+					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer3/video_low.mp4",
+				redirect:
+					"https://qonto.com/es/creation?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_company-creators_all&utm_term=video_company-creators_15s",
+				completionFloodlights: [],
+			},
+			{
+				top: "74.2%",
+				floodlight:
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+			},
+		],
+	},
+};
 
-		const btnStyle: CSSStyleType = {
+const data = DATA.SP;
+
+class QontoCreative extends Creative {
+	completionFloodlights: string[];
+	currentFloodlightIndex = 0;
+
+	constructor(root: HTMLElement, creativeProps: CreativeProps) {
+		super();
+
+		this.canResumeVideo = false;
+		this.canPauseVideo = false;
+
+		const { onClick, videoSlot, stopAd, resumeAd } = creativeProps;
+
+		const bg = createDiv("bg-id", {
+			position: "absolute",
+			width: "100%",
+			height: "100%",
+			backgroundPosition: "center center",
+			backgroundRepeat: "no-repeat",
+			backgroundSize: "contain",
+			pointerEvents: "none",
+			backgroundImage: `url(${data.bgUrl})`,
+		});
+
+		const btnStyle: CssType = {
 			position: "absolute",
 			width: "32.7%",
 			height: "13.3%",
 			right: "6.1%",
 			zIndex: "1",
 			cursor: "pointer",
+			backgroundColor: "rgba(255, 0, 0, .6)",
 		};
-		const buttonArray: HTMLElement[] = btnOps.map(
+		const buttonArray: HTMLElement[] = data.btns.map(
 			(
 				{ top, floodlight, videoSrc, redirect, completionFloodlights },
 				i
@@ -87,7 +131,9 @@ class QontoCreative extends Creative {
 					e.stopImmediatePropagation();
 					e.stopPropagation();
 
-					trackPixel(floodlight);
+					if (floodlight) {
+						trackPixel(floodlight);
+					}
 
 					this.canResumeVideo = true;
 					this.canPauseVideo = true;

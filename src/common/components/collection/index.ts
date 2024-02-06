@@ -38,6 +38,7 @@ export class Collection extends BaseComponent {
 			startIndex,
 			arrows,
 			debug,
+			fadeObjects,
 		} = this.cleanProps;
 
 		this.nbProducts = productUrls.length;
@@ -71,6 +72,14 @@ export class Collection extends BaseComponent {
 		});
 		// make sure the first product is above all other ones
 		this.appendChild(this.products[this.currIdx]);
+
+		// initialize fadeObjects opacity
+		fadeObjects.forEach((elements, i) =>
+			elements.forEach(
+				(element) =>
+					(element.style.opacity = i === this.currIdx ? "1" : "0")
+			)
+		);
 
 		arrows.forEach((arrow, i) =>
 			arrow.addEventListener("click", (e) => {
@@ -106,15 +115,16 @@ export class Collection extends BaseComponent {
 			styleProductInRight,
 			introAnimationProperties,
 			outroAnimationProperties,
-			clickUrls,
+			fadeObjects,
 		} = this.cleanProps;
+
+		console.log("fadeObjects: ", fadeObjects);
 
 		const nextIdx = keepSafe(
 			this.currIdx + (isLeft ? -1 : 1),
 			this.nbProducts
 		);
-		const currProduct =
-			this.products[keepSafe(this.currIdx, this.nbProducts)];
+		const currProduct = this.products[this.currIdx];
 		const nextProduct = this.products[nextIdx];
 
 		nextProduct.style.pointerEvents = "auto";
@@ -143,7 +153,7 @@ export class Collection extends BaseComponent {
 				isLeft ? styleProductOutLeft : styleProductOutRight,
 			] as any,
 			{
-				...introAnimationProperties,
+				...outroAnimationProperties,
 				fill: "forwards",
 				iterations: 1,
 			}
@@ -154,11 +164,29 @@ export class Collection extends BaseComponent {
 				styleProductFocused,
 			] as any,
 			{
-				...outroAnimationProperties,
+				...introAnimationProperties,
 				fill: "forwards",
 				iterations: 1,
 			}
 		);
+
+		const currFadeObjects = fadeObjects[this.currIdx];
+		currFadeObjects?.forEach((fadeObject) =>
+			fadeObject.animate([{ opacity: "1" }, { opacity: "0" }], {
+				...outroAnimationProperties,
+				fill: "forwards",
+				iterations: 1,
+			})
+		);
+		const nextFadeObjects = fadeObjects[nextIdx];
+		nextFadeObjects?.forEach((fadeObject) =>
+			fadeObject.animate([{ opacity: "0" }, { opacity: "1" }], {
+				...introAnimationProperties,
+				fill: "forwards",
+				iterations: 1,
+			})
+		);
+
 		outroAnim.addEventListener("finish", animationDone);
 		introAnim.addEventListener("finish", animationDone);
 	};

@@ -9,6 +9,7 @@ export interface CollectionType extends ComponentBaseType {
 	clickUrls?: string[]; // productredirections
 	startIndex?: number;
 	arrows?: HTMLElement[];
+	fadeObjects?: HTMLElement[][];
 	styleProductFocused?: CssType;
 	styleProductOutLeft?: CssType;
 	styleProductOutRight?: CssType;
@@ -54,16 +55,17 @@ export const defaultValuesCollection: Required<CollectionType> = {
 	styleProductInLeft: { left: "-100%", opacity: "0", rotate: "10deg" },
 	styleProductInRight: { left: "100%", opacity: "0", rotate: "-10deg" },
 	introAnimationProperties: {
-		delay: 0,
+		delay: 300,
 		duration: 400,
 		easing: "cubic-bezier(.01,.58,.17,1)",
 	},
 	outroAnimationProperties: {
-		delay: 300,
+		delay: 0,
 		duration: 400,
 		easing: "cubic-bezier(.01,.58,.17,1)",
 	},
 	arrows: [],
 	startIndex: 0,
 	clickUrls: [],
+	fadeObjects: [],
 };

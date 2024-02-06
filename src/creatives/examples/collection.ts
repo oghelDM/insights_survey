@@ -2,10 +2,30 @@ import { VPAIDVideoPlayer } from "@app";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 import { Collection } from "@/components/collection";
+import { ImageDM } from "@/components/image";
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
+
+		const bg = new ImageDM(
+			"bg-id",
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-logo.svg",
+			{ backgroundColor: "black", backgroundSize: "30%" }
+		);
+		root.appendChild(bg);
+
+		const bgs = [
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/bg-1.jpg",
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/bg-2.jpg",
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/bg-3.jpg",
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/bg-4.jpg",
+			"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/bg-5.jpg",
+		].map((url, i) => {
+			const bg = new ImageDM(`${i}-id`, url);
+			root.appendChild(bg);
+			return [bg];
+		});
 
 		const arrows = ["left", "right"].map((name, i) => {
 			const btn = createDiv(`${name}-id`, {
@@ -37,7 +57,7 @@ class MyCreative extends Creative {
 					"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-3.png",
 					"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-4.png",
 					"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-5.png",
-					"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-6.png",
+					// "https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-6.png",
 				],
 				clickUrls: [
 					"https://www.google.com/search?q=collection-0",
@@ -45,12 +65,13 @@ class MyCreative extends Creative {
 					"https://www.google.com/search?q=collection-2",
 					"https://www.google.com/search?q=collection-3",
 					"https://www.google.com/search?q=collection-4",
-					"https://www.google.com/search?q=collection-5",
+					// "https://www.google.com/search?q=collection-5",
 				],
 				onClick,
 				clickUrl: "https://www.google.com/search?q=collection",
 				arrows,
 				debug: false,
+				fadeObjects: bgs,
 			},
 			{ width: "50%", left: "25%" }
 		);

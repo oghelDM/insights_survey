@@ -52,35 +52,56 @@ const DATA = {
 		btns: [
 			{
 				top: "29.3%",
-				floodlight: "",
+				floodlight:
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00o;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 				videoSrc:
 					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer1/video_low.mp4",
 				redirect:
 					"https://qonto.com/es?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_micro_all&utm_term=video_micro_15s",
-				completionFloodlights: [],
+				completionFloodlights: [
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00-;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00a;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00b;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00c;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00d;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+				],
 			},
 			{
 				top: "44.3%",
-				floodlight: "",
+				floodlight:
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00p;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 				videoSrc:
 					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer2/video_low.mp4",
 				redirect:
 					"https://qonto.com/es?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_small_all&utm_term=video_small_15s",
-				completionFloodlights: [],
+				completionFloodlights: [
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00e;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00f;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00g;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00h;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00i;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+				],
 			},
 			{
 				top: "59.3%",
-				floodlight: "",
+				floodlight:
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00q;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 				videoSrc:
 					"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/answer3/video_low.mp4",
 				redirect:
 					"https://qonto.com/es/creation?utm_source=dailymotion&utm_medium=direct_buying&utm_campaign=es_awareness_branding-0124&utm_content=custom_company-creators_all&utm_term=video_company-creators_15s",
-				completionFloodlights: [],
+				completionFloodlights: [
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00j;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00k;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00l;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00m;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto00n;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+				],
 			},
 			{
 				top: "74.2%",
 				floodlight:
-					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+					"https://ad.doubleclick.net/ddm/activity/src=14004237;type=invmedia;cat=qonto009;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			},
 		],
 	},
@@ -118,7 +139,7 @@ class QontoCreative extends Creative {
 			right: "6.1%",
 			zIndex: "1",
 			cursor: "pointer",
-			backgroundColor: "rgba(255, 0, 0, .6)",
+			// backgroundColor: "rgba(255, 0, 0, .6)",
 		};
 		const buttonArray: HTMLElement[] = data.btns.map(
 			(

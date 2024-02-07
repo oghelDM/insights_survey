@@ -28,21 +28,20 @@ class MyCreative extends Creative {
 		});
 
 		const arrows = ["left", "right"].map((name, i) => {
-			const btn = createDiv(`${name}-id`, {
-				position: "absolute",
-				width: "80px",
-				height: "80px",
-				cursor: "pointer",
-				textAlign: "center",
-				lineHeight: "80px",
-				borderRadius: "5px",
-				left: i === 0 ? "0" : "unset",
-				right: i === 1 ? "0" : "unset",
-				top: "calc(50% - 40px)",
-				backgroundColor: "crimson",
-				userSelect: "none",
-			});
-			btn.innerHTML = name;
+			const btn = new ImageDM(
+				`${name}-id`,
+				"https://statics.dmcdn.net/d/TESTS/fwk/assets/carrousel/arrow_left.png",
+				{
+					width: "unset",
+					height: "12%",
+					aspectRatio: "1 / 1",
+					cursor: "pointer",
+					left: i === 0 ? "5%" : "unset",
+					right: i === 1 ? "5%" : "unset",
+					top: "44%",
+					rotate: i === 0 ? "" : "180deg",
+				}
+			);
 			root.appendChild(btn);
 			return btn;
 		});

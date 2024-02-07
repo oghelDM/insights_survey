@@ -126,6 +126,7 @@ export class Collection extends BaseComponent {
 		);
 		const currProduct = this.products[this.currIdx];
 		const nextProduct = this.products[nextIdx];
+		this.appendChild(nextProduct);
 
 		nextProduct.style.pointerEvents = "auto";
 		currProduct.style.pointerEvents = "none";

@@ -10,6 +10,8 @@ export class Collection extends BaseComponent {
 	private nbProducts: number;
 	private isAnimationPlaying = false;
 	private currIdx = 0; // the index of the currently displayed product
+	private autoPlayTimeoutId: number | undefined;
+	private autoPlayIntervalId: number | undefined;
 
 	constructor(props: CollectionType, style: CssType = {}) {
 		super(props, {
@@ -39,6 +41,7 @@ export class Collection extends BaseComponent {
 			arrows,
 			debug,
 			fadeObjects,
+			autoPlay,
 		} = this.cleanProps;
 
 		this.nbProducts = productUrls.length;
@@ -85,6 +88,8 @@ export class Collection extends BaseComponent {
 			arrow.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
+				window.clearTimeout(this.autoPlayTimeoutId);
+				window.clearInterval(this.autoPlayIntervalId);
 				if (i === 0) {
 					this.goToPrevious();
 				} else {
@@ -92,21 +97,37 @@ export class Collection extends BaseComponent {
 				}
 			})
 		);
-	};
 
-	public goToPrevious = () => {
-		if (!this.isAnimationPlaying) {
-			this.startAnimation(true);
+		window.clearTimeout(this.autoPlayTimeoutId);
+		window.clearInterval(this.autoPlayIntervalId);
+		if (autoPlay) {
+			this.startAutoPlay();
 		}
 	};
 
-	public goToNext = () => {
-		if (!this.isAnimationPlaying) {
-			this.startAnimation(false);
-		}
+	public goToPrevious = () => this.startAnimation(true);
+
+	public goToNext = () => this.startAnimation(false);
+
+	public startAutoPlay = (
+		delay: number = 3,
+		frequency: number = 1.5
+	): void => {
+		this.autoPlayTimeoutId = window.setTimeout(
+			() =>
+				(this.autoPlayIntervalId = window.setInterval(
+					() => this.startAnimation(true),
+					frequency * 1000
+				)),
+			delay
+		);
 	};
 
 	private startAnimation = (isLeft: boolean) => {
+		if (this.isAnimationPlaying) {
+			return;
+		}
+
 		const {
 			styleProductFocused,
 			styleProductOutLeft,
@@ -117,8 +138,6 @@ export class Collection extends BaseComponent {
 			outroAnimationProperties,
 			fadeObjects,
 		} = this.cleanProps;
-
-		console.log("fadeObjects: ", fadeObjects);
 
 		const nextIdx = keepSafe(
 			this.currIdx + (isLeft ? -1 : 1),

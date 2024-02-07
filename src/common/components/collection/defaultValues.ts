@@ -8,6 +8,7 @@ export interface CollectionType extends ComponentBaseType {
 	productUrls: string[]; // image elements
 	clickUrls?: string[]; // productredirections
 	startIndex?: number;
+	autoPlay?: boolean;
 	arrows?: HTMLElement[];
 	fadeObjects?: HTMLElement[][];
 	styleProductFocused?: CssType;
@@ -31,6 +32,7 @@ export const defaultValuesCollection: Required<CollectionType> = {
 	...defaultComponentValues,
 	id: "collection-dm",
 	onClick: () => console.log("click on collection"),
+	autoPlay: true,
 	productUrls: [
 		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-1.png",
 		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-2.png",

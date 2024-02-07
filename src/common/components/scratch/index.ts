@@ -215,7 +215,6 @@ export class Scratch extends HTMLElement {
 			if (e.type === "custom") {
 				return; // allow for auto/custom pointerEvents, like tooltip tutos
 			}
-			console.log("onUserScratchStartonUserScratchStart");
 			this.hasUserInteracted = true;
 			onUserScratchStart();
 			this.timeoutId = window.setTimeout(() => {

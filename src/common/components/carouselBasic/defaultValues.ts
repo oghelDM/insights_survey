@@ -2,7 +2,6 @@ import { HORIZONTAL_ALIGN, VERTICAL_ALIGN } from "../../types";
 import { IndexManagerType, defaultPropsIndexManager } from "../indexManager";
 
 export interface CarouselBasicType extends IndexManagerType {
-	productUrls: string[]; // image elements
 	unfocusedElementWidth?: number; // the width in percent, occupied by the unfocused elements
 	unfocusedElementHeight?: number; // the height in percent, occupied by the unfocused elements
 	focusedElementOpacity?: number; // the focused element's opacity

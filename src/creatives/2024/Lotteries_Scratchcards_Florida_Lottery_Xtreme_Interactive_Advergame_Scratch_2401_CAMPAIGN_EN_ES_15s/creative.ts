@@ -1,5 +1,5 @@
 import { VPAIDVideoPlayer } from "@app";
-import { random12 } from "@/utils/helper";
+import { random12, trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { Scratch } from "@/components/scratch";
 import { CSSStyleType } from "@/types";
@@ -9,17 +9,21 @@ import { Creative, CreativeProps } from "@/creative";
 const ALL_DATA = {
 	en: {
 		assetsUrl: "EN/1",
+		floodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		redirection:
 			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.386006607;dc_trk_aid=576889242;dc_trk_cid=208352216;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
 	},
 	es: {
 		assetsUrl: "ES/1",
+		floodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		redirection:
 			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385708370;dc_trk_aid=576892002;dc_trk_cid=208352222;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
 	},
 };
 
-const data = ALL_DATA.es;
+const data = ALL_DATA.en;
 
 const shineCoordinates = [
 	{ left: 7, bottom: 29.5, width: 2 },
@@ -127,8 +131,8 @@ class MyCreative extends Creative {
 				);
 			},
 			onUserScratchStart: () => {
-				console.log("user scratch start");
 				tooltip.style.display = "none";
+				trackPixel(data.floodlight);
 			},
 			timeoutDuration: 5000,
 		});

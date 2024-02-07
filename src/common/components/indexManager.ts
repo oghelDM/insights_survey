@@ -17,6 +17,7 @@ export interface IndexManagerType extends ComponentBaseType {
 	arrows?: HTMLElement[];
 	productUrls: string[]; // image elements
 	clickUrls?: string[]; // optional redirection urls for each product
+	floodlights?: string[]; // optional floodlight urls for each product
 }
 
 export const defaultPropsIndexManager: Required<IndexManagerType> = {
@@ -48,6 +49,7 @@ export const defaultPropsIndexManager: Required<IndexManagerType> = {
 		"https://www.google.com/search?q=3",
 		"https://www.google.com/search?q=4",
 	],
+	floodlights: [],
 };
 
 export class IndexManager extends HTMLElement {

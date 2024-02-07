@@ -1,6 +1,6 @@
 import { IndexManager } from "../indexManager";
 import { createDiv } from "../../utils/divMaker";
-import { keepSafe, map } from "../../utils/helper";
+import { keepSafe, map, trackPixel } from "../../utils/helper";
 import { HORIZONTAL_ALIGN, VERTICAL_ALIGN } from "../../types";
 import { CarouselBasicType, defaultValuesCarouselBasic } from "./defaultValues";
 
@@ -28,6 +28,7 @@ export class CarouselBasic extends IndexManager {
 			focusedElementWidth,
 			focusedElementHeight,
 			clickUrls,
+			floodlights,
 			onClick,
 		} = this.cleanProps;
 
@@ -49,12 +50,17 @@ export class CarouselBasic extends IndexManager {
 
 			// position the elements behind the interactive div
 			this.insertBefore(element, this.childNodes[0]);
-			if (clickUrls[index]) {
+			if (clickUrls[index] || floodlights[index]) {
 				element.addEventListener("click", (e) => {
 					console.log("click on product: ", index);
 					e.preventDefault();
 					e.stopPropagation();
-					onClick(clickUrls[index]);
+					if (clickUrls[index]) {
+						onClick(clickUrls[index]);
+					}
+					if (floodlights[index]) {
+						trackPixel(floodlights[index]);
+					}
 				});
 			}
 			return element;

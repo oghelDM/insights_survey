@@ -67,7 +67,9 @@ export const viewShopTemplate: ViewShopType = (
 
 	const leftPanel = createDiv("left-panel", {
 		position: "absolute",
-		width: "20%",
+		display: "flex",
+		flexDirection: "row",
+		width: "30%",
 		height: "100%",
 		left: "0",
 		top: "0",
@@ -75,11 +77,31 @@ export const viewShopTemplate: ViewShopType = (
 		backgroundColor: "crimson",
 	});
 	const qqq = createDiv("qqq", {
-		position: "relative",
-		width: "100%",
-		height: "200%",
-		outline: "2px solid crimson",
+		width: "70%",
+		height: "80%",
+		backgroundColor: "yellow",
 	});
+	const qqq2 = createDiv("qqq2", {
+		width: "100%",
+		height: "100%",
+		backgroundColor: "pink",
+		overflow: "scroll",
+		scrollbarWidth: "none",
+	});
+	const downArrow = new ImageDM(
+		"qqq",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/viewShop/arrow_down.png",
+		{
+			width: "70%",
+			height: "2%",
+			backgroundColor: "green",
+			backgroundSize: "contain",
+			opacity: "0",
+			transition: "opacity .6s",
+		}
+	);
+	qqq.appendChild(qqq2);
+	qqq.appendChild(downArrow);
 	leftPanel.appendChild(qqq);
 
 	const { clickUrl, pagesProps, hotSpotUrl } = actualProps;
@@ -100,24 +122,31 @@ export const viewShopTemplate: ViewShopType = (
 		return page;
 	});
 
+	const hideCurrPage = () => {
+		if (currPage) {
+			currPage.style.left = "-100%";
+			currPage = undefined;
+
+			playBtn.style.opacity = "0";
+			playBtn.style.pointerEvents = "none";
+
+			creativeProps.resumeAd();
+		}
+	};
+
 	// hide the current page if any and resume the video when the user does not interact for some time
 	root.addEventListener("pointermove", () => {
 		window.clearTimeout(inactivityTimeout);
-		inactivityTimeout = window.setTimeout(() => {
-			if (currPage) {
-				currPage.style.left = "-100%";
-				currPage = undefined;
-				creativeProps.resumeAd();
-			}
-		}, 3000);
+		inactivityTimeout = window.setTimeout(() => hideCurrPage(), 3000);
 	});
 
 	const thumbnails = pagesProps.map(({ thumbnailUrl }, i) => {
 		const thumbnail = new ImageDM(`thumbnail_${i}`, thumbnailUrl, {
+			position: "unset",
 			width: "90%",
-			height: "17%",
-			top: `${2 + (17 + 2) * i}%`,
-			left: "5%",
+			aspectRatio: "16 / 9",
+			height: "unset",
+			margin: "5% 5%",
 			cursor: "pointer",
 			opacity: "0",
 			transition: "opacity .6s",
@@ -126,7 +155,6 @@ export const viewShopTemplate: ViewShopType = (
 		thumbnail.addEventListener("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			console.log("click on thumbnail: ", i);
 
 			const nextPage = pages[i];
 			if (currPage === nextPage) {
@@ -137,20 +165,45 @@ export const viewShopTemplate: ViewShopType = (
 			}
 			nextPage.style.left = "0%";
 			currPage = nextPage;
+			playBtn.style.opacity = "1";
+			playBtn.style.pointerEvents = "auto";
 
 			creativeProps.pauseAd();
 		});
-		leftPanel.appendChild(thumbnail);
 		return thumbnail;
 	});
 
 	root.appendChild(leftPanel);
 
+	const playBtn = new ImageDM(
+		"playBtn",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/viewShop/play.png",
+		{
+			width: "10%",
+			left: "86%",
+			top: "40%",
+			aspectRatio: "1 / 1",
+			height: "auto",
+			opacity: "0",
+			transition: "opacity .6s",
+			cursor: "pointer",
+			pointerEvents: "none",
+		}
+	);
+	playBtn.addEventListener("click", hideCurrPage);
+	root.appendChild(playBtn);
+
 	return (percentage: number) => {
 		actualProps.pagesProps.forEach(({ videoProgress }, i) => {
-			if (percentage > videoProgress) {
+			const thumbnail = thumbnails[i];
+			if (percentage > videoProgress && !thumbnail.parentElement) {
 				thumbnails[i].style.opacity = "1";
 				thumbnails[i].style.pointerEvents = "auto";
+				qqq2.appendChild(thumbnail);
+
+				if (qqq2.children.length > 3) {
+					downArrow.style.opacity = "1";
+				}
 			}
 		});
 	};

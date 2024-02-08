@@ -1,5 +1,4 @@
 import { VPAIDVideoPlayer } from "@app";
-import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
 import { bounceIn, rotate } from "@/animations";
 import { Creative, CreativeProps } from "@/creative";
@@ -11,33 +10,41 @@ const ALL_DATA = {
 		assetsUrl: "EN/1",
 		redirection:
 			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31092848.385708328;dc_trk_aid=576817442;dc_trk_cid=208350023;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
-		floodlights: [
+		productFloodlights: [
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot003;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot004;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot005;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot006;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		],
-		floodlight:
+		ctaFloodlight:
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		arrowFloodlights: [
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00b;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00c;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		],
 	},
 	es: {
 		assetsUrl: "ES/1",
 		redirection:
 			"https://ad.doubleclick.net/ddm/trackclk/N884815.132420DAILYMOTION/B31350486.385714214;dc_trk_aid=576888921;dc_trk_cid=208852488;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
-		floodlights: [
+		productFloodlights: [
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot007;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot008;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot009;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00-;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00a;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		],
-		floodlight:
+		ctaFloodlight:
 			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		arrowFloodlights: [
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00d;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+			"https://ad.doubleclick.net/ddm/activity/src=13942653;type=invmedia;cat=fllot00e;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		],
 	},
 };
 
-const data = ALL_DATA.en;
+const data = ALL_DATA.es;
 
 const shineCoordinates = [
 	[
@@ -117,7 +124,7 @@ class MyCreative extends Creative {
 			e.preventDefault();
 			e.stopPropagation();
 			onClick(clickUrl);
-			trackPixel(data.floodlight);
+			trackPixel(data.ctaFloodlight);
 		});
 		bounceIn(cta, 450, 400);
 
@@ -153,7 +160,7 @@ class MyCreative extends Creative {
 					`https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/product_3.png`,
 					`https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/product_4.png`,
 				],
-				floodlights: data.floodlights,
+				floodlights: data.productFloodlights,
 				focusedElementWidth: 100,
 				focusedElementHeight: 100,
 				debug: false,
@@ -203,7 +210,7 @@ class MyCreative extends Creative {
 
 		["left", "right"].forEach((name, i) => {
 			const btn = new ImageDM(
-				`${name}-id`,
+				`arrow-${name}-id`,
 				`https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/assets/${data.assetsUrl}/arrow.png`,
 				{
 					width: "13%",
@@ -222,6 +229,7 @@ class MyCreative extends Creative {
 				e.stopPropagation();
 				carousel.stopAutoPlay();
 				carousel.moveIndexBy(i === 0 ? 1 : -1);
+				trackPixel(data.arrowFloodlights[i]);
 			});
 			carousel.appendChild(btn);
 		});

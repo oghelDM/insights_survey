@@ -8,8 +8,6 @@ class MyCreative extends Creative {
 		const clickUrl =
 			"https://ad.doubleclick.net/ddm/trackclk/N5648.5074599DAILYMOTIONDISPLAY0/B31270383.384833905;dc_trk_aid=575852239;dc_trk_cid=207430081;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1";
 		const commonProductProps = {
-			hotSpotUrl:
-				"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/assets/hotspot.png",
 			cardLeft: "66%",
 			cardTop: "16%",
 		};
@@ -17,6 +15,8 @@ class MyCreative extends Creative {
 		hotSpotsTemplate(root, creativeProps, {
 			clickUrl,
 			bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/assets/v2/bg.png",
+			hotSpotUrl:
+				"https://statics.dmcdn.net/d/PRODUCTION/2023/Auto_Moto_Dacia_Jogger_Interactive_Hotspot_2312_CAMPAIGN_FR_15s/assets/hotspot.png",
 			products: [
 				{
 					productUrl:

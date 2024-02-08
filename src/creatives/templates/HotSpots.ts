@@ -1,3 +1,4 @@
+import { CssType } from "@/types";
 import { CreativeProps } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
@@ -10,10 +11,9 @@ export type HotSpotsType = (
 	props: HotSpotProps
 ) => void;
 
-interface HotSpotProduct {
+export interface HotSpotProduct {
 	clickUrl?: string; // redirection click url for the product (if any)
 	productUrl: string; // product image url
-	hotSpotUrl: string; // hotspot image url
 	spotLeft: string; // css left position of the product hotspot
 	spotTop: string; // css top position of the product hotspot
 	cardLeft: string; // css left position of the product card
@@ -24,10 +24,11 @@ interface HotSpotProduct {
 interface HotSpotProps {
 	clickUrl: string; // redirection click url
 	bgUrl: string; // creative background url
+	hotSpotUrl: string; // hotspot image url
 	products: HotSpotProduct[];
-	cardStyle?: Partial<CSSStyleDeclaration>; // css style to override the card style
-	hotspotStyle?: Partial<CSSStyleDeclaration>; // css style to override the hotspot style
-	closeBtnStyle?: Partial<CSSStyleDeclaration>; // css style to override the product card's close button style
+	cardStyle?: CssType; // css style to override the card style
+	hotspotStyle?: CssType; // css style to override the hotspot style
+	closeBtnStyle?: CssType; // css style to override the product card's close button style
 }
 
 interface Trio {
@@ -40,13 +41,13 @@ interface Trio {
 const defaultProps: Required<HotSpotProps> = {
 	clickUrl: "https://www.dailymotion.fr",
 	bgUrl: "https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/hotSpots/bg.png",
+	hotSpotUrl:
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/hotSpots/hotspot.png",
 	products: [
 		{
 			clickUrl: "https://www.google.fr?q=product0",
 			productUrl:
 				"https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/hotSpots/product0.png",
-			hotSpotUrl:
-				"https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/hotSpots/hotspot.png",
 			spotLeft: "94%",
 			spotTop: "33%",
 			cardLeft: "66%",
@@ -75,6 +76,7 @@ export const hotSpotsTemplate: HotSpotsType = (
 		cardStyle,
 		hotspotStyle,
 		closeBtnStyle,
+		hotSpotUrl,
 	} = actualProps;
 
 	const bg = new ImageDM("bg-dm", bgUrl);
@@ -89,7 +91,7 @@ export const hotSpotsTemplate: HotSpotsType = (
 			aspectRatio: "1/1",
 			left: product.spotLeft,
 			top: product.spotTop,
-			backgroundImage: `url(${product.hotSpotUrl})`,
+			backgroundImage: `url(${hotSpotUrl})`,
 			backgroundSize: "contain",
 			backgroundRepeat: "no-repeat",
 			cursor: "pointer",

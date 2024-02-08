@@ -376,7 +376,7 @@ export class VPAIDVideoPlayer {
 	 * Called by the wrapper to stop the ad.
 	 */
 	stopAd = () => {
-		// this.log("Stopping ad");
+		this.log("Stopping ad");
 		// Calling AdStopped immediately terminates the ad. Setting a timeout allows
 		// events to go through.
 		var callback = this.callEvent.bind(this);

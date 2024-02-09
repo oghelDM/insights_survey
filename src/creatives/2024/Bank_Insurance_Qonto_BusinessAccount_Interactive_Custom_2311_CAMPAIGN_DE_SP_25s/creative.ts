@@ -1,6 +1,6 @@
 import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
-import { bounceIn } from "@/animations";
+// import { bounceIn } from "@/animations";
 import { trackPixel } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
@@ -113,7 +113,7 @@ const DATA = {
 	},
 };
 
-const data = DATA.SP;
+const data = DATA.DE;
 
 class QontoCreative extends Creative {
 	completionFloodlights: string[];
@@ -170,7 +170,7 @@ class QontoCreative extends Creative {
 						root.addEventListener("click", () => onClick(redirect));
 
 						this.completionFloodlights = completionFloodlights;
-						tooltip.style.display = "none";
+						// tooltip.style.display = "none";
 					} else {
 						stopAd();
 					}
@@ -181,33 +181,33 @@ class QontoCreative extends Creative {
 			}
 		);
 
-		const tooltip = new ImageDM(
-			"tooltip",
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/tooltip.png",
-			{
-				width: "6%",
-				height: "14%",
-				backgroundSize: "contain",
-				left: "71%",
-				rotate: "-12deg",
-				scale: "0",
-			}
-		);
-		root.appendChild(tooltip);
+		// const tooltip = new ImageDM(
+		// 	"tooltip",
+		// 	"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/tooltip.png",
+		// 	{
+		// 		width: "6%",
+		// 		height: "14%",
+		// 		backgroundSize: "contain",
+		// 		left: "71%",
+		// 		rotate: "-12deg",
+		// 		scale: "0",
+		// 	}
+		// );
+		// root.appendChild(tooltip);
 
-		let tooltipBtnIdx = 0;
-		window.setTimeout(
-			() =>
-				window.setInterval(() => {
-					const top = parseFloat(
-						data.btns[tooltipBtnIdx % data.btns.length].top
-					);
-					tooltip.style.top = `${top + 2}%`;
-					bounceIn(tooltip, 1200);
-					tooltipBtnIdx += 1;
-				}, 2500),
-			600
-		);
+		// let tooltipBtnIdx = 0;
+		// window.setTimeout(
+		// 	() =>
+		// 		window.setInterval(() => {
+		// 			const top = parseFloat(
+		// 				data.btns[tooltipBtnIdx % data.btns.length].top
+		// 			);
+		// 			tooltip.style.top = `${top + 2}%`;
+		// 			bounceIn(tooltip, 1200);
+		// 			tooltipBtnIdx += 1;
+		// 		}, 2500),
+		// 	600
+		// );
 	}
 
 	public videoTimeUpdate(completionPercent: number): void {

@@ -71,6 +71,7 @@ class MyCreative extends Creative {
 				arrows,
 				debug: false,
 				fadeObjects: bgs,
+				isInteractive: true,
 			},
 			{ width: "50%", left: "25%" }
 		);

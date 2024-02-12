@@ -12,6 +12,11 @@ export class Collection extends BaseComponent {
 	private currIdx = 0; // the index of the currently displayed product
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
+	// swipe detection
+	private interactionDiv: HTMLElement;
+	private isMouseDown = false;
+	private mouseHasMoved: boolean = false;
+	private mousePosition = { clientX: 0, clientY: 0 };
 
 	constructor(props: CollectionType, style: CssType = {}) {
 		super(props, {
@@ -23,7 +28,71 @@ export class Collection extends BaseComponent {
 		});
 
 		this.init(props);
+
+		this.initSwipeEvents();
 	}
+
+	private initSwipeEvents = () => {
+		const { isInteractive, isVertical, id, clickUrls, onClick } =
+			this.cleanProps;
+
+		if (!isInteractive) {
+			return;
+		}
+
+		const div = createDiv(`${id}-interaction`, {
+			position: "absolute",
+			width: "100%",
+			height: "100%",
+			cursor: "pointer",
+		});
+
+		div.addEventListener("pointerdown", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			const { clientX, clientY } = e;
+			this.mousePosition = { clientX, clientY };
+			this.isMouseDown = true;
+			this.mouseHasMoved = false;
+		});
+
+		div.addEventListener("pointerleave", () => (this.isMouseDown = false));
+
+		div.addEventListener("pointerout", () => (this.isMouseDown = false));
+
+		div.addEventListener("pointerup", (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			if (!this.isMouseDown) {
+				return;
+			}
+			this.isMouseDown = false;
+
+			if (!this.mouseHasMoved && clickUrls[this.currIdx]) {
+				onClick(clickUrls[this.currIdx]);
+			}
+		});
+
+		div.addEventListener("pointermove", (e) => {
+			if (!this.isMouseDown) {
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			this.mouseHasMoved = true;
+			const { clientX, clientY } = e;
+			const dx = clientX - this.mousePosition.clientX;
+			const dy = clientY - this.mousePosition.clientY;
+			if (isVertical && Math.abs(dy) > 30) {
+				dy > 0 ? this.goToNext() : this.goToPrevious();
+			} else if (Math.abs(dx) > 30) {
+				dx > 0 ? this.goToNext() : this.goToPrevious();
+			}
+		});
+
+		this.interactionDiv = div;
+		this.appendChild(this.interactionDiv);
+	};
 
 	public init = (props: CollectionType) => {
 		this.cleanProps = {
@@ -35,7 +104,6 @@ export class Collection extends BaseComponent {
 			productUrls,
 			id,
 			clickUrls,
-			onClick,
 			styleProductFocused,
 			startIndex,
 			arrows,
@@ -64,13 +132,6 @@ export class Collection extends BaseComponent {
 			// position the elements behind the interactive div
 			// this.insertBefore(element, this.childNodes[0]);
 			this.appendChild(element);
-			if (clickUrls[index]) {
-				element.addEventListener("click", (e) => {
-					e.preventDefault();
-					e.stopPropagation();
-					onClick(clickUrls[index]);
-				});
-			}
 			return element;
 		});
 		// make sure the first product is above all other ones
@@ -88,8 +149,6 @@ export class Collection extends BaseComponent {
 			arrow.addEventListener("click", (e) => {
 				e.preventDefault();
 				e.stopPropagation();
-				window.clearTimeout(this.autoPlayTimeoutId);
-				window.clearInterval(this.autoPlayIntervalId);
 				if (i === 0) {
 					this.goToPrevious();
 				} else {
@@ -98,9 +157,8 @@ export class Collection extends BaseComponent {
 			})
 		);
 
-		window.clearTimeout(this.autoPlayTimeoutId);
-		window.clearInterval(this.autoPlayIntervalId);
 		if (autoPlay) {
+			this.stopAutoPlay();
 			this.startAutoPlay();
 		}
 	};
@@ -116,14 +174,22 @@ export class Collection extends BaseComponent {
 		this.autoPlayTimeoutId = window.setTimeout(
 			() =>
 				(this.autoPlayIntervalId = window.setInterval(
-					() => this.startAnimation(true),
+					() => this.startAnimation(true, true),
 					frequency * 1000
 				)),
 			delay
 		);
 	};
 
-	private startAnimation = (isLeft: boolean) => {
+	public stopAutoPlay = () => {
+		window.clearTimeout(this.autoPlayTimeoutId);
+		window.clearInterval(this.autoPlayIntervalId);
+	};
+
+	private startAnimation = (isLeft: boolean, isAutoPlay = false) => {
+		if (!isAutoPlay) {
+			this.stopAutoPlay();
+		}
 		if (this.isAnimationPlaying) {
 			return;
 		}
@@ -146,6 +212,9 @@ export class Collection extends BaseComponent {
 		const currProduct = this.products[this.currIdx];
 		const nextProduct = this.products[nextIdx];
 		this.appendChild(nextProduct);
+		if (this.interactionDiv) {
+			this.appendChild(this.interactionDiv);
+		}
 
 		nextProduct.style.pointerEvents = "auto";
 		currProduct.style.pointerEvents = "none";

@@ -26,6 +26,8 @@ export interface CollectionType extends ComponentBaseType {
 		duration: number;
 		easing: string;
 	};
+	isVertical?: boolean;
+	isInteractive?: boolean;
 }
 
 export const defaultValuesCollection: Required<CollectionType> = {
@@ -70,4 +72,6 @@ export const defaultValuesCollection: Required<CollectionType> = {
 	startIndex: 0,
 	clickUrls: [],
 	fadeObjects: [],
+	isVertical: false,
+	isInteractive: true,
 };

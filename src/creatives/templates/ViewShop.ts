@@ -67,42 +67,52 @@ export const viewShopTemplate: ViewShopType = (
 
 	const leftPanel = createDiv("left-panel", {
 		position: "absolute",
-		display: "flex",
 		flexDirection: "row",
-		width: "30%",
+		width: "25%",
 		height: "100%",
-		left: "0",
+		left: "-25%",
 		top: "0",
 		transition: "left .6s",
-		backgroundColor: "crimson",
 	});
-	const qqq = createDiv("qqq", {
-		width: "70%",
-		height: "80%",
-		backgroundColor: "yellow",
-	});
-	const qqq2 = createDiv("qqq2", {
-		width: "100%",
+	const container = createDiv("panel-container", {
+		position: "absolute",
+		width: "80%",
 		height: "100%",
-		backgroundColor: "pink",
+		backgroundColor: "rgba(0,0,0,.7)",
+	});
+	const subContainer = createDiv("panel-subcontainer", {
+		width: "100%",
+		height: "85%",
 		overflow: "scroll",
 		scrollbarWidth: "none",
 	});
 	const downArrow = new ImageDM(
-		"qqq",
+		"panel-down-arrow",
 		"https://statics.dmcdn.net/d/TESTS/fwk/assets/viewShop/arrow_down.png",
 		{
-			width: "70%",
 			height: "2%",
-			backgroundColor: "green",
 			backgroundSize: "contain",
 			opacity: "0",
 			transition: "opacity .6s",
 		}
 	);
-	qqq.appendChild(qqq2);
-	qqq.appendChild(downArrow);
-	leftPanel.appendChild(qqq);
+	const panelButton = new ImageDM(
+		"panel-button",
+		"https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/viewShop/btnOff.png",
+		{
+			width: "20%",
+			aspectRatio: "1 / 1",
+			height: "unset",
+			left: "80%",
+			top: "40%",
+			cursor: "pointer",
+			transition: "background-image 0.5s",
+		}
+	);
+	container.appendChild(subContainer);
+	container.appendChild(downArrow);
+	leftPanel.appendChild(container);
+	leftPanel.appendChild(panelButton);
 
 	const { clickUrl, pagesProps, hotSpotUrl } = actualProps;
 
@@ -134,6 +144,28 @@ export const viewShopTemplate: ViewShopType = (
 		}
 	};
 
+	const togglePanel = () => {
+		const isPanelHidden = leftPanel.style.left !== "0%";
+		leftPanel.style.left = isPanelHidden ? "0%" : "-20%";
+		panelButton.style.backgroundImage = `url(https://statics.dmcdn.net/d/TESTS/fwk/assets/templates/viewShop/btnO${
+			isPanelHidden ? "ff" : "n"
+		}.png)`;
+	};
+
+	panelButton.addEventListener("pointerenter", () => {
+		const isPanelHidden = leftPanel.style.left !== "0%";
+		if (isPanelHidden) {
+			togglePanel();
+		}
+	});
+
+	panelButton.addEventListener("click", () => {
+		const isPanelHidden = leftPanel.style.left !== "0%";
+		if (!isPanelHidden) {
+			togglePanel();
+		}
+	});
+
 	// hide the current page if any and resume the video when the user does not interact for some time
 	root.addEventListener("pointermove", () => {
 		window.clearTimeout(inactivityTimeout);
@@ -145,11 +177,11 @@ export const viewShopTemplate: ViewShopType = (
 			position: "unset",
 			width: "90%",
 			aspectRatio: "16 / 9",
-			height: "unset",
+			height: "0%", // allows to hide the thumbnail until it is displayed
 			margin: "5% 5%",
 			cursor: "pointer",
 			opacity: "0",
-			transition: "opacity .6s",
+			transition: "opacity .6s .3s",
 			pointerEvents: "none",
 		});
 		thumbnail.addEventListener("click", (e) => {
@@ -170,6 +202,8 @@ export const viewShopTemplate: ViewShopType = (
 
 			creativeProps.pauseAd();
 		});
+		subContainer.appendChild(thumbnail);
+
 		return thumbnail;
 	});
 
@@ -196,13 +230,18 @@ export const viewShopTemplate: ViewShopType = (
 	return (percentage: number) => {
 		actualProps.pagesProps.forEach(({ videoProgress }, i) => {
 			const thumbnail = thumbnails[i];
-			if (percentage > videoProgress && !thumbnail.parentElement) {
-				thumbnails[i].style.opacity = "1";
-				thumbnails[i].style.pointerEvents = "auto";
-				qqq2.appendChild(thumbnail);
+			if (percentage > videoProgress && thumbnail.style.height === "0%") {
+				thumbnail.style.height = "unset";
+				thumbnail.style.opacity = "1";
+				thumbnail.style.pointerEvents = "auto";
 
-				if (qqq2.children.length > 3) {
+				if (subContainer.children.length > 3) {
 					downArrow.style.opacity = "1";
+					thumbnail.scrollIntoView({ behavior: "smooth" });
+				}
+
+				if (i === 0) {
+					togglePanel(); // display the panel for the first time
 				}
 			}
 		});

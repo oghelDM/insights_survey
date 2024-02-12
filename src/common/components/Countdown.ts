@@ -1,5 +1,5 @@
-import { CSSStyleType, ComponentBaseType, HORIZONTAL_ALIGN } from "../types";
 import { createDiv } from "../utils/divMaker";
+import { CssType, ComponentBaseType, HORIZONTAL_ALIGN } from "../types";
 
 interface CountdownType extends ComponentBaseType {
 	date: Date; // date in the format: 'Oct 21, 2023 09:00:00'
@@ -21,7 +21,7 @@ export class Countdown extends HTMLElement {
 	private secDiv: HTMLElement;
 	private suffixes: string[];
 
-	constructor(props: CountdownType, style: CSSStyleType = {}) {
+	constructor(props: CountdownType, style: CssType = {}) {
 		super();
 
 		const {
@@ -49,7 +49,7 @@ export class Countdown extends HTMLElement {
 		} else if (textAlign === HORIZONTAL_ALIGN.RIGHT) {
 			justifyContent = "flex-end";
 		}
-		const actualStyle = {
+		const actualStyle: CssType = {
 			position: "absolute",
 			height: "3.5vi",
 			lineHeight: "3.5vi",

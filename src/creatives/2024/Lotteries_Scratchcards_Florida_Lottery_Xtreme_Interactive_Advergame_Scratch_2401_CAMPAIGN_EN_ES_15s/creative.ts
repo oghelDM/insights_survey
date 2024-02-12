@@ -1,10 +1,10 @@
+import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
 import { random12, trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { Scratch } from "@/components/scratch";
-import { CSSStyleType } from "@/types";
-import { bounceIn, bounceOut, hotSpotBounce, rotate } from "@/animations";
 import { Creative, CreativeProps } from "@/creative";
+import { bounceIn, bounceOut, hotSpotBounce, rotate } from "@/animations";
 
 const ALL_DATA = {
 	en: {
@@ -49,7 +49,7 @@ class MyCreative extends Creative {
 		let timeoutId: number;
 		let intervalId: number;
 
-		const wordingStyle: CSSStyleType = {
+		const wordingStyle: CssType = {
 			position: "absolute",
 			width: "38%",
 			height: "30%",

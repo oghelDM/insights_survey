@@ -1,6 +1,6 @@
-import { ComponentBaseType } from "../types";
 import { getClientXY } from "../utils/helper";
 import { createDiv } from "../utils/divMaker";
+import { ComponentBaseType, CssType } from "../types";
 
 interface SplitType extends ComponentBaseType {
 	leftImageUrl: string;
@@ -14,7 +14,11 @@ export class Split extends HTMLElement {
 	private divLeft: HTMLElement;
 	private handle: HTMLElement;
 
-	constructor(props: SplitType, style: any = {}, imagesStyle: any = {}) {
+	constructor(
+		props: SplitType,
+		style: CssType = {},
+		imagesStyle: CssType = {}
+	) {
 		super();
 
 		const {
@@ -28,12 +32,12 @@ export class Split extends HTMLElement {
 		} = props;
 
 		this.setAttribute("id", id);
-		const actualStyle = {
+		const actualStyle: CssType = {
 			display: "block",
 			position: "absolute",
 			width: "100%",
 			height: "100%",
-			opacity: 1,
+			opacity: "1",
 			backgroundColor: debug ? "#00ff0088" : "unset",
 			overflow: "hidden",
 

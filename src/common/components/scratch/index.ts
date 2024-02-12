@@ -1,10 +1,11 @@
+import { CssType } from "@/types";
 import { cover, getClientXY, map } from "../../utils/helper";
 import { ScratchType, defaultValuesScratch } from "./defaultValues";
 
 export class Scratch extends HTMLElement {
 	protected cleanProps: Required<ScratchType>;
 
-	private styleProps: any;
+	private styleProps: CssType;
 
 	private canvas: HTMLCanvasElement;
 	private context: CanvasRenderingContext2D;
@@ -17,7 +18,7 @@ export class Scratch extends HTMLElement {
 	private timeoutId: number;
 	private originalSize = { width: 1, height: 1 }; // original canvas size, used to resize properly
 
-	constructor(props: ScratchType, styleProps: any = {}) {
+	constructor(props: ScratchType, styleProps: CssType = {}) {
 		super();
 
 		this.cleanProps = { ...defaultValuesScratch, ...props };

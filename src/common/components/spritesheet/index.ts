@@ -1,3 +1,4 @@
+import { CssType } from "@/types";
 import { SpritesheetType, defaultValuesSpritesheet } from "./defaultValues";
 
 export class Spritesheet extends HTMLElement {
@@ -7,13 +8,13 @@ export class Spritesheet extends HTMLElement {
 	private last?: number; //the last time the frame was updated
 	private currFrame: number; // the currently displayed frame number
 
-	constructor(props: SpritesheetType, styleProps: any = {}) {
+	constructor(props: SpritesheetType, styleProps: CssType = {}) {
 		super();
 
 		this.init({ ...defaultValuesSpritesheet, ...props }, styleProps);
 	}
 
-	public init(props: SpritesheetType, styleProps: any) {
+	public init(props: SpritesheetType, styleProps: CssType) {
 		this.props = { ...this.props, ...props };
 
 		const {
@@ -33,7 +34,7 @@ export class Spritesheet extends HTMLElement {
 		this.last = Date.now();
 
 		this.setAttribute("id", id);
-		const actualStyle = {
+		const actualStyle: CssType = {
 			position: "absolute",
 			width: styleProps.width ? styleProps.width : "unset",
 			height: styleProps.height ? styleProps.height : "unset",

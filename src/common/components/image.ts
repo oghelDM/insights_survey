@@ -6,7 +6,7 @@ export class ImageDM extends HTMLElement {
 
 		this.setAttribute("id", id);
 
-		const actualStyle = {
+		const actualStyle: CssType = {
 			display: "block",
 			position: "absolute",
 			backgroundPosition: "center",
@@ -14,19 +14,19 @@ export class ImageDM extends HTMLElement {
 			backgroundSize: "cover",
 			width: "100%",
 			height: "100%",
-			left: null,
-			top: null,
-			right: null,
-			bottom: null,
+			left: "unset",
+			top: "unset",
+			right: "unset",
+			bottom: "unset",
 			borderRadius: "0px",
-			opacity: 1,
-			scale: 1,
-			rotate: 0,
-			backgroundColor: null,
+			opacity: "1",
+			scale: "1",
+			rotate: "0",
+			backgroundColor: "unset",
 			aspectRatio: "auto",
 
 			...style,
-			backgroundImage: `url(${imageUrl})` || null,
+			backgroundImage: `url(${imageUrl})` || "unset",
 		};
 
 		for (const [key, value] of Object.entries(actualStyle)) {

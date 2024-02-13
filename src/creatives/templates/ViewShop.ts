@@ -7,6 +7,7 @@ import { HotSpotProduct, hotSpotsTemplate } from "./HotSpots";
 export type ViewShopType = (
 	root: HTMLElement,
 	creativeProps: CreativeProps,
+	_setCanResumeVideo: (canResumeVideo: boolean) => void,
 	props: ViewShopProps
 ) => (percentage: number) => void;
 
@@ -55,10 +56,12 @@ const defaultProps: Required<ViewShopProps> = {
 export const viewShopTemplate: ViewShopType = (
 	root: HTMLElement,
 	creativeProps: CreativeProps,
+	_setCanResumeVideo: (canResumeVideo: boolean) => void,
 	hotSpotProps: ViewShopProps
 ) => {
 	let currPage: HTMLElement | undefined;
 	let inactivityTimeout: number;
+	const setCanResumeVideo = _setCanResumeVideo;
 
 	const actualProps: Required<ViewShopProps> = {
 		...defaultProps,
@@ -140,6 +143,7 @@ export const viewShopTemplate: ViewShopType = (
 			playBtn.style.opacity = "0";
 			playBtn.style.pointerEvents = "none";
 
+			setCanResumeVideo(true);
 			creativeProps.resumeAd();
 		}
 	};
@@ -200,6 +204,7 @@ export const viewShopTemplate: ViewShopType = (
 			playBtn.style.opacity = "1";
 			playBtn.style.pointerEvents = "auto";
 
+			setCanResumeVideo(false);
 			creativeProps.pauseAd();
 		});
 		subContainer.appendChild(thumbnail);

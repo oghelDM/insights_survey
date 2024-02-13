@@ -254,7 +254,10 @@ export const viewShopTemplate: ViewShopType = (
 
 				if (subContainer.children.length > 3) {
 					downArrow.style.opacity = "1";
-					thumbnail.scrollIntoView({ behavior: "smooth" });
+					subContainer.scroll({
+						top: subContainer.scrollHeight,
+						behavior: "smooth",
+					});
 				}
 
 				if (i === 0) {

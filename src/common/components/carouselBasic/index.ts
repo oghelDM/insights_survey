@@ -50,19 +50,7 @@ export class CarouselBasic extends IndexManager {
 
 			// position the elements behind the interactive div
 			this.insertBefore(element, this.childNodes[0]);
-			if (clickUrls[index] || floodlights[index]) {
-				element.addEventListener("click", (e) => {
-					console.log("click on product: ", index);
-					e.preventDefault();
-					e.stopPropagation();
-					if (clickUrls[index]) {
-						onClick(clickUrls[index]);
-					}
-					if (floodlights[index]) {
-						trackPixel(floodlights[index]);
-					}
-				});
-			}
+
 			return element;
 		});
 		this.nbProducts = products.length;

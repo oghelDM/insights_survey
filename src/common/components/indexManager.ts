@@ -1,5 +1,5 @@
 import { createDiv } from "../utils/divMaker";
-import { getClientXY, keepSafe, map } from "../utils/helper";
+import { getClientXY, keepSafe, map, trackPixel } from "../utils/helper";
 import { ComponentBaseType, CssType, defaultComponentValues } from "../types";
 
 export interface IndexManagerType extends ComponentBaseType {
@@ -251,11 +251,15 @@ export class IndexManager extends HTMLElement {
 		e.preventDefault();
 		e.stopPropagation();
 		this.isMouseDown = false;
-		const { onClick, clickUrl, clickUrls } = this.cleanProps;
+		const { onClick, clickUrl, clickUrls, floodlights } = this.cleanProps;
 		if (!this.mouseHasMoved) {
+			const idx = keepSafe(this.currentIndex, this.nbProducts);
+			if (floodlights[idx]) {
+				trackPixel(floodlights[idx]);
+			}
+
 			let redirectUrl = clickUrl;
 			if (clickUrls.length > 0) {
-				const idx = keepSafe(this.currentIndex, this.nbProducts);
 				redirectUrl = clickUrls[idx] || redirectUrl;
 			}
 			onClick(redirectUrl);

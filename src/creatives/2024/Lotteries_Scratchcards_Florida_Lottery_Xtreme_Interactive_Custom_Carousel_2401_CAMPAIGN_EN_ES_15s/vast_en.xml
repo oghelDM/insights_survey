@@ -14,10 +14,10 @@
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/10/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/EN/1/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/10/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Lotteries_Scratchcards_Florida_Lottery_Xtreme_Interactive_Custom_Carousel_2401_CAMPAIGN_EN_15s/builds/EN/1/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

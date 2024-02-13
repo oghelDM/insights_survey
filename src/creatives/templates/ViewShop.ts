@@ -59,7 +59,7 @@ export const viewShopTemplate: ViewShopType = (
 	_setCanResumeVideo: (canResumeVideo: boolean) => void,
 	hotSpotProps: ViewShopProps
 ) => {
-	let currPage: HTMLElement | undefined;
+	let currPair: { page: HTMLElement; thumbnail: HTMLElement } | undefined; // the current page and thumbnail, if any
 	let inactivityTimeout: number;
 	const setCanResumeVideo = _setCanResumeVideo;
 
@@ -136,16 +136,22 @@ export const viewShopTemplate: ViewShopType = (
 	});
 
 	const hideCurrPage = () => {
-		if (currPage) {
-			currPage.style.left = "-100%";
-			currPage = undefined;
-
-			playBtn.style.opacity = "0";
-			playBtn.style.pointerEvents = "none";
-
-			setCanResumeVideo(true);
-			creativeProps.resumeAd();
+		if (!currPair) {
+			return;
 		}
+
+		thumbnails.forEach((t) => (t.style.outline = "unset"));
+
+		const { page, thumbnail } = currPair;
+		page.style.left = "-100%";
+		thumbnail.style.outline = "unset";
+		currPair = undefined;
+
+		playBtn.style.opacity = "0";
+		playBtn.style.pointerEvents = "none";
+
+		setCanResumeVideo(true);
+		creativeProps.resumeAd();
 	};
 
 	const togglePanel = () => {
@@ -185,22 +191,28 @@ export const viewShopTemplate: ViewShopType = (
 			margin: "5% 5%",
 			cursor: "pointer",
 			opacity: "0",
-			transition: "opacity .6s .3s",
+			transition: "opacity .6s .3s, outline .4s",
 			pointerEvents: "none",
 		});
 		thumbnail.addEventListener("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 
-			const nextPage = pages[i];
-			if (currPage === nextPage) {
+			const nextPair = { page: pages[i], thumbnail: thumbnails[i] };
+			if (currPair === nextPair) {
 				return;
 			}
-			if (currPage) {
-				currPage.style.left = "-100%";
+
+			if (currPair) {
+				const { page, thumbnail } = currPair;
+				page.style.left = "-100%";
+				thumbnail.style.outline = "unset";
 			}
-			nextPage.style.left = "0%";
-			currPage = nextPage;
+
+			nextPair.page.style.left = "0%";
+			nextPair.thumbnail.style.outline = "4px solid white";
+			currPair = nextPair;
+
 			playBtn.style.opacity = "1";
 			playBtn.style.pointerEvents = "auto";
 

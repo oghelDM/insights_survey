@@ -22,6 +22,7 @@ export enum HORIZONTAL_ALIGN {
 export interface CssType extends Partial<CSSStyleDeclaration> {
 	"-webkit-backface-visibility"?: string;
 	"-webkit-transform"?: string;
+	scrollbarWidth?: string;
 }
 
 export interface ComponentBaseType {

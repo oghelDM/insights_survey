@@ -1,3 +1,4 @@
+import { trackPixel } from "@/utils/helper";
 import { VPAIDVideoPlayer } from "@/app/app";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
@@ -72,6 +73,9 @@ class MyCreative extends Creative {
 		cta.addEventListener("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
+			trackPixel(
+				"https://ad.doubleclick.net/ddm/activity/src=14166143;type=invmedia;cat=click0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
+			);
 			creativeProps.onClick(clickUrl);
 		});
 		root.appendChild(cta);

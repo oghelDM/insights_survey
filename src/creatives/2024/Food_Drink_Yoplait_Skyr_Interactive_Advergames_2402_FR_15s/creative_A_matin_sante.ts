@@ -132,7 +132,7 @@ class MyCreative extends Creative {
 					height: "25%",
 					left: "unset",
 					right: "0",
-					top: "38%",
+					top: "42%",
 					opacity: i === 0 ? "1" : "0",
 					backgroundSize: "95%",
 					backgroundPosition: "top",
@@ -238,9 +238,8 @@ class MyCreative extends Creative {
 		canvas.style.width = "7%";
 		canvas.style.aspectRatio = "1 / 1";
 		canvas.style.left = "77%";
-		canvas.style.top = "44%";
+		canvas.style.top = "51%";
 		canvas.style.transition = "opacity .4s";
-		this.gameContainer.appendChild(canvas);
 
 		const ctx = canvas.getContext("2d");
 
@@ -253,6 +252,8 @@ class MyCreative extends Creative {
 		counter.style.height = "auto";
 		counter.style.aspectRatio = "1 / 1";
 		counter.style.lineHeight = "7vw";
+
+		this.gameContainer.appendChild(canvas);
 		this.gameContainer.appendChild(counter);
 
 		let count = 0;
@@ -385,6 +386,9 @@ class MyCreative extends Creative {
 				}
 			});
 		});
+
+		// make sure that all the fruits are behind the clock and wordings
+		this.root.appendChild(this.gameContainer);
 	};
 
 	private endGame = () => {

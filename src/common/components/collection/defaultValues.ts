@@ -6,7 +6,8 @@ import {
 
 export interface CollectionType extends ComponentBaseType {
 	productUrls: string[]; // image elements
-	clickUrls?: string[]; // productredirections
+	clickUrls?: string[]; // product redirections
+	floodlights?: string[]; // product floodlights
 	startIndex?: number;
 	autoPlay?: boolean;
 	arrows?: HTMLElement[];
@@ -43,6 +44,7 @@ export const defaultValuesCollection: Required<CollectionType> = {
 		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-5.png",
 		"https://statics.dmcdn.net/d/TESTS/fwk/assets/products/mizuno-shoes/mizuno-6.png",
 	],
+	floodlights: [],
 	styleProductFocused: {
 		width: "100%",
 		height: "100%",

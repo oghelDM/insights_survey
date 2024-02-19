@@ -1,5 +1,5 @@
 import { CssType } from "@/types";
-import { keepSafe } from "@/utils/helper";
+import { keepSafe, trackPixel } from "@/utils/helper";
 import { createDiv } from "../../utils/divMaker";
 import { BaseComponent } from "../BaseComponent";
 import { CollectionType, defaultValuesCollection } from "./defaultValues";
@@ -33,13 +33,20 @@ export class Collection extends BaseComponent {
 	}
 
 	private initSwipeEvents = () => {
-		const { isInteractive, isVertical, id, clickUrls, onClick } =
-			this.cleanProps;
+		const {
+			isInteractive,
+			isVertical,
+			id,
+			clickUrls,
+			floodlights,
+			onClick,
+		} = this.cleanProps;
 
 		if (!isInteractive) {
 			return;
 		}
 
+		// interaction div
 		const div = createDiv(`${id}-interaction`, {
 			position: "absolute",
 			width: "100%",
@@ -68,8 +75,13 @@ export class Collection extends BaseComponent {
 			}
 			this.isMouseDown = false;
 
-			if (!this.mouseHasMoved && clickUrls[this.currIdx]) {
-				onClick(clickUrls[this.currIdx]);
+			if (!this.mouseHasMoved) {
+				if (clickUrls[this.currIdx]) {
+					onClick(clickUrls[this.currIdx]);
+				}
+				if (floodlights[this.currIdx]) {
+					trackPixel(floodlights[this.currIdx]);
+				}
 			}
 		});
 
@@ -103,7 +115,6 @@ export class Collection extends BaseComponent {
 		const {
 			productUrls,
 			id,
-			clickUrls,
 			styleProductFocused,
 			startIndex,
 			arrows,
@@ -121,11 +132,6 @@ export class Collection extends BaseComponent {
 				...styleProductFocused,
 				backgroundImage: `url(${url})`,
 				outline: debug ? "1px solid pink" : "unset",
-				pointerEvents:
-					clickUrls[this.currIdx] && isCurrentProduct
-						? "auto"
-						: "none",
-				cursor: clickUrls[index] ? "pointer" : "unset",
 				opacity: isCurrentProduct ? "1" : "0",
 			});
 

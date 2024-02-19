@@ -13,8 +13,8 @@ class MyCreative extends Creative {
 		const bg = new ImageDM(
 			"bg-id",
 			isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/bg.png"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/bg.png"
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/bg.png"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/bg.png"
 		);
 		bg.addEventListener("click", (e) => {
 			e.stopPropagation();
@@ -46,16 +46,16 @@ class MyCreative extends Creative {
 				id: "collection-DM",
 				productUrls: isKids
 					? [
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/product0.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/product1.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/product2.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/product3.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product0.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product1.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product2.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product3.png",
 					  ]
 					: [
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/product0.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/product1.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/product2.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/product3.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product0.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product1.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product2.png",
+							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product3.png",
 					  ],
 				clickUrls: isKids
 					? [
@@ -142,14 +142,14 @@ class MyCreative extends Creative {
 	public getVideos() {
 		return {
 			low: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/video_low.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/video_low.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_low.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_low.mp4",
 			mid: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/video_mid.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/video_mid.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_mid.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_mid.mp4",
 			high: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids/video_high.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina/video_high.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_high.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_high.mp4",
 		};
 	}
 }

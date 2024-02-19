@@ -10,8 +10,6 @@ class MyCreative extends Creative {
 
 		const clickUrl = "https://track.adform.net/C/?bn=71461883";
 		const commonProductProps = {
-			hotSpotUrl:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/hotspot.png",
 			cardLeft: "66.5%",
 			cardTop: "10%",
 		};
@@ -19,6 +17,8 @@ class MyCreative extends Creative {
 		hotSpotsTemplate(root, creativeProps, {
 			clickUrl,
 			bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/bg.png",
+			hotSpotUrl:
+				"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/hotspot.png",
 			products: [
 				{
 					productUrl:

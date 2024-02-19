@@ -1,12 +1,16 @@
 import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
+// import { bounceIn } from "@/animations";
 import { trackPixel } from "@/utils/helper";
+import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 
 const DATA = {
 	DE: {
 		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/bg.png",
+		happydemicsPixel:
+			"https://secure.adnxs.com/seg?add=36183614&gdpr_consent=${GDPR_CONSENT_550}",
 		btns: [
 			{
 				top: "31.3%",
@@ -49,6 +53,8 @@ const DATA = {
 	},
 	SP: {
 		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/SP/bg.png",
+		happydemicsPixel:
+			"https://secure.adnxs.com/seg?add=36429546&gdpr_consent=${GDPR_CONSENT_550}",
 		btns: [
 			{
 				top: "29.3%",
@@ -107,7 +113,7 @@ const DATA = {
 	},
 };
 
-const data = DATA.SP;
+const data = DATA.DE;
 
 class QontoCreative extends Creative {
 	completionFloodlights: string[];
@@ -121,16 +127,10 @@ class QontoCreative extends Creative {
 
 		const { onClick, videoSlot, stopAd, resumeAd } = creativeProps;
 
-		const bg = createDiv("bg-id", {
-			position: "absolute",
-			width: "100%",
-			height: "100%",
-			backgroundPosition: "center center",
-			backgroundRepeat: "no-repeat",
-			backgroundSize: "contain",
+		const bg = new ImageDM("bg-id", data.bgUrl, {
 			pointerEvents: "none",
-			backgroundImage: `url(${data.bgUrl})`,
 		});
+		root.appendChild(bg);
 
 		const btnStyle: CssType = {
 			position: "absolute",
@@ -141,6 +141,7 @@ class QontoCreative extends Creative {
 			cursor: "pointer",
 			// backgroundColor: "rgba(255, 0, 0, .6)",
 		};
+
 		const buttonArray: HTMLElement[] = data.btns.map(
 			(
 				{ top, floodlight, videoSrc, redirect, completionFloodlights },
@@ -162,15 +163,14 @@ class QontoCreative extends Creative {
 						buttonArray.forEach(
 							(element) => (element.style.display = "none")
 						);
-						trackPixel(
-							"https://secure.adnxs.com/seg?add=36183614&gdpr_consent=${GDPR_CONSENT_550}"
-						);
+						trackPixel(data.happydemicsPixel);
 						bg.style.display = "none";
 						videoSlot.src = videoSrc;
 						resumeAd();
 						root.addEventListener("click", () => onClick(redirect));
 
 						this.completionFloodlights = completionFloodlights;
+						// tooltip.style.display = "none";
 					} else {
 						stopAd();
 					}
@@ -181,7 +181,33 @@ class QontoCreative extends Creative {
 			}
 		);
 
-		root.appendChild(bg);
+		// const tooltip = new ImageDM(
+		// 	"tooltip",
+		// 	"https://statics.dmcdn.net/d/PRODUCTION/2024/Bank_Insurance_Qonto_BusinessAccount_Interactive_Custom_2311_CAMPAIGN_FR_25s/assets/tooltip.png",
+		// 	{
+		// 		width: "6%",
+		// 		height: "14%",
+		// 		backgroundSize: "contain",
+		// 		left: "71%",
+		// 		rotate: "-12deg",
+		// 		scale: "0",
+		// 	}
+		// );
+		// root.appendChild(tooltip);
+
+		// let tooltipBtnIdx = 0;
+		// window.setTimeout(
+		// 	() =>
+		// 		window.setInterval(() => {
+		// 			const top = parseFloat(
+		// 				data.btns[tooltipBtnIdx % data.btns.length].top
+		// 			);
+		// 			tooltip.style.top = `${top + 2}%`;
+		// 			bounceIn(tooltip, 1200);
+		// 			tooltipBtnIdx += 1;
+		// 		}, 2500),
+		// 	600
+		// );
 	}
 
 	public videoTimeUpdate(completionPercent: number): void {
@@ -204,9 +230,9 @@ class QontoCreative extends Creative {
 
 	public getVideos() {
 		return {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
+			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
 		};
 	}
 }

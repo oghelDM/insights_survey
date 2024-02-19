@@ -4,7 +4,7 @@ import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 import { hotSpotsTemplate } from "@creatives/templates/HotSpots";
 
-const isOpo = true;
+const isOpo = false;
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, creativeProps: CreativeProps) {
@@ -20,18 +20,18 @@ class MyCreative extends Creative {
 		hotSpotsTemplate(root, creativeProps, {
 			clickUrl,
 			bgUrl: isOpo
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/bg.png"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/bg.png",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/bg.png"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/bg.png",
 			hotSpotUrl: isOpo
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/hotspot.png"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/hotspot.png",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/hotspot.png"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/hotspot.png",
 			products: [
 				{
 					spotLeft: "85%",
 					spotTop: "47%",
 					productUrl: isOpo
-						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/product0.png"
-						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/product0.png",
+						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/product0.png"
+						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/product0.png",
 					floodLight: isOpo
 						? "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
 						: "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
@@ -41,8 +41,8 @@ class MyCreative extends Creative {
 					spotLeft: "74%",
 					spotTop: "40%",
 					productUrl: isOpo
-						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/product1.png"
-						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/product1.png",
+						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/product1.png"
+						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/product1.png",
 					floodLight: isOpo
 						? "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
 						: "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau003;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
@@ -52,8 +52,8 @@ class MyCreative extends Creative {
 					spotLeft: "81%",
 					spotTop: "38%",
 					productUrl: isOpo
-						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/product2.png"
-						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/product2.png",
+						? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/product2.png"
+						: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/product2.png",
 					floodLight: isOpo
 						? "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
 						: "https://ad.doubleclick.net/ddm/activity/src=13694661;type=invmedia;cat=renau002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
@@ -87,14 +87,14 @@ class MyCreative extends Creative {
 	public getVideos() {
 		return {
 			low: isOpo
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/video_low.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/video_low.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/video_low.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/video_low.mp4",
 			mid: isOpo
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/video_mid.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/video_mid.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/video_mid.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/video_mid.mp4",
 			high: isOpo
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo/video_high.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets/video_high.mp4",
+				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_opo_1/video_high.mp4"
+				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Auto_Moto_Dacia_Sandero_Interactive_Hotspot_2401_FR_15s/assets_1/video_high.mp4",
 		};
 	}
 }

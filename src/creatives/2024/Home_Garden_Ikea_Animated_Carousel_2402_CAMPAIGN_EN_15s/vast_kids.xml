@@ -14,10 +14,10 @@
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/buildsKids/2/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/buildsKids/3/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/buildsKids/2/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/buildsKids/3/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

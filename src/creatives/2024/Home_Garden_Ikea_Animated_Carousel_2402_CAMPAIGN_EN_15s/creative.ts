@@ -6,6 +6,7 @@ import { Collection } from "@/components/collection";
 
 const isKids = true; // Cucina otherwise
 
+const clickUrl = "https://track.adform.net/C/?bn=71618531";
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
@@ -22,7 +23,7 @@ class MyCreative extends Creative {
 			trackPixel(
 				"https://track.adform.net/adfserve/?bn=71618531;1x1inv=1;srctype=3;ord=[timestamp]"
 			);
-			onClick("https://track.adform.net/C/?bn=71618531");
+			onClick(clickUrl);
 		});
 		root.appendChild(bg);
 
@@ -84,7 +85,7 @@ class MyCreative extends Creative {
 							"https://track.adform.net/adfserve/?bn=71618530;1x1inv=1;srctype=3;ord=[timestamp]",
 					  ],
 				onClick,
-				clickUrl: "https://www.google.com/search?q=collection",
+				clickUrl,
 				arrows,
 				debug: false,
 				styleProductFocused: {

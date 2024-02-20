@@ -218,10 +218,10 @@ class MyCreative extends Creative {
 	};
 
 	public videoTimeUpdate(completionPercent: number): void {
-		if (completionPercent > 5 && this.phase === 0) {
+		if (completionPercent > 12 && this.phase === 0) {
 			this.wording0.style.opacity = "0";
 		}
-		if (completionPercent > 6 && this.phase === 0) {
+		if (completionPercent > 14 && this.phase === 0) {
 			this.gameContainer.style.opacity = "1";
 			this.cta1.style.opacity = "1";
 			this.cta1.style.pointerEvents = "auto";

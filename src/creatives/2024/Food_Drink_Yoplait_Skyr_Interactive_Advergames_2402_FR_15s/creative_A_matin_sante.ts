@@ -257,7 +257,7 @@ class MyCreative extends Creative {
 		this.gameContainer.appendChild(counter);
 
 		let count = 0;
-		const maxCount = 500;
+		const maxCount = 440;
 		const nbPts = 40;
 		// update the clock
 		const intervalId = window.setInterval(() => {
@@ -296,7 +296,7 @@ class MyCreative extends Creative {
 
 			count += 1;
 
-			const deltaTime = 40;
+			const deltaTime = 35;
 			if (count === maxCount - 3 * deltaTime) {
 				this.bounceCounter(counter, "3");
 			} else if (count === maxCount - 2 * deltaTime) {
@@ -423,15 +423,15 @@ class MyCreative extends Creative {
 	};
 
 	public videoTimeUpdate(completionPercent: number): void {
-		if (completionPercent > 5 && this.phase === 0) {
+		if (completionPercent > 8 && this.phase === 0) {
 			this.wordingBottom0.style.opacity = "0";
 			this.phase = 1;
 		}
-		if (completionPercent > 8 && this.phase === 1) {
+		if (completionPercent > 10 && this.phase === 1) {
 			this.wordingBottom1.style.opacity = "1";
 			this.phase = 2;
 		}
-		if (completionPercent > 11 && this.phase === 2) {
+		if (completionPercent > 15 && this.phase === 2) {
 			this.phase = 3;
 			this.startGame();
 		}

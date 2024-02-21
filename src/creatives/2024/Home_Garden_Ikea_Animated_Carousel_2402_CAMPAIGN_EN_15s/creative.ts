@@ -6,7 +6,9 @@ import { Collection } from "@/components/collection";
 
 const isKids = true; // Cucina otherwise
 
-const clickUrl = "https://track.adform.net/C/?bn=71618531";
+const clickUrl = isKids
+	? "https://track.adform.net/C/?bn=71618527"
+	: "https://track.adform.net/C/?bn=71618531";
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();

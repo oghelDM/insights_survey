@@ -1,33 +1,34 @@
 import { VPAIDVideoPlayer } from "@app";
-import { fetchWeatherApi } from "openmeteo";
+import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 import { random12, trackPixel } from "@/utils/helper";
-import { ImageDM } from "@/components/image";
 
+const ASSET_URL_PREFIX =
+	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets2/";
 const DATA = [
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainment_Canal_Plus_Barbie_OnSite_TakeOver_2402_CAMPAIGN_FR_20s/assets/video_low.mp4",
-		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/element0.png",
+		bgUrl: `${ASSET_URL_PREFIX}element0.png`,
 		completionFloodlights: ["", "", "", ""],
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Education_ThePower_Formaciones_Interactive_Carousel_2311_CAMPAIGN_FR_30s/assets/video_low.mp4",
-		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/element1.png",
+		bgUrl: `${ASSET_URL_PREFIX}element1.png`,
 		completionFloodlights: ["", "", "", ""],
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/video_low.mp4",
-		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/element2.png",
+		bgUrl: `${ASSET_URL_PREFIX}element2.png`,
 		completionFloodlights: ["", "", "", ""],
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4",
-		bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/element3.png",
+		bgUrl: `${ASSET_URL_PREFIX}element3.png`,
 		completionFloodlights: ["", "", "", ""],
 	},
 ];
@@ -46,10 +47,7 @@ class MyCreative extends Creative {
 
 		this.creativeProps = creativeProps;
 
-		const bg = new ImageDM(
-			"bg",
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/bg.png"
-		);
+		const bg = new ImageDM("bg", `${ASSET_URL_PREFIX}bg.png`);
 		root.appendChild(bg);
 
 		const videosContainer = createDiv("videos-container", {
@@ -65,7 +63,7 @@ class MyCreative extends Creative {
 		["up", "down"].forEach((name, i) => {
 			const arrow = new ImageDM(
 				`arrow-${name}`,
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/fleche.png",
+				`${ASSET_URL_PREFIX}fleche.png`,
 				{
 					width: "20%",
 					height: "3%",
@@ -105,7 +103,7 @@ class MyCreative extends Creative {
 			});
 			const playBtn = new ImageDM(
 				`play-${i}`,
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets/play.png",
+				`${ASSET_URL_PREFIX}play.png`,
 				{
 					width: "100%",
 					height: "100%",

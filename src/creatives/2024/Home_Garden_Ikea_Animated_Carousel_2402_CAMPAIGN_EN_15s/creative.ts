@@ -1,14 +1,14 @@
 import { VPAIDVideoPlayer } from "@app";
-import { trackPixel } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 import { Collection } from "@/components/collection";
 
-const isKids = true; // Cucina otherwise
+const isKids = false; // Cucina otherwise
 
 const clickUrl = isKids
 	? "https://track.adform.net/C/?bn=71618527"
 	: "https://track.adform.net/C/?bn=71618531";
+
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
@@ -22,9 +22,6 @@ class MyCreative extends Creative {
 		bg.addEventListener("click", (e) => {
 			e.stopPropagation();
 			e.preventDefault();
-			trackPixel(
-				"https://track.adform.net/adfserve/?bn=71618531;1x1inv=1;srctype=3;ord=[timestamp]"
-			);
 			onClick(clickUrl);
 		});
 		root.appendChild(bg);

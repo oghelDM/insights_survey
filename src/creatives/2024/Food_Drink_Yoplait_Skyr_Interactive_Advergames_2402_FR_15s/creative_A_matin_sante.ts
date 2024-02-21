@@ -2,11 +2,14 @@ import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
 import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
-import { getClientXY, map, random12 } from "@/utils/helper";
 import { Creative, CreativeProps } from "@/creative";
+import { getClientXY, map, random12, trackPixel } from "@/utils/helper";
 
 const ALL_DATA = {
 	matin: {
+		redirectUrl: "",
+		floodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		urlPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/",
 		A: {
@@ -26,6 +29,9 @@ const ALL_DATA = {
 		},
 	},
 	sante: {
+		redirectUrl: "",
+		floodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		urlPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/",
 		A: {
@@ -52,9 +58,9 @@ const VERSION = "A";
 ///////////////////
 
 const DATA = ALL_DATA[MODE][VERSION];
-const redirectUrl = "";
-
+const REDIRECT_URL = ALL_DATA[MODE].redirectUrl;
 const PREFIX = ALL_DATA[MODE].urlPrefix;
+const FLOODLIGHT = ALL_DATA[MODE].floodlight;
 
 class MyCreative extends Creative {
 	phase = 0;
@@ -72,6 +78,7 @@ class MyCreative extends Creative {
 	logo1: HTMLElement;
 	bowl: HTMLElement;
 	scores: HTMLElement[];
+	hasUserInteracted = false;
 
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
@@ -176,7 +183,7 @@ class MyCreative extends Creative {
 		this.gameContainer.appendChild(this.wordingBottom1);
 		this.gameContainer.appendChild(this.bowl);
 
-		root.addEventListener("click", () => onClick(redirectUrl));
+		root.addEventListener("click", () => onClick(REDIRECT_URL));
 	}
 
 	private createScoreContainer = () => {
@@ -315,6 +322,11 @@ class MyCreative extends Creative {
 
 		// bowl movement
 		this.root.addEventListener("pointermove", (e: PointerEvent) => {
+			if (!this.hasUserInteracted) {
+				this.hasUserInteracted = true;
+				trackPixel(FLOODLIGHT);
+			}
+
 			const { x, y } = getClientXY(e);
 
 			const bowlBCR = this.bowl.getBoundingClientRect();

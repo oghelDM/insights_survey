@@ -1,13 +1,13 @@
 <VAST version="2.0">
-    <Ad id="YoplaitAsante24">
+    <Ad id="YoplaitAsante2402">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>YoplaitAsante24</AdTitle>
+            <AdTitle>YoplaitAsante2402</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="YoplaitAsante24c">
+                <Creative id="YoplaitAsante2402c">
                     <Linear>
                         <Duration>00:00:27</Duration>
                         <TrackingEvents/>

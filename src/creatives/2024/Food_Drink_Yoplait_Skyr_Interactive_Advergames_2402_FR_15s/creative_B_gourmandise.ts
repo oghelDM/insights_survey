@@ -1,10 +1,14 @@
 import { CssType } from "@/types";
 import { VPAIDVideoPlayer } from "@app";
+import { trackPixel } from "@/utils/helper";
 import { createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 
 const ALL_DATA = {
+	redirectUrl: "",
+	floodlight:
+		"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	A: {
 		low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/B_groumandise/video_Coralie_A_low.mp4",
 		mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/B_groumandise/video_Coralie_A_mid.mp4",
@@ -23,7 +27,8 @@ const ALL_DATA = {
 };
 
 const DATA = ALL_DATA.A;
-const redirectUrl = "";
+const FLOODLIGHT = ALL_DATA.floodlight;
+const REDIRECT_URL = ALL_DATA.redirectUrl;
 
 class MyCreative extends Creative {
 	phase = 0;
@@ -130,7 +135,7 @@ class MyCreative extends Creative {
 		root.appendChild(this.cta1);
 		root.appendChild(this.cta2);
 
-		root.addEventListener("click", () => onClick(redirectUrl));
+		root.addEventListener("click", () => onClick(REDIRECT_URL));
 	}
 
 	private createCableCar = () => {
@@ -198,6 +203,7 @@ class MyCreative extends Creative {
 	};
 
 	private startGame = () => {
+		trackPixel(FLOODLIGHT);
 		this.cta1.style.pointerEvents = "none";
 		this.cableCar.style.left = "-194%";
 

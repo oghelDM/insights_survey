@@ -60,9 +60,7 @@ export class VPAIDVideoPlayer {
 	updateVideoSlot = () => {
 		if (this.videoSlot == null) {
 			this.videoSlot = document.createElement("video");
-			this.log(
-				"Warning: No video element passed to ad, creating element."
-			);
+			this.log("Warning: No video element passed to ad, creating element.");
 			this.slot.appendChild(this.videoSlot);
 		}
 		this.updateVideoPlayerSize();
@@ -85,10 +83,7 @@ export class VPAIDVideoPlayer {
 		}
 		this.liveStreamData = this.creative.getLiveStreamData();
 		if (this.liveStreamData) {
-			this.loadVideoStream(
-				this.liveStreamData.url,
-				this.liveStreamData.Hls
-			);
+			this.loadVideoStream(this.liveStreamData.url, this.liveStreamData.Hls);
 		} else {
 			this.playVideoFile();
 		}
@@ -146,9 +141,7 @@ export class VPAIDVideoPlayer {
 						);
 					})
 					.then((data) => data.qualities.auto[0].url)
-					.then((liveLink: string) =>
-						this.playVideoStream(liveLink, Hls)
-					);
+					.then((liveLink: string) => this.playVideoStream(liveLink, Hls));
 			} catch {
 				this.log("error while loading the DM stream");
 				this.playVideoFile();
@@ -198,7 +191,7 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	clickAd = (url: string) => {
-		console.log("clickAd:", url);
+		// console.log("clickAd:", url);
 
 		if ("AdClickThru" in this.eventsCallbacks) {
 			this.eventsCallbacks["AdClickThru"](url, "0", true);
@@ -257,8 +250,7 @@ export class VPAIDVideoPlayer {
 		const percentPlayed = (currentTime * 100.0) / duration;
 		this.creative.videoTimeUpdate(percentPlayed);
 		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
-			const lastQuartileEvent =
-				quartileEvents[this.nextQuartileIndex].event;
+			const lastQuartileEvent = quartileEvents[this.nextQuartileIndex].event;
 			this.nextQuartileIndex += 1;
 			this.eventsCallbacks[lastQuartileEvent] &&
 				this.eventsCallbacks[lastQuartileEvent]();
@@ -464,7 +456,7 @@ export class VPAIDVideoPlayer {
 		eventName: string,
 		aContext: any
 	) => {
-		console.log("Subscribe " + eventName);
+		// console.log("Subscribe " + eventName);
 		const bindedCallBack = callBack.bind(aContext);
 		this.eventsCallbacks[eventName] = bindedCallBack;
 	};
@@ -474,7 +466,7 @@ export class VPAIDVideoPlayer {
 	 * @param {string} eventName The callback type.
 	 */
 	unsubscribe = (eventName: string) => {
-		console.log("unsubscribe " + eventName);
+		// console.log("unsubscribe " + eventName);
 		this.eventsCallbacks[eventName] = null;
 	};
 

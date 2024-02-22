@@ -14,6 +14,8 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm",
+		floodlightRedirect: "redirectFlood_1",
+		floodlightSelcted: "slected_1",
 	},
 	{
 		videoSrc:
@@ -22,6 +24,8 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_pioneeringthroughscience30s_ctcomm",
+		floodlightRedirect: "redirectFlood_2",
+		floodlightSelcted: "slected_2",
 	},
 	{
 		videoSrc:
@@ -30,6 +34,8 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_unleashingcreativity30s_ctcomm",
+		floodlightRedirect: "redirectFlood_3",
+		floodlightSelcted: "slected_3",
 	},
 	{
 		videoSrc:
@@ -38,11 +44,15 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_shapingthedream30s_ctcomm",
+		floodlightRedirect: "redirectFlood_4",
+		floodlightSelcted: "slected_4",
 	},
 ];
 
 let clickUrl =
 	"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm";
+let clickTracker = "";
+let selectTracker = "";
 
 class MyCreative extends Creative {
 	private currIdx = 0; //the current video index, starts at 0
@@ -102,35 +112,51 @@ class MyCreative extends Creative {
 			// backgroundColor: "lavender",
 		});
 
-		DATA.forEach(({ bgUrl, productRedirect }, i) => {
-			const card = new ImageDM(`card-${i}`, bgUrl, {
-				width: "100%",
-				height: "auto",
-				aspectRatio: "323 / 182",
-				top: `${i * 28}%`,
-				cursor: "pointer",
-			});
-			const playBtn = new ImageDM(`play-${i}`, `${ASSET_URL_PREFIX}play.png`, {
-				width: "100%",
-				height: "100%",
-				backgroundSize: "30%",
-				opacity: i === this.currIdx ? "0" : "1",
-				transition: "opacity .4s",
-			});
-			card.addEventListener("click", (e) => {
-				this.setupVideo(e, i);
-				clickUrl = productRedirect;
-				// console.log("clickUrl :", clickUrl);
-			});
-			card.appendChild(playBtn);
-			this.playBtns.push(playBtn);
-			this.videosContainer2.appendChild(card);
-		});
+		DATA.forEach(
+			(
+				{ bgUrl, productRedirect, floodlightSelcted, floodlightRedirect },
+				i
+			) => {
+				const card = new ImageDM(`card-${i}`, bgUrl, {
+					width: "100%",
+					height: "auto",
+					aspectRatio: "323 / 182",
+					top: `${i * 28}%`,
+					cursor: "pointer",
+				});
+				const playBtn = new ImageDM(
+					`play-${i}`,
+					`${ASSET_URL_PREFIX}play.png`,
+					{
+						width: "100%",
+						height: "100%",
+						backgroundSize: "30%",
+						opacity: i === this.currIdx ? "0" : "1",
+						transition: "opacity .4s",
+					}
+				);
+				card.addEventListener("click", (e) => {
+					this.setupVideo(e, i);
+
+					clickTracker = floodlightRedirect;
+					selectTracker = floodlightSelcted;
+					clickUrl = productRedirect;
+
+					trackPixel(clickTracker);
+				});
+				card.appendChild(playBtn);
+				this.playBtns.push(playBtn);
+				this.videosContainer2.appendChild(card);
+			}
+		);
 
 		root.appendChild(videosContainer);
 		videosContainer.appendChild(this.videosContainer2);
 
-		root.addEventListener("click", () => this.creativeProps.onClick(clickUrl));
+		root.addEventListener("click", () => {
+			trackPixel(clickTracker);
+			this.creativeProps.onClick(clickUrl);
+		});
 	}
 
 	private setupVideo = (e: MouseEvent, index: number) => {

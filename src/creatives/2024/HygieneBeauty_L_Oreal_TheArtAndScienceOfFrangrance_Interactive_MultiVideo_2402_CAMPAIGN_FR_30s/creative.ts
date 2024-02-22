@@ -12,28 +12,37 @@ const DATA = [
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainment_Canal_Plus_Barbie_OnSite_TakeOver_2402_CAMPAIGN_FR_20s/assets/video_low.mp4",
 		bgUrl: `${ASSET_URL_PREFIX}element0.png`,
 		completionFloodlights: ["", "", "", ""],
+		productRedirect:
+			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm",
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Education_ThePower_Formaciones_Interactive_Carousel_2311_CAMPAIGN_FR_30s/assets/video_low.mp4",
 		bgUrl: `${ASSET_URL_PREFIX}element1.png`,
 		completionFloodlights: ["", "", "", ""],
+		productRedirect:
+			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_pioneeringthroughscience30s_ctcomm",
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/video_low.mp4",
 		bgUrl: `${ASSET_URL_PREFIX}element2.png`,
 		completionFloodlights: ["", "", "", ""],
+		productRedirect:
+			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_unleashingcreativity30s_ctcomm",
 	},
 	{
 		videoSrc:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4",
 		bgUrl: `${ASSET_URL_PREFIX}element3.png`,
 		completionFloodlights: ["", "", "", ""],
+		productRedirect:
+			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_shapingthedream30s_ctcomm",
 	},
 ];
 
-const clickUrl = "click url to replace";
+let clickUrl =
+	"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm";
 
 class MyCreative extends Creative {
 	private currIdx = 0; //the current video index, starts at 0
@@ -93,7 +102,7 @@ class MyCreative extends Creative {
 			// backgroundColor: "lavender",
 		});
 
-		DATA.forEach(({ bgUrl }, i) => {
+		DATA.forEach(({ bgUrl, productRedirect }, i) => {
 			const card = new ImageDM(`card-${i}`, bgUrl, {
 				width: "100%",
 				height: "auto",
@@ -101,18 +110,18 @@ class MyCreative extends Creative {
 				top: `${i * 28}%`,
 				cursor: "pointer",
 			});
-			const playBtn = new ImageDM(
-				`play-${i}`,
-				`${ASSET_URL_PREFIX}play.png`,
-				{
-					width: "100%",
-					height: "100%",
-					backgroundSize: "30%",
-					opacity: i === this.currIdx ? "0" : "1",
-					transition: "opacity .4s",
-				}
-			);
-			card.addEventListener("click", (e) => this.setupVideo(e, i));
+			const playBtn = new ImageDM(`play-${i}`, `${ASSET_URL_PREFIX}play.png`, {
+				width: "100%",
+				height: "100%",
+				backgroundSize: "30%",
+				opacity: i === this.currIdx ? "0" : "1",
+				transition: "opacity .4s",
+			});
+			card.addEventListener("click", (e) => {
+				this.setupVideo(e, i);
+				clickUrl = productRedirect;
+				// console.log("clickUrl :", clickUrl);
+			});
 			card.appendChild(playBtn);
 			this.playBtns.push(playBtn);
 			this.videosContainer2.appendChild(card);
@@ -121,14 +130,14 @@ class MyCreative extends Creative {
 		root.appendChild(videosContainer);
 		videosContainer.appendChild(this.videosContainer2);
 
-		// root.addEventListener("click", () => onClick(clickUrl));
+		root.addEventListener("click", () => this.creativeProps.onClick(clickUrl));
 	}
 
 	private setupVideo = (e: MouseEvent, index: number) => {
 		e.preventDefault();
 		e.stopPropagation();
 
-		console.log("setupVideo: ", index);
+		// console.log("setupVideo: ", index);
 		if (index === this.currIdx) {
 			return;
 		}
@@ -156,10 +165,9 @@ class MyCreative extends Creative {
 			this.currentFloodlightIndex < completionFloodlights.length
 		) {
 			if (
-				completionPercent >=
-				Math.min(25 * this.currentFloodlightIndex, 95) // force the last floodlight before the video reaches 100%
+				completionPercent >= Math.min(25 * this.currentFloodlightIndex, 95) // force the last floodlight before the video reaches 100%
 			) {
-				trackPixel(completionFloodlights[this.currentFloodlightIndex]);
+				// trackPixel(completionFloodlights[this.currentFloodlightIndex]);
 				this.currentFloodlightIndex += 1;
 			}
 		}

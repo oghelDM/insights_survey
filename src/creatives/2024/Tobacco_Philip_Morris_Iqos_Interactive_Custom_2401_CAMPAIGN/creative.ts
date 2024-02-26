@@ -168,7 +168,9 @@ class MyCreative extends Creative {
 		this.noBtn.addEventListener("click", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
-			trackPixel(DATA.floodlightClientNo);
+			if (DATA.floodlightClientNo) {
+				trackPixel(DATA.floodlightClientNo);
+			}
 			creativeProps.stopAd();
 		});
 

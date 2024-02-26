@@ -1,8 +1,8 @@
 import { VPAIDVideoPlayer } from "@app";
+import { trackPixel } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
-import { random12, trackPixel } from "@/utils/helper";
 
 const ASSET_URL_PREFIX =
 	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets2/";
@@ -15,7 +15,7 @@ const DATA = [
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm",
 		floodlightRedirect: "redirectFlood_1",
-		floodlightSelcted: "slected_1",
+		cardClickFloodlight: "slected_1",
 	},
 	{
 		videoSrc:
@@ -25,7 +25,7 @@ const DATA = [
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_pioneeringthroughscience30s_ctcomm",
 		floodlightRedirect: "redirectFlood_2",
-		floodlightSelcted: "slected_2",
+		cardClickFloodlight: "slected_2",
 	},
 	{
 		videoSrc:
@@ -35,7 +35,7 @@ const DATA = [
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_unleashingcreativity30s_ctcomm",
 		floodlightRedirect: "redirectFlood_3",
-		floodlightSelcted: "slected_3",
+		cardClickFloodlight: "slected_3",
 	},
 	{
 		videoSrc:
@@ -45,14 +45,9 @@ const DATA = [
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_shapingthedream30s_ctcomm",
 		floodlightRedirect: "redirectFlood_4",
-		floodlightSelcted: "slected_4",
+		cardClickFloodlight: "slected_4",
 	},
 ];
-
-let clickUrl =
-	"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm";
-let clickTracker = "";
-let selectTracker = "";
 
 class MyCreative extends Creative {
 	private currIdx = 0; //the current video index, starts at 0
@@ -60,6 +55,9 @@ class MyCreative extends Creative {
 	private videosContainer2: HTMLElement;
 	private currentFloodlightIndex = 0;
 	private creativeProps: CreativeProps;
+	private clickUrl =
+		"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm";
+	private floodlightRedirect = "";
 
 	constructor(root: HTMLElement, creativeProps: CreativeProps) {
 		super();
@@ -114,7 +112,12 @@ class MyCreative extends Creative {
 
 		DATA.forEach(
 			(
-				{ bgUrl, productRedirect, floodlightSelcted, floodlightRedirect },
+				{
+					bgUrl,
+					productRedirect,
+					cardClickFloodlight,
+					floodlightRedirect,
+				},
 				i
 			) => {
 				const card = new ImageDM(`card-${i}`, bgUrl, {
@@ -138,11 +141,10 @@ class MyCreative extends Creative {
 				card.addEventListener("click", (e) => {
 					this.setupVideo(e, i);
 
-					clickTracker = floodlightRedirect;
-					selectTracker = floodlightSelcted;
-					clickUrl = productRedirect;
+					this.floodlightRedirect = floodlightRedirect;
+					this.clickUrl = productRedirect;
 
-					trackPixel(clickTracker);
+					trackPixel(cardClickFloodlight);
 				});
 				card.appendChild(playBtn);
 				this.playBtns.push(playBtn);
@@ -154,8 +156,8 @@ class MyCreative extends Creative {
 		videosContainer.appendChild(this.videosContainer2);
 
 		root.addEventListener("click", () => {
-			trackPixel(clickTracker);
-			this.creativeProps.onClick(clickUrl);
+			trackPixel(this.floodlightRedirect);
+			this.creativeProps.onClick(this.clickUrl);
 		});
 	}
 
@@ -163,7 +165,6 @@ class MyCreative extends Creative {
 		e.preventDefault();
 		e.stopPropagation();
 
-		// console.log("setupVideo: ", index);
 		if (index === this.currIdx) {
 			return;
 		}
@@ -184,20 +185,21 @@ class MyCreative extends Creative {
 		this.currIdx = index;
 	};
 
-	public videoTimeUpdate(completionPercent: number): void {
-		const completionFloodlights = DATA[this.currIdx].completionFloodlights;
-		if (
-			!isNaN(completionPercent) &&
-			this.currentFloodlightIndex < completionFloodlights.length
-		) {
-			if (
-				completionPercent >= Math.min(25 * this.currentFloodlightIndex, 95) // force the last floodlight before the video reaches 100%
-			) {
-				// trackPixel(completionFloodlights[this.currentFloodlightIndex]);
-				this.currentFloodlightIndex += 1;
-			}
-		}
-	}
+	// public videoTimeUpdate(completionPercent: number): void {
+	// 	const completionFloodlights = DATA[this.currIdx].completionFloodlights;
+	// 	if (
+	// 		!isNaN(completionPercent) &&
+	// 		this.currentFloodlightIndex < completionFloodlights.length
+	// 	) {
+	// 		if (
+	// 			completionPercent >=
+	// 			Math.min(25 * this.currentFloodlightIndex, 95) // force the last floodlight before the video reaches 100%
+	// 		) {
+	// 			// trackPixel(completionFloodlights[this.currentFloodlightIndex]);
+	// 			this.currentFloodlightIndex += 1;
+	// 		}
+	// 	}
+	// }
 
 	public getVideos() {
 		return {

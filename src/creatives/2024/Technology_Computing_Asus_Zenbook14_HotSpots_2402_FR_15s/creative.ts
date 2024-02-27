@@ -19,8 +19,6 @@ class MyCreative extends Creative {
 				"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/hotspot.png",
 			clickUrl,
 			bgUrl: "https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/bg.png",
-			hotSpotUrl:
-				"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/hotspot.png",
 			products: [
 				{
 					productUrl:

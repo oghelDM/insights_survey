@@ -12,7 +12,7 @@ const ALL_DATA = {
 		floodlight:
 			"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		urlPrefix:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/",
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin_1/",
 		A: {
 			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_low.mp4",
 			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_mid.mp4",
@@ -29,14 +29,14 @@ const ALL_DATA = {
 			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_high.mp4",
 		},
 	},
-	// same assets/video as 'matin'
+	// routine, same assets/video as 'matin'
 	routine: {
 		redirectUrl:
 			"https://bs.serving-sys.com/Serving/adServer.bs?cn=trd&pli=1080073593&gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_68}&us_privacy=${US_PRIVACY}&adid=1092711382&ord=[timestamp]",
 		floodlight:
 			"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		urlPrefix:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/",
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin_1/",
 		A: {
 			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_low.mp4",
 			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_mid.mp4",
@@ -59,7 +59,7 @@ const ALL_DATA = {
 		floodlight:
 			"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		urlPrefix:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/",
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante_1/",
 		A: {
 			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_A_low.mp4",
 			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_A_mid.mp4",
@@ -79,7 +79,7 @@ const ALL_DATA = {
 };
 
 ///////////////////
-const MODE = "matin";
+const MODE = "sante";
 const VERSION = "C";
 ///////////////////
 

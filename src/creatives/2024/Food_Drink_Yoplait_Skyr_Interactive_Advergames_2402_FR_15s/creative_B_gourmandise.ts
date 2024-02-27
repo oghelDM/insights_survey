@@ -6,7 +6,8 @@ import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 
 const ALL_DATA = {
-	redirectUrl: "",
+	redirectUrl:
+		"https://bs.serving-sys.com/Serving/adServer.bs?cn=trd&pli=1080073595&gdpr=${GDPR}&gdpr_consent=${GDPR_CONSENT_68}&us_privacy=${US_PRIVACY}&adid=1092711380&ord=[timestamp]",
 	floodlight:
 		"https://ad.doubleclick.net/ddm/activity/src=14181096;type=invmedia;cat=yopla000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	A: {

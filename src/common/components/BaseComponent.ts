@@ -11,7 +11,11 @@ export class BaseComponent extends HTMLElement {
 			(this.style as any)[key] = value;
 		}
 
-		this.addEventListener("click", () => onClick(clickUrl));
+		// The component can explicitely prevent a redirection, in the collection component for example.
+		// This prevents from both product and component redirections to fire at the same time.
+		if (clickUrl !== "") {
+			this.addEventListener("click", () => onClick(clickUrl));
+		}
 
 		this.id = id;
 	}

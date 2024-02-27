@@ -3,7 +3,7 @@ import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 import { Collection } from "@/components/collection";
 
-const isKids = false; // Cucina otherwise
+const isKids = true; // Cucina otherwise
 
 const clickUrl = isKids
 	? "https://track.adform.net/C/?bn=71618527"
@@ -84,7 +84,7 @@ class MyCreative extends Creative {
 							"https://track.adform.net/adfserve/?bn=71618530;1x1inv=1;srctype=3;ord=[timestamp]",
 					  ],
 				onClick,
-				clickUrl,
+				clickUrl: "", // prevent a click on the collection when the user has clicked on a product
 				arrows,
 				debug: false,
 				styleProductFocused: {

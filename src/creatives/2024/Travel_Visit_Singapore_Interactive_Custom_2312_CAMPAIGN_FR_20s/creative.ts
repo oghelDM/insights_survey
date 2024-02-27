@@ -239,7 +239,10 @@ class MyCreative extends Creative {
 				button.addEventListener("click", (e: MouseEvent) => {
 					e.stopImmediatePropagation();
 					e.stopPropagation();
-					trackPixel(data.btnFloodlights[i]);
+					if (!isBtnClicked) {
+						// track pixel only if click comes from the user
+						trackPixel(data.btnFloodlights[i]);
+					}
 					if (!isAnimPlayed) {
 						isAnimPlayed = true;
 						if (!isBtnClicked) {

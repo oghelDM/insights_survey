@@ -50,6 +50,7 @@ export const defaultValuesCollection: Required<CollectionType> = {
 		backgroundSize: "contain",
 		backgroundRepeat: "no-repeat",
 		left: "0%",
+		top: "0%",
 		opacity: "1",
 		position: "absolute",
 		rotate: "0deg",

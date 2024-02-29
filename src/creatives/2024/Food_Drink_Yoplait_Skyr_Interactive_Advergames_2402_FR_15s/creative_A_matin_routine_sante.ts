@@ -14,19 +14,19 @@ const ALL_DATA = {
 		urlPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin_1/",
 		A: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_high.mp4",
+			low: "video_Colin_A_low.mp4",
+			mid: "video_Colin_A_mid.mp4",
+			high: "video_Colin_A_high.mp4",
 		},
 		B: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_high.mp4",
+			low: "video_Colin_B_low.mp4",
+			mid: "video_Colin_B_mid.mp4",
+			high: "video_Colin_B_high.mp4",
 		},
 		C: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_high.mp4",
+			low: "video_Colin_C_low.mp4",
+			mid: "video_Colin_C_mid.mp4",
+			high: "video_Colin_C_high.mp4",
 		},
 	},
 	// routine, same assets/video as 'matin'
@@ -38,19 +38,19 @@ const ALL_DATA = {
 		urlPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin_1/",
 		A: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_A_high.mp4",
+			low: "video_Colin_A_low.mp4",
+			mid: "video_Colin_A_mid.mp4",
+			high: "video_Colin_A_high.mp4",
 		},
 		B: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_B_high.mp4",
+			low: "video_Colin_B_low.mp4",
+			mid: "video_Colin_B_mid.mp4",
+			high: "video_Colin_B_high.mp4",
 		},
 		C: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_matin/video_Colin_C_high.mp4",
+			low: "video_Colin_C_low.mp4",
+			mid: "video_Colin_C_mid.mp4",
+			high: "video_Colin_C_high.mp4",
 		},
 	},
 	sante: {
@@ -61,19 +61,19 @@ const ALL_DATA = {
 		urlPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante_1/",
 		A: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_A_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_A_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_A_high.mp4",
+			low: "video_Emilie_A_low.mp4",
+			mid: "video_Emilie_A_mid.mp4",
+			high: "video_Emilie_A_high.mp4",
 		},
 		B: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_B_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_B_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_B_high.mp4",
+			low: "video_Emilie_B_low.mp4",
+			mid: "video_Emilie_B_mid.mp4",
+			high: "video_Emilie_B_high.mp4",
 		},
 		C: {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_C_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_C_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Food_Drink_Yoplait_Skyr_Interactive_Advergames_2402_FR_15s/assets/A_sante/video_Emilie_C_high.mp4",
+			low: "video_Emilie_C_low.mp4",
+			mid: "video_Emilie_C_mid.mp4",
+			high: "video_Emilie_C_high.mp4",
 		},
 	},
 };
@@ -477,9 +477,9 @@ class MyCreative extends Creative {
 
 	public getVideos() {
 		return {
-			low: DATA.low,
-			mid: DATA.mid,
-			high: DATA.high,
+			low: `${PREFIX}${DATA.low}`,
+			mid: `${PREFIX}${DATA.mid}`,
+			high: `${PREFIX}${DATA.high}`,
 		};
 	}
 }

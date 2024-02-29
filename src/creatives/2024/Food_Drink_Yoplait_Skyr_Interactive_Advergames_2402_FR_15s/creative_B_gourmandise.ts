@@ -40,8 +40,14 @@ class MyCreative extends Creative {
 	cta2: HTMLElement;
 	fallingFruit: HTMLElement;
 
-	constructor(root: HTMLElement, { onClick }: CreativeProps) {
+	root: HTMLElement;
+	creativeProps: CreativeProps;
+
+	constructor(root: HTMLElement, creativeProps: CreativeProps) {
 		super();
+
+		this.root = root;
+		this.creativeProps = creativeProps;
 
 		const bg = new ImageDM("bg", `${urlPrefix}bg0.png`);
 
@@ -120,8 +126,6 @@ class MyCreative extends Creative {
 		root.appendChild(this.gameContainer);
 		root.appendChild(this.cta1);
 		root.appendChild(this.cta2);
-
-		root.addEventListener("click", () => onClick(ALL_DATA.redirectUrl));
 	}
 
 	private createCableCar = () => {
@@ -192,6 +196,10 @@ class MyCreative extends Creative {
 		}, 4000);
 
 		setTimeout(() => {
+			this.root.addEventListener("click", () =>
+				this.creativeProps.onClick(ALL_DATA.redirectUrl)
+			);
+
 			this.gameContainer.style.opacity = "0";
 			this.cta1.style.opacity = "0";
 

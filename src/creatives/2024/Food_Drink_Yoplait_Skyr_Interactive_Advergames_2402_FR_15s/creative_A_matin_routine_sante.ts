@@ -105,11 +105,13 @@ class MyCreative extends Creative {
 	bowl: HTMLElement;
 	scores: HTMLElement[];
 	hasUserInteracted = false;
+	creativeProps: CreativeProps;
 
-	constructor(root: HTMLElement, { onClick }: CreativeProps) {
+	constructor(root: HTMLElement, creativeProps: CreativeProps) {
 		super();
 
 		this.root = root;
+		this.creativeProps = creativeProps;
 
 		const bg = new ImageDM("bg", `${PREFIX}bg0.png`);
 
@@ -208,8 +210,6 @@ class MyCreative extends Creative {
 		this.gameContainer.appendChild(this.wordingBottom0);
 		this.gameContainer.appendChild(this.wordingBottom1);
 		this.gameContainer.appendChild(this.bowl);
-
-		root.addEventListener("click", () => onClick(REDIRECT_URL));
 	}
 
 	private createScoreContainer = () => {
@@ -430,7 +430,12 @@ class MyCreative extends Creative {
 	};
 
 	private endGame = () => {
-		setTimeout(() => (this.gameContainer.style.opacity = "0"), 500);
+		setTimeout(() => {
+			this.gameContainer.style.opacity = "0";
+			this.root.addEventListener("click", () =>
+				this.creativeProps.onClick(REDIRECT_URL)
+			);
+		}, 500);
 		setTimeout(() => {
 			this.wordingTop.style.opacity = "0";
 

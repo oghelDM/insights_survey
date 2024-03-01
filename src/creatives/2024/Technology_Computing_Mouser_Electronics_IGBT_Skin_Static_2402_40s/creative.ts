@@ -1,4 +1,5 @@
 import { VPAIDVideoPlayer } from "@app";
+import { trackPixel } from "@/utils/helper";
 import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 
@@ -8,6 +9,10 @@ const ALL_DATA = {
 			"https://www.youtube.com/watch?v=bCNJPY2h2dY&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-igbt-fr",
 		clickUrlRight:
 			"https://www.mouser.fr/new/infineon/Infineon-trenchstop-igbt7-feature/?&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-igbt-fr",
+		floodlightLeft:
+			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		floodlighRight:
+			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse0;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		assetPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Mouser_Electronics_IGBT_Skin_Static_2402_40s/assets/igbt_1/",
 	},
@@ -16,12 +21,16 @@ const ALL_DATA = {
 			"https://www.youtube.com/watch?v=4aWEA-IYsyM&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-sensor-fusion-fr",
 		clickUrlRight:
 			"https://www.mouser.fr/new/stmicroelectronics/stmemsaccelerometers/?&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-sensor-fusion-fr",
+		floodlightLeft:
+			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		floodlighRight:
+			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		assetPrefix:
 			"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Mouser_Electronics_IGBT_Skin_Static_2402_40s/assets/fusion_1/",
 	},
 };
 
-const DATA = ALL_DATA.igbt;
+const DATA = ALL_DATA.fusion;
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
@@ -42,10 +51,14 @@ class MyCreative extends Creative {
 		root.appendChild(bg);
 		root.appendChild(clickZoneRight);
 
-		root.addEventListener("click", () => onClick(DATA.clickUrlLeft));
-		clickZoneRight.addEventListener("click", () =>
-			onClick(DATA.clickUrlRight)
-		);
+		root.addEventListener("click", () => {
+			trackPixel(DATA.floodlightLeft);
+			onClick(DATA.clickUrlLeft);
+		});
+		clickZoneRight.addEventListener("click", () => {
+			trackPixel(DATA.floodlighRight);
+			onClick(DATA.clickUrlRight);
+		});
 	}
 
 	public getVideos() {

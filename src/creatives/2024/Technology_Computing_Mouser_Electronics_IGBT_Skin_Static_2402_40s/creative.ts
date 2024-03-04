@@ -8,7 +8,7 @@ const ALL_DATA = {
 		clickUrlLeft:
 			"https://www.youtube.com/watch?v=bCNJPY2h2dY&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-igbt-fr",
 		clickUrlRight:
-			"https://www.mouser.fr/new/infineon/Infineon-trenchstop-igbt7-feature/?&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-igbt-fr",
+			"https://ad.doubleclick.net/ddm/trackclk/N30602.132420DAILYMOTION1/B22225739.389975457;dc_trk_aid=581206578;dc_trk_cid=211962573;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
 		floodlightLeft:
 			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		floodlighRight:
@@ -20,7 +20,7 @@ const ALL_DATA = {
 		clickUrlLeft:
 			"https://www.youtube.com/watch?v=4aWEA-IYsyM&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-sensor-fusion-fr",
 		clickUrlRight:
-			"https://www.mouser.fr/new/stmicroelectronics/stmemsaccelerometers/?&utm_source=dailymotion&utm_medium=video&utm_campaign=what-is-sensor-fusion-fr",
+			"https://ad.doubleclick.net/ddm/trackclk/N30602.132420DAILYMOTION1/B22223452.390035343;dc_trk_aid=581261523;dc_trk_cid=212006505;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=;dc_tdv=1",
 		floodlightLeft:
 			"https://ad.doubleclick.net/ddm/activity/src=14291983;type=invmedia;cat=mouse001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		floodlighRight:

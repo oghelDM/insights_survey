@@ -13,7 +13,6 @@ export class Collection extends BaseComponent {
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
 	// swipe detection
-	private interactionDiv: HTMLElement;
 	private isMouseDown = false;
 	private mouseHasMoved: boolean = false;
 	private mousePosition = { clientX: 0, clientY: 0 };
@@ -24,6 +23,9 @@ export class Collection extends BaseComponent {
 			height: "100%",
 			width: "100%",
 			backgroundColor: props.debug ? "#00ff88ff" : "unset",
+			pointerEvents: "auto",
+			cursor: "pointer",
+			touchAction: `${props.isVertical ? "pan-x" : "pan-y"} pinch-zoom`,
 			...style,
 		});
 
@@ -47,14 +49,8 @@ export class Collection extends BaseComponent {
 		}
 
 		// interaction div
-		const div = createDiv(`${id}-interaction`, {
-			position: "absolute",
-			width: "100%",
-			height: "100%",
-			cursor: "pointer",
-		});
 
-		div.addEventListener("pointerdown", (e) => {
+		this.addEventListener("pointerdown", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			const { clientX, clientY } = e;
@@ -63,11 +59,11 @@ export class Collection extends BaseComponent {
 			this.mouseHasMoved = false;
 		});
 
-		div.addEventListener("pointerleave", () => (this.isMouseDown = false));
+		this.addEventListener("pointerleave", () => (this.isMouseDown = false));
 
-		div.addEventListener("pointerout", () => (this.isMouseDown = false));
+		this.addEventListener("pointerout", () => (this.isMouseDown = false));
 
-		div.addEventListener("pointerup", (e) => {
+		this.addEventListener("pointerup", (e) => {
 			e.preventDefault();
 			e.stopPropagation();
 			if (!this.isMouseDown) {
@@ -85,7 +81,7 @@ export class Collection extends BaseComponent {
 			}
 		});
 
-		div.addEventListener("pointermove", (e) => {
+		this.addEventListener("pointermove", (e) => {
 			if (!this.isMouseDown) {
 				return;
 			}
@@ -101,9 +97,6 @@ export class Collection extends BaseComponent {
 				dx > 0 ? this.goToNext() : this.goToPrevious();
 			}
 		});
-
-		this.interactionDiv = div;
-		this.appendChild(this.interactionDiv);
 	};
 
 	public init = (props: CollectionType) => {
@@ -133,6 +126,7 @@ export class Collection extends BaseComponent {
 				backgroundImage: `url(${url})`,
 				outline: debug ? "1px solid pink" : "unset",
 				opacity: isCurrentProduct ? "1" : "0",
+				pointerEvents: "none",
 			});
 
 			// position the elements behind the interactive div
@@ -218,12 +212,7 @@ export class Collection extends BaseComponent {
 		const currProduct = this.products[this.currIdx];
 		const nextProduct = this.products[nextIdx];
 		this.appendChild(nextProduct);
-		if (this.interactionDiv) {
-			this.appendChild(this.interactionDiv);
-		}
 
-		nextProduct.style.pointerEvents = "auto";
-		currProduct.style.pointerEvents = "none";
 
 		// // make sure to reset the css properties
 		// currProduct.getAnimations()[0]?.cancel();

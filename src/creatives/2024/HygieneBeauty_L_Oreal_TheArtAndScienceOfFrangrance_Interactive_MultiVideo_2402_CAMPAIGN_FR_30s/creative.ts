@@ -14,8 +14,10 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_craftingtheingredient30s_ctcomm",
-		floodlightRedirect: "redirectFlood_1",
-		cardClickFloodlight: "slected_1",
+		floodlightRedirect:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo004;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		cardClickFloodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo007;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
 		videoSrc:
@@ -24,8 +26,10 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_pioneeringthroughscience30s_ctcomm",
-		floodlightRedirect: "redirectFlood_2",
-		cardClickFloodlight: "slected_2",
+		floodlightRedirect:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo005;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		cardClickFloodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
 		videoSrc:
@@ -34,8 +38,10 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_unleashingcreativity30s_ctcomm",
-		floodlightRedirect: "redirectFlood_3",
-		cardClickFloodlight: "slected_3",
+		floodlightRedirect:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo006;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		cardClickFloodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
 		videoSrc:
@@ -44,8 +50,10 @@ const DATA = [
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
 			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_shapingthedream30s_ctcomm",
-		floodlightRedirect: "redirectFlood_4",
-		cardClickFloodlight: "slected_4",
+		floodlightRedirect:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo008;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
+		cardClickFloodlight:
+			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo003;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 ];
 
@@ -96,6 +104,11 @@ class MyCreative extends Creative {
 				e.preventDefault();
 				e.stopPropagation();
 				this.videosContainer2.style.top = i === 0 ? "0%" : "-10%";
+				trackPixel(
+					i === 0
+						? "https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo00;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
+						: "https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo000;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?"
+				);
 			});
 			root.appendChild(arrow);
 		});

@@ -5,7 +5,7 @@ import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 
 const ASSET_URL_PREFIX =
-	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets3/";
+	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets4/";
 const DATA = [
 	{
 		videoSrc: `${ASSET_URL_PREFIX}video0_low.mp4`,

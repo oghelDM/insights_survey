@@ -5,11 +5,10 @@ import { createDiv } from "@/utils/divMaker";
 import { Creative, CreativeProps } from "@/creative";
 
 const ASSET_URL_PREFIX =
-	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets2/";
+	"https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/assets3/";
 const DATA = [
 	{
-		videoSrc:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainment_Canal_Plus_Barbie_OnSite_TakeOver_2402_CAMPAIGN_FR_20s/assets/video_low.mp4",
+		videoSrc: `${ASSET_URL_PREFIX}video0_low.mp4`,
 		bgUrl: `${ASSET_URL_PREFIX}element0.png`,
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
@@ -20,8 +19,7 @@ const DATA = [
 			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo007;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
-		videoSrc:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Education_ThePower_Formaciones_Interactive_Carousel_2311_CAMPAIGN_FR_30s/assets/video_low.mp4",
+		videoSrc: `${ASSET_URL_PREFIX}video1_low.mp4`,
 		bgUrl: `${ASSET_URL_PREFIX}element1.png`,
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
@@ -32,8 +30,7 @@ const DATA = [
 			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo001;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
-		videoSrc:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Technology_Computing_Asus_Zenbook14_HotSpots_2402_FR_15s/assets/video_low.mp4",
+		videoSrc: `${ASSET_URL_PREFIX}video2_low.mp4`,
 		bgUrl: `${ASSET_URL_PREFIX}element2.png`,
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
@@ -44,8 +41,7 @@ const DATA = [
 			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo002;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 	},
 	{
-		videoSrc:
-			"https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4",
+		videoSrc: `${ASSET_URL_PREFIX}video3_low.mp4`,
 		bgUrl: `${ASSET_URL_PREFIX}element3.png`,
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
@@ -216,9 +212,9 @@ class MyCreative extends Creative {
 
 	public getVideos() {
 		return {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_mid.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/2024/Entertainement_Paramount_Plus_Halo_Interactive_Countdown_2401_CAMPAIGN_FR_15s/assets/video_high.mp4",
+			low: `${ASSET_URL_PREFIX}video0_low.mp4`,
+			mid: `${ASSET_URL_PREFIX}video0_mid.mp4`,
+			high: `${ASSET_URL_PREFIX}video0_high.mp4`,
 		};
 	}
 }

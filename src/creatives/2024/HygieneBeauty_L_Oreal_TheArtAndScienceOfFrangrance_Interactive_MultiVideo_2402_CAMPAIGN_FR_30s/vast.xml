@@ -1,23 +1,23 @@
 <VAST version="2.0">
-    <Ad id="LorealTheArtAndScienceOfFragrance">
+    <Ad id="LorealTheArtAndScienceOfFragrance2402">
         <InLine>
             <AdSystem>StudioDM</AdSystem>
-            <AdTitle>LorealTheArtAndScienceOfFragrance</AdTitle>
+            <AdTitle>LorealTheArtAndScienceOfFragrance2402</AdTitle>
             <ViewableImpression/>
             <AdVerifications/>
             <Extensions/>
             <Creatives>
-                <Creative id="LorealTheArtAndScienceOfFragrancec">
+                <Creative id="LorealTheArtAndScienceOfFragrance2402c">
                     <Linear>
                         <Duration>00:00:30</Duration>
                         <TrackingEvents/>
                         <VideoClicks/>
                         <MediaFiles>
                             <MediaFile type="application/javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/builds/2/index.js]]>
                             </MediaFile>
                             <MediaFile type="application/x-javascript" apiFramework="VPAID" maintainAspectRatio="true">
-                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/builds/1/index.js]]>
+                                <![CDATA[https://statics.dmcdn.net/d/PRODUCTION/2024/HygieneBeauty_L_Oreal_TheArtAndScienceOfFrangrance_Interactive_MultiVideo_2402_CAMPAIGN_FR_30s/builds/2/index.js]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>

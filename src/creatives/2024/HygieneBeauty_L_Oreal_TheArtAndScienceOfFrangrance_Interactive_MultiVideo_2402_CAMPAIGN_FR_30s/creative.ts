@@ -45,7 +45,7 @@ const DATA = [
 		bgUrl: `${ASSET_URL_PREFIX}element3.png`,
 		completionFloodlights: ["", "", "", ""],
 		productRedirect:
-			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_shapingthedream30s_ctcomm",
+			"https://www.loreal.com/fr/articles/brands/the-art-and-science-of-fragrance/?utm_source=dailymotion&utm_medium=social_video_paid&utm_content=oa_brde_none_video_aw&utm_campaign=oa_brde_none_fragrance-fr-fr_dream15s_ctcomm",
 		floodlightRedirect:
 			"https://ad.doubleclick.net/ddm/activity/src=14129555;type=invmedia;cat=opslo008;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;npa=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ord=1?",
 		cardClickFloodlight:

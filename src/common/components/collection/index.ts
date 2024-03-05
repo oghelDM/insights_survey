@@ -9,7 +9,7 @@ export class Collection extends BaseComponent {
 	private products: HTMLElement[];
 	private nbProducts: number;
 	private isAnimationPlaying = false;
-	private currIdx = 0; // the index of the currently displayed product
+	public currIdx = 0; // the index of the currently displayed product
 	private autoPlayTimeoutId: number | undefined;
 	private autoPlayIntervalId: number | undefined;
 	// swipe detection
@@ -212,7 +212,6 @@ export class Collection extends BaseComponent {
 		const currProduct = this.products[this.currIdx];
 		const nextProduct = this.products[nextIdx];
 		this.appendChild(nextProduct);
-
 
 		// // make sure to reset the css properties
 		// currProduct.getAnimations()[0]?.cancel();

@@ -3,26 +3,71 @@ import { ImageDM } from "@/components/image";
 import { Creative, CreativeProps } from "@/creative";
 import { Collection } from "@/components/collection";
 
-const isKids = true; // Cucina otherwise
+const ALL_DATA = {
+	kids: {
+		clickUrl: "https://track.adform.net/C/?bn=71618527",
+		prefixUrl:
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/",
+		clickUrls: [
+			"https://track.adform.net/C/?bn=71618529",
+			"https://track.adform.net/C/?bn=71618536",
+			"https://track.adform.net/C/?bn=71618533",
+			"https://track.adform.net/C/?bn=71618532",
+		],
+		floodlights: [
+			"https://track.adform.net/adfserve/?bn=71618529;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618536;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618533;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618532;1x1inv=1;srctype=3;ord=[timestamp]",
+		],
+	},
+	cucina: {
+		clickUrl: "https://track.adform.net/C/?bn=71618531",
+		prefixUrl:
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/",
+		clickUrls: [
+			"https://track.adform.net/C/?bn=71618537",
+			"https://track.adform.net/C/?bn=71618534",
+			"https://track.adform.net/C/?bn=71618528",
+			"https://track.adform.net/C/?bn=71618530",
+		],
+		floodlights: [
+			"https://track.adform.net/adfserve/?bn=71618537;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618534;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618528;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=71618530;1x1inv=1;srctype=3;ord=[timestamp]",
+		],
+	},
+	orto: {
+		clickUrl: "https://track.adform.net/C/?bn=72241149",
+		prefixUrl:
+			"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsOrto_1/",
+		clickUrls: [
+			"https://track.adform.net/C/?bn=72241159",
+			"https://track.adform.net/C/?bn=72241147",
+			"https://track.adform.net/C/?bn=72241150",
+			"https://track.adform.net/C/?bn=72241145",
+		],
+		floodlights: [
+			"https://track.adform.net/adfserve/?bn=72241159;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=72241147;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=72241150;1x1inv=1;srctype=3;ord=[timestamp]",
+			"https://track.adform.net/adfserve/?bn=72241145;1x1inv=1;srctype=3;ord=[timestamp]",
+		],
+	},
+};
 
-const clickUrl = isKids
-	? "https://track.adform.net/C/?bn=71618527"
-	: "https://track.adform.net/C/?bn=71618531";
+const DATA = ALL_DATA.orto;
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, { onClick }: CreativeProps) {
 		super();
 
-		const bg = new ImageDM(
-			"bg-id",
-			isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/bg.png"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/bg.png"
-		);
+		const bg = new ImageDM("bg-id", `${DATA.prefixUrl}bg.png`);
 		bg.addEventListener("click", (e) => {
 			e.stopPropagation();
 			e.preventDefault();
-			onClick(clickUrl);
+			onClick(DATA.clickUrl);
 		});
 		root.appendChild(bg);
 
@@ -44,45 +89,11 @@ class MyCreative extends Creative {
 		const collection = new Collection(
 			{
 				id: "collection-DM",
-				productUrls: isKids
-					? [
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product0.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product1.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product2.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/product3.png",
-					  ]
-					: [
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product0.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product1.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product2.png",
-							"https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/product3.png",
-					  ],
-				clickUrls: isKids
-					? [
-							"https://track.adform.net/C/?bn=71618529",
-							"https://track.adform.net/C/?bn=71618536",
-							"https://track.adform.net/C/?bn=71618533",
-							"https://track.adform.net/C/?bn=71618532",
-					  ]
-					: [
-							"https://track.adform.net/C/?bn=71618537",
-							"https://track.adform.net/C/?bn=71618534",
-							"https://track.adform.net/C/?bn=71618528",
-							"https://track.adform.net/C/?bn=71618530",
-					  ],
-				floodlights: isKids
-					? [
-							"https://track.adform.net/adfserve/?bn=71618529;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618536;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618533;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618532;1x1inv=1;srctype=3;ord=[timestamp]",
-					  ]
-					: [
-							"https://track.adform.net/adfserve/?bn=71618537;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618534;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618528;1x1inv=1;srctype=3;ord=[timestamp]",
-							"https://track.adform.net/adfserve/?bn=71618530;1x1inv=1;srctype=3;ord=[timestamp]",
-					  ],
+				productUrls: new Array(4)
+					.fill(0)
+					.map((_, i) => `${DATA.prefixUrl}product${i}.png`),
+				clickUrls: DATA.clickUrls,
+				floodlights: DATA.floodlights,
 				onClick,
 				clickUrl: "", // prevent a click on the collection when the user has clicked on a product
 				arrows,
@@ -141,15 +152,9 @@ class MyCreative extends Creative {
 
 	public getVideos() {
 		return {
-			low: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_low.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_low.mp4",
-			mid: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_mid.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_mid.mp4",
-			high: isKids
-				? "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsKids_1/video_high.mp4"
-				: "https://statics.dmcdn.net/d/PRODUCTION/2024/Home_Garden_Ikea_Animated_Carousel_2402_CAMPAIGN_EN_15s/assetsCucina_2/video_high.mp4",
+			low: `${DATA.prefixUrl}video_low.mp4`,
+			mid: `${DATA.prefixUrl}video_mid.mp4`,
+			high: `${DATA.prefixUrl}ideo_high.mp4`,
 		};
 	}
 }

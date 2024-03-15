@@ -10,11 +10,13 @@ export class Page extends HTMLElement {
 		console.log("Page: ", name);
 		this.id = `${name}-page-id`;
 		this.style.position = "absolute";
-		this.style.width = "100%";
-		this.style.height = "100%";
-		this.style.left = "0";
-		this.style.top = "0";
-		this.style.opacity = type === PAGE_TYPE_CONSENT ? "1" : "0";
+		this.style.flexDirection = "column";
+		this.style.display = "flex";
+		this.style.width = "96%";
+		this.style.height = "92%";
+		this.style.left = "2%";
+		this.style.top = "4%";
+		this.style.backgroundColor = "purple";
 		this.style.pointerEvents = type === PAGE_TYPE_CONSENT ? "auto" : "none";
 
 		const promptDiv = createDiv(

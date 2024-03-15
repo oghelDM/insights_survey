@@ -2,13 +2,6 @@ import { VPAIDVideoPlayer } from "@/app/app";
 import { Creative, CreativeProps } from "@/creative";
 
 import jsonData from "./data.json";
-import { createDiv } from "@/utils/divMaker";
-import { Consent } from "@/pages/consent";
-import {
-	PAGE_TYPE_CONSENT,
-	PAGE_TYPE_MULTIPLE,
-	PAGE_TYPE_RANGE,
-} from "@/constants";
 
 export interface SurveyType {
 	name: string;
@@ -33,39 +26,8 @@ export interface PageType {
 
 class MyCreative extends Creative {
 	constructor(root: HTMLElement, creativeProps: CreativeProps) {
-		super(creativeProps, jsonData as any as SurveyType);
-
-		console.log("pause from MyCreative constructor");
-		setTimeout(() => {}, 1000);
-		creativeProps.pauseAd();
-		this.canResumeVideo = false;
-
-		console.log(jsonData);
-
-		const allData = jsonData.pages.map((p, i) => {
-			const page = p as any as PageType;
-
-			const div = this.makePage(page);
-
-			root.appendChild(div);
-
-			const data = { ...page, div };
-
-			return data;
-		});
-		console.log(allData);
+		super(root, creativeProps, jsonData as any as SurveyType);
 	}
-
-	private makePage = (page: PageType) => {
-		switch (page.type) {
-			case PAGE_TYPE_CONSENT:
-			case PAGE_TYPE_MULTIPLE:
-			case PAGE_TYPE_RANGE:
-				return new Consent(page);
-			default:
-				return createDiv("default", {});
-		}
-	};
 }
 
 customElements.define("dm-creative", MyCreative);

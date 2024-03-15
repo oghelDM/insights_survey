@@ -14,3 +14,7 @@ export const createDiv = (
 
 	return div;
 };
+
+export const createButton = (id: string, style: CssType = {}): HTMLElement => {
+	return createDiv(id, { cursor: "pointer" }, "button");
+};

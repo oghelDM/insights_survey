@@ -8,15 +8,15 @@ export class Consent extends Page {
 	private isBoxChecked = false;
 
 	constructor(
-		props: PageType,
+		pageProps: PageType,
 		creativeProps: CreativeProps,
 		gotoNextPage: () => void
 	) {
-		super(props);
+		super(pageProps);
 
-		console.log("props: ", props);
+		console.log("props: ", pageProps);
 
-		const { name, prompt, answers } = props;
+		const { name, prompt, answers } = pageProps;
 
 		const termsContainer = createDiv("terms-container", {
 			position: "absolute",
@@ -89,6 +89,8 @@ export class Consent extends Page {
 		btnContainer.appendChild(noBtn);
 		this.appendChild(btnContainer);
 	}
+
+	public getNextPageName = () => this.pageProps.nextPage;
 }
 
 // declare the new web component to allow constructor instanciation

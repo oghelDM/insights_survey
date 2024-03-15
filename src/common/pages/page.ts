@@ -3,10 +3,13 @@ import { PAGE_TYPE_CONSENT } from "@/constants";
 import { PageType } from "@creatives/2024/survey1/creative";
 
 export class Page extends HTMLElement {
-	constructor(props: PageType) {
+	public pageProps: PageType;
+
+	constructor(pageProps: PageType) {
 		super();
 
-		const { name, prompt, type } = props;
+		this.pageProps = pageProps;
+		const { name, prompt, type } = pageProps;
 		console.log("Page: ", name);
 		this.id = `${name}-page-id`;
 		this.style.position = "absolute";
@@ -33,6 +36,8 @@ export class Page extends HTMLElement {
 		promptDiv.innerHTML = prompt;
 		this.appendChild(promptDiv);
 	}
+
+	public getNextPageName = () => "";
 }
 
 // declare the new web component to allow constructor instanciation

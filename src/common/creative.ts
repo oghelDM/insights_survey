@@ -6,6 +6,7 @@ import {
 } from "./constants";
 import { Consent } from "./pages/consent";
 import { createDiv } from "./utils/divMaker";
+import { Page } from "./pages/page";
 
 export interface CreativeProps {
 	videoSlot: HTMLVideoElement;
@@ -22,7 +23,9 @@ export class Creative extends HTMLElement {
 	public creativeProps: CreativeProps;
 
 	private currPageName = "";
+	private currPage: Page;
 	private jsonData: SurveyType;
+	private allData;
 
 	constructor(
 		root: HTMLElement,
@@ -40,7 +43,7 @@ export class Creative extends HTMLElement {
 
 		console.log("creative jsonData: ", jsonData);
 
-		const allData = jsonData.pages.map((p) => {
+		this.allData = jsonData.pages.map((p) => {
 			const page = p as any as PageType;
 
 			const div = this.makePage(page);
@@ -52,9 +55,11 @@ export class Creative extends HTMLElement {
 
 			return data;
 		});
-		this.currPageName = jsonData.firstPage;
+		this.currPage = this.allData.find(
+			(data) => data.type === PAGE_TYPE_CONSENT
+		)?.div as Page;
 
-		console.log("creative allData: ", allData);
+		console.log("creative allData: ", this.allData);
 
 		const { firstPage, pages } = jsonData;
 		const pageNames = pages.map((page) => page.name);
@@ -89,10 +94,15 @@ export class Creative extends HTMLElement {
 	};
 
 	public gotoNextPage = () => {
-		const nextPageName = this.jsonData.pages.find(
-			(page) => page.name === this.currPageName
-		)?.nextPage;
+		const nextPageName = this.currPage.getNextPageName();
 		console.log("gotoNextPage: ", nextPageName);
+		const nextPage = this.allData.find((data) => data.name === nextPageName)
+			?.div as Page;
+
+		this.currPage.style.pointerEvents = "none";
+		this.currPage.style.opacity = "0";
+		nextPage.style.pointerEvents = "auto";
+		nextPage.style.opacity = "1";
 	};
 
 	public getVideos() {

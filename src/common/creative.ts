@@ -1,4 +1,4 @@
-import { LiveStreamData } from "./types";
+import { SurveyType } from "@creatives/2024/survey1/creative";
 
 export interface CreativeProps {
 	videoSlot: HTMLVideoElement;
@@ -13,6 +13,12 @@ export class Creative extends HTMLElement {
 	public canResumeVideo = true; // allows the creative to prevent the user from resuming the ad through the play button
 	public canPauseVideo = true; // allows the creative to prevent the user from pausing the ad through the pause button
 
+	private creativeProps: CreativeProps;
+	constructor(creativeProps: CreativeProps, jsonData: SurveyType) {
+		super();
+
+		this.creativeProps = creativeProps;
+
 	public getVideos() {
 		return {
 			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
@@ -21,8 +27,10 @@ export class Creative extends HTMLElement {
 		};
 	}
 
-	public getLiveStreamData(): LiveStreamData | undefined {
-		return undefined;
+	public videoTimeUpdate(completionPercent: number): void {
+		this.creativeProps.pauseAd();
+		this.canResumeVideo = false;
+		this.canPauseVideo = false;
 	}
 
 	public videoTimeUpdate(completionPercent: number): void {}

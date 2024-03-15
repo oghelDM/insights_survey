@@ -35,10 +35,7 @@ export class VPAIDVideoPlayer {
 	}; // TODO: strongly type?
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
-	liveStreamData: LiveStreamData | undefined;
 	eventsCallbacks: any = {}; // TODO: strongly type
-	time = 0; // time to update the liveStream progress bar if needed
-	previousTime = 0; // time to update the liveStream progress bar if needed
 
 	// TODO: clean this up
 	nextQuartileIndex = 0;
@@ -60,7 +57,9 @@ export class VPAIDVideoPlayer {
 	updateVideoSlot = () => {
 		if (this.videoSlot == null) {
 			this.videoSlot = document.createElement("video");
-			this.log("Warning: No video element passed to ad, creating element.");
+			this.log(
+				"Warning: No video element passed to ad, creating element."
+			);
 			this.slot.appendChild(this.videoSlot);
 		}
 		this.updateVideoPlayerSize();
@@ -77,21 +76,15 @@ export class VPAIDVideoPlayer {
 				resumeAd: () => this.resumeAd(),
 				setAdVolume: (volume: number) => this.setAdVolume(volume),
 			});
+			console.log("updateVideoSlot2 this.creative: ", this.creative);
 			////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////
 		}
-		this.liveStreamData = this.creative.getLiveStreamData();
-		if (this.liveStreamData) {
-			this.loadVideoStream(this.liveStreamData.url, this.liveStreamData.Hls);
-		} else {
-			this.playVideoFile();
-		}
+		this.playVideoFile();
 	};
 
 	playVideoFile = () => {
-		this.liveStreamData = undefined;
-
 		const { low, mid, high } = this.creative.getVideos();
 
 		const videos = [
@@ -128,55 +121,6 @@ export class VPAIDVideoPlayer {
 		}
 	};
 
-	loadVideoStream = (streamUrl: string, Hls: any) => {
-		if (streamUrl.includes("dailymotion.com")) {
-			try {
-				fetch(streamUrl)
-					.then((response) => {
-						if (response.ok) {
-							return response.json();
-						}
-						throw new Error(
-							"Something went wrong while fetching the DM stream"
-						);
-					})
-					.then((data) => data.qualities.auto[0].url)
-					.then((liveLink: string) => this.playVideoStream(liveLink, Hls));
-			} catch {
-				this.log("error while loading the DM stream");
-				this.playVideoFile();
-			}
-		} else {
-			this.playVideoStream(streamUrl, Hls);
-		}
-	};
-
-	playVideoStream = (streamUrl: string, Hls: any) => {
-		try {
-			if (Hls.isSupported()) {
-				const hls = new Hls();
-				hls.on(Hls.Events.MEDIA_ATTACHED, () =>
-					console.log("video and hls.js are now bound together !")
-				);
-				hls.on(Hls.Events.MANIFEST_PARSED, (_: any, data: any) =>
-					console.log(
-						`manifest loaded, found ${data.levels.length} quality level`
-					)
-				);
-				hls.loadSource(streamUrl);
-				hls.attachMedia(this.videoSlot);
-			} else if (isMac()) {
-				this.videoSlot.src = streamUrl;
-				this.videoSlot.play();
-			} else {
-				this.playVideoFile();
-			}
-		} catch {
-			this.log("error while loading the stream");
-			this.playVideoFile();
-		}
-	};
-
 	// TODO?
 	updateInteractiveSlot = () => {};
 
@@ -205,9 +149,7 @@ export class VPAIDVideoPlayer {
 	loadedMetadata = () => {
 		// The ad duration is not known until the media metadata is loaded.
 		// Then, update the player with the duration change.
-		this.attributes["duration"] = this.liveStreamData
-			? this.liveStreamData.duration
-			: this.videoSlot.duration;
+		this.attributes["duration"] = this.videoSlot.duration;
 		this.attributes["remainingTime"] = this.attributes["duration"];
 		this.callEvent("AdDurationChange");
 
@@ -224,41 +166,17 @@ export class VPAIDVideoPlayer {
 	 * @private
 	 */
 	timeUpdateHandler = () => {
-		if (this.liveStreamData && this.attributes.remainingTime <= 0) {
-			this.pauseAd();
-			this.stopAd();
-			return;
-		}
-
 		if (this.nextQuartileIndex >= quartileEvents.length) {
 			return;
 		}
 
-		if (!this.previousTime) {
-			this.previousTime = new Date().getTime();
-		}
-		const now = new Date().getTime();
-		this.time += now - this.previousTime;
-		this.previousTime = now;
-
-		const currentTime = this.liveStreamData
-			? this.time / 1000
-			: this.videoSlot.currentTime;
-		const duration = this.liveStreamData
-			? this.liveStreamData.duration
-			: this.videoSlot.duration;
-		const percentPlayed = (currentTime * 100.0) / duration;
-		this.creative.videoTimeUpdate(percentPlayed);
-		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
-			const lastQuartileEvent = quartileEvents[this.nextQuartileIndex].event;
-			this.nextQuartileIndex += 1;
-			this.eventsCallbacks[lastQuartileEvent] &&
-				this.eventsCallbacks[lastQuartileEvent]();
-		}
+		const duration = this.videoSlot.duration;
 
 		if (duration > 0) {
 			this.attributes.duration = duration;
+			const currentTime = this.videoSlot.currentTime;
 			this.attributes.remainingTime = duration - currentTime;
+			this.creative?.videoTimeUpdate(currentTime);
 		}
 	};
 
@@ -398,8 +316,7 @@ export class VPAIDVideoPlayer {
 	 * Pauses the ad.
 	 */
 	pauseAd = () => {
-		// this.log("pauseAd");
-		if (!this.creative.canPauseVideo) {
+		if (!this.creative?.canPauseVideo) {
 			return;
 		}
 		this.videoSlot.pause();
@@ -410,12 +327,11 @@ export class VPAIDVideoPlayer {
 	 * Resumes the ad.
 	 */
 	resumeAd = () => {
-		if (!this.creative.canResumeVideo) {
+		if (!this.creative?.canResumeVideo) {
 			return;
 		}
 		this.videoSlot.play();
 		this.callEvent("AdPlaying");
-		this.previousTime = new Date().getTime();
 	};
 
 	/**

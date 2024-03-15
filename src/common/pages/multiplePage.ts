@@ -1,19 +1,17 @@
-import { PageType } from "@creatives/2024/survey1/creative";
+import { PageType } from "@/creative";
 import { Page } from "./page";
 import { createDiv } from "@/utils/divMaker";
 
 export class MultiplePage extends Page {
-	private userAnswers: string[] = [];
-	private answers: string[];
 	private maxNbAnswers: number;
 	private answerDivs: HTMLElement[];
+	private userAnswers: string[] = [];
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps);
 
 		const { name, answers, maxNbAnswers } = pageProps;
 
-		this.answers = answers;
 		this.maxNbAnswers = maxNbAnswers || 0;
 
 		const answersContainer = createDiv(`answers-container-${name}`, {
@@ -38,9 +36,6 @@ export class MultiplePage extends Page {
 				padding: "8px 4px",
 				userSelect: "none",
 				cursor: "pointer",
-				// flexBasis: "40%",
-				// flexGrow: "1",
-				// flex: "1 0 40%",
 				textAlign: "center",
 				width: "40%",
 			});

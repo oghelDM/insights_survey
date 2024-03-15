@@ -7,7 +7,7 @@
 			"type": "consent",
 			"prompt": "Hello. We could really use your opinion on a study, it will not take more than 30s :)",
 			"answers": ["Yes, sure", "Maybe next time"],
-			"nextPage": "question1",
+			"nextPage": "question3",
 			"skippable": "false"
 		},
 		{
@@ -76,7 +76,7 @@
 			"type": "range",
 			"min": "0",
 			"max": "12",
-			"step": "1",
+			"step": "2",
 			"skippable": "false"
 		}
 	]

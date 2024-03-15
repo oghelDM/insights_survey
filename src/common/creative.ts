@@ -1,4 +1,3 @@
-import { PageType, SurveyType } from "@creatives/2024/survey1/creative";
 import {
 	PAGE_TYPE_CONSENT,
 	PAGE_TYPE_MULTIPLE,
@@ -8,6 +7,29 @@ import { ConsentPage } from "./pages/consentPage";
 import { createDiv } from "./utils/divMaker";
 import { Page } from "./pages/page";
 import { MultiplePage } from "./pages/multiplePage";
+import { RangePage } from "./pages/rangePage";
+import { isDataCorrupted } from "./utils/dataChecker";
+
+export interface SurveyType {
+	name: string;
+	firstPage: string;
+	pages: PageType[];
+}
+
+export interface PageType {
+	name: string;
+	type: string;
+	prompt: string;
+	answers: string[];
+	nextPage: string;
+	skippable: boolean;
+	maxNbAnswers?: number;
+	randomize?: boolean;
+	nextPages?: string[];
+	min?: number;
+	max?: number;
+	step?: number;
+}
 
 export interface CreativeProps {
 	videoSlot: HTMLVideoElement;
@@ -35,14 +57,16 @@ export class Creative extends HTMLElement {
 	) {
 		super();
 
+		if (isDataCorrupted(jsonData)) {
+			return;
+		}
+
 		console.log("creative creativeProps: ", creativeProps);
 		this.creativeProps = creativeProps;
 		this.jsonData = jsonData;
 
 		creativeProps.pauseAd();
 		this.canResumeVideo = false;
-
-		console.log("creative jsonData: ", jsonData);
 
 		this.allData = jsonData.pages.map((p) => {
 			const page = p as any as PageType;
@@ -76,11 +100,6 @@ export class Creative extends HTMLElement {
 				// );
 			}
 		});
-		if (!pageNames.includes(firstPage)) {
-			alert(
-				`There is an issue with the first page name (${firstPage}): it cannot be found in the provided pages`
-			);
-		}
 	}
 
 	private makePage = (page: PageType) => {
@@ -91,10 +110,12 @@ export class Creative extends HTMLElement {
 					this.creativeProps,
 					this.gotoNextPage
 				);
-			default:
 			case PAGE_TYPE_MULTIPLE:
 				return new MultiplePage(page, this.gotoNextPage);
 			case PAGE_TYPE_RANGE:
+				return new RangePage(page, this.gotoNextPage);
+			default:
+				console.warn(`unexpected page type: ${page.type}`);
 				return createDiv("default", {});
 		}
 	};
@@ -102,12 +123,15 @@ export class Creative extends HTMLElement {
 	public gotoNextPage = () => {
 		const nextPageName = this.currPage.getNextPageName();
 		console.log("gotoNextPage: ", nextPageName);
-		const nextPage = this.allData.find((data) => data.name === nextPageName)
-			?.div as Page;
+		const nextPage = this.allData?.find(
+			(data) => data.name === nextPageName
+		)?.div as Page;
 
 		this.currPage.style.pointerEvents = "none";
+		this.currPage.style.transition = "opacity .3s";
 		this.currPage.style.opacity = "0";
 		nextPage.style.pointerEvents = "auto";
+		nextPage.style.transition = "opacity .3s .3s";
 		nextPage.style.opacity = "1";
 	};
 

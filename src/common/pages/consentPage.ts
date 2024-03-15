@@ -1,8 +1,7 @@
-import { PageType } from "@creatives/2024/survey1/creative";
 import { Page } from "./page";
 import { createButton, createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/image";
-import { CreativeProps } from "@/creative";
+import { CreativeProps, PageType } from "@/creative";
 
 export class ConsentPage extends Page {
 	private isBoxChecked = false;

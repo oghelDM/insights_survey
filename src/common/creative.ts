@@ -19,11 +19,32 @@ export class Creative extends HTMLElement {
 
 		this.creativeProps = creativeProps;
 
+		const { firstPage, pages } = jsonData;
+		const pageNames = pages.map((page) => page.name);
+		const pageNexts = [];
+		pages.forEach(({ nextPage, nextPages, name }) => {
+			if (nextPage) {
+				pageNexts.push(nextPage);
+			} else if (nextPages && nextPages.length > 0) {
+				pageNexts.push(...nextPages);
+			} else {
+				// alert(
+				// 	`There is an issue with the nextPage(s) for page ${name}`
+				// );
+			}
+		});
+		if (!pageNames.includes(firstPage)) {
+			alert(
+				`There is an issue with the first page name (${firstPage}): it cannot be found in the provided pages`
+			);
+		}
+	}
+
 	public getVideos() {
 		return {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_15s_low.mp4",
+			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
 		};
 	}
 
@@ -32,6 +53,4 @@ export class Creative extends HTMLElement {
 		this.canResumeVideo = false;
 		this.canPauseVideo = false;
 	}
-
-	public videoTimeUpdate(completionPercent: number): void {}
 }

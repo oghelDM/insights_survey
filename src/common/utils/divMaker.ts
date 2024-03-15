@@ -1,7 +1,11 @@
 import { CssType } from "@/types";
 
-export const createDiv = (id: string, style: CssType): HTMLElement => {
-	const div = document.createElement("div");
+export const createDiv = (
+	id: string,
+	style: CssType,
+	tagName = "div"
+): HTMLElement => {
+	const div = document.createElement(tagName);
 	div.id = id;
 	for (const [key, value] of Object.entries(style)) {
 		// @ts-ignore

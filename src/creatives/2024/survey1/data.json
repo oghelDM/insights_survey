@@ -1,0 +1,83 @@
+{
+	"name": "survey-2024-02",
+	"firstPage": "intro",
+	"pages": [
+		{
+			"name": "intro",
+			"type": "consent",
+			"prompt": "Hello. We could really use your opinion on a study, it will not take more than 30s :)",
+			"answers": ["Yes, sure", "Maybe next time"],
+			"nextPage": "question1",
+			"skippable": "false"
+		},
+		{
+			"name": "question1",
+			"type": "multipleChoice",
+			"prompt": "What is your favourite colour?",
+			"maxNbAnswers": "1",
+			"randomize": "true",
+			"answers": ["blue", "red", "green", "yellow", "I am colour blind"],
+			"nextPage": "question2",
+			"skippable": "true"
+		},
+		{
+			"name": "question2",
+			"type": "multipleChoice",
+			"prompt": "What planet do you come from?",
+			"maxNbAnswers": "1",
+			"randomize": "false",
+			"answers": ["Earth", "Mars", "other"],
+			"nextPages": ["questionEarth", "questionMars", "questionOther"],
+			"skippable": "false"
+		},
+		{
+			"name": "questionEarth",
+			"type": "multipleChoice",
+			"prompt": "How would you describe your fellow humans?",
+			"maxNbAnswers": "0",
+			"randomize": "true",
+			"answers": [
+				"open-minded",
+				"always weird",
+				"under-developped",
+				"fun",
+				"doomed"
+			],
+			"nextPage": "question3",
+			"skippable": "true"
+		},
+		{
+			"name": "questionMars",
+			"type": "multipleChoice",
+			"prompt": "How would you describe your fellow marsians?",
+			"maxNbAnswers": "0",
+			"randomize": "true",
+			"answers": ["too belligerent", "perfect", "over-achieving", "dull"],
+			"nextPage": "question3",
+			"skippable": "true"
+		},
+		{
+			"name": "questionOther",
+			"type": "multipleChoice",
+			"prompt": "What kind of a person are you?",
+			"maxNbAnswers": "1",
+			"randomize": "true",
+			"answers": [
+				"I don't identify as a person",
+				"I am from Venus",
+				"please leave me alone"
+			],
+			"nextPage": "question3",
+			"skippable": "true"
+		},
+		{
+			"name": "question3",
+			"prompt": "How many bananas do you eat on a daily basis?",
+			"type": "range",
+			"min": "0",
+			"max": "12",
+			"step": "1",
+			"skippable": "false"
+		}
+	]
+}

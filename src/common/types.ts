@@ -23,6 +23,7 @@ export interface CssType extends Partial<CSSStyleDeclaration> {
 	"-webkit-backface-visibility"?: string;
 	"-webkit-transform"?: string;
 	scrollbarWidth?: string;
+	textWrap?: string;
 }
 
 export interface ComponentBaseType {

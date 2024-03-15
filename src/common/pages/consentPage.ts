@@ -4,7 +4,7 @@ import { createButton, createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/image";
 import { CreativeProps } from "@/creative";
 
-export class Consent extends Page {
+export class ConsentPage extends Page {
 	private isBoxChecked = false;
 
 	constructor(
@@ -18,11 +18,12 @@ export class Consent extends Page {
 
 		const { name, prompt, answers } = pageProps;
 
-		const termsContainer = createDiv("terms-container", {
+		const termsContainer = createDiv(`terms-container-${name}`, {
 			position: "absolute",
 			// width: "50%",
 			height: "13%",
-			left: "25%",
+			left: "50%",
+			translate: "-50%",
 			top: "22%",
 			display: "flex",
 			alignItems: "center",
@@ -30,10 +31,11 @@ export class Consent extends Page {
 			gap: "3%",
 			backgroundColor: "gold",
 			borderRadius: "3px",
+			padding: "0 12px",
 		});
 		const checkBox = new ImageDM("terms-container", "", {
 			position: "unset",
-			width: "6%",
+			width: "5vw",
 			height: "auto",
 			aspectRatio: "1 / 1",
 			backgroundColor: "yellow",
@@ -50,6 +52,7 @@ export class Consent extends Page {
 			"terms-container",
 			{
 				backgroundColor: "yellow",
+				textWrap: "nowrap",
 			},
 			"p"
 		);
@@ -94,4 +97,4 @@ export class Consent extends Page {
 }
 
 // declare the new web component to allow constructor instanciation
-customElements.define("dm-consent", Consent);
+customElements.define("dm-consent-page", ConsentPage);

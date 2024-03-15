@@ -4,9 +4,10 @@ import {
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
 } from "./constants";
-import { Consent } from "./pages/consent";
+import { ConsentPage } from "./pages/consentPage";
 import { createDiv } from "./utils/divMaker";
 import { Page } from "./pages/page";
+import { MultiplePage } from "./pages/multiplePage";
 
 export interface CreativeProps {
 	videoSlot: HTMLVideoElement;
@@ -85,9 +86,14 @@ export class Creative extends HTMLElement {
 	private makePage = (page: PageType) => {
 		switch (page.type) {
 			case PAGE_TYPE_CONSENT:
-				return new Consent(page, this.creativeProps, this.gotoNextPage);
+				return new ConsentPage(
+					page,
+					this.creativeProps,
+					this.gotoNextPage
+				);
 			default:
 			case PAGE_TYPE_MULTIPLE:
+				return new MultiplePage(page, this.gotoNextPage);
 			case PAGE_TYPE_RANGE:
 				return createDiv("default", {});
 		}

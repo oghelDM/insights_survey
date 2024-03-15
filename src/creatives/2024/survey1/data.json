@@ -14,7 +14,7 @@
 			"name": "question1",
 			"type": "multipleChoice",
 			"prompt": "What is your favourite colour?",
-			"maxNbAnswers": "1",
+			"maxNbAnswers": "3",
 			"randomize": "true",
 			"answers": ["blue", "red", "green", "yellow", "I am colour blind"],
 			"nextPage": "question2",

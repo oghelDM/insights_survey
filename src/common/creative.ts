@@ -1,13 +1,15 @@
 import {
 	PAGE_TYPE_CONSENT,
+	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
 } from "./constants";
-import { ConsentPage } from "./pages/consentPage";
-import { createDiv } from "./utils/divMaker";
 import { Page } from "./pages/page";
-import { MultiplePage } from "./pages/multiplePage";
+import { EndPage } from "./pages/endPage";
+import { createDiv } from "./utils/divMaker";
 import { RangePage } from "./pages/rangePage";
+import { ConsentPage } from "./pages/consentPage";
+import { MultiplePage } from "./pages/multiplePage";
 import { isDataCorrupted } from "./utils/dataChecker";
 
 export interface SurveyType {
@@ -45,9 +47,7 @@ export class Creative extends HTMLElement {
 	public canPauseVideo = true; // allows the creative to prevent the user from pausing the ad through the pause button
 	public creativeProps: CreativeProps;
 
-	private currPageName = "";
 	private currPage: Page;
-	private jsonData: SurveyType;
 	private allData;
 
 	constructor(
@@ -63,7 +63,6 @@ export class Creative extends HTMLElement {
 
 		console.log("creative creativeProps: ", creativeProps);
 		this.creativeProps = creativeProps;
-		this.jsonData = jsonData;
 
 		creativeProps.pauseAd();
 		this.canResumeVideo = false;
@@ -80,11 +79,10 @@ export class Creative extends HTMLElement {
 
 			return data;
 		});
+		console.log("creative allData: ", this.allData);
 		this.currPage = this.allData.find(
 			(data) => data.type === PAGE_TYPE_CONSENT
 		)?.div as Page;
-
-		console.log("creative allData: ", this.allData);
 
 		const { firstPage, pages } = jsonData;
 		const pageNames = pages.map((page) => page.name);
@@ -107,13 +105,15 @@ export class Creative extends HTMLElement {
 			case PAGE_TYPE_CONSENT:
 				return new ConsentPage(
 					page,
-					this.creativeProps,
-					this.gotoNextPage
+					this.gotoNextPage,
+					this.creativeProps
 				);
 			case PAGE_TYPE_MULTIPLE:
 				return new MultiplePage(page, this.gotoNextPage);
 			case PAGE_TYPE_RANGE:
 				return new RangePage(page, this.gotoNextPage);
+			case PAGE_TYPE_END:
+				return new EndPage(page, this.creativeProps.stopAd);
 			default:
 				console.warn(`unexpected page type: ${page.type}`);
 				return createDiv("default", {});
@@ -133,6 +133,7 @@ export class Creative extends HTMLElement {
 		nextPage.style.pointerEvents = "auto";
 		nextPage.style.transition = "opacity .3s .3s";
 		nextPage.style.opacity = "1";
+		this.currPage = nextPage;
 	};
 
 	public getVideos() {
@@ -143,7 +144,7 @@ export class Creative extends HTMLElement {
 		};
 	}
 
-	public videoTimeUpdate(completionPercent: number): void {
+	public videoTimeUpdate(_: number): void {
 		this.creativeProps.pauseAd();
 		this.canResumeVideo = false;
 		this.canPauseVideo = false;

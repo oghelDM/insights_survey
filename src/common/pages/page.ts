@@ -1,11 +1,13 @@
+import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 import { PAGE_TYPE_CONSENT } from "@/constants";
-import { PageType } from "@/creative";
 
 export class Page extends HTMLElement {
 	public pageProps: PageType;
 
-	constructor(pageProps: PageType) {
+	public nextPageButton: HTMLElement;
+
+	constructor(pageProps: PageType, gotoNextPage?: () => void) {
 		super();
 
 		this.pageProps = pageProps;
@@ -35,9 +37,29 @@ export class Page extends HTMLElement {
 		);
 		promptDiv.innerHTML = prompt;
 		this.appendChild(promptDiv);
+
+		if (!gotoNextPage) {
+			return;
+		}
+		this.nextPageButton = createDiv(`next-page-${name}`, {
+			position: "absolute",
+			borderRadius: "3px",
+			backgroundColor: "gray",
+			padding: "8px 4px",
+			userSelect: "none",
+			cursor: "pointer",
+			textAlign: "center",
+			width: "20%",
+			left: "50%",
+			top: "80%",
+			transform: "translateX(-50%)",
+		});
+		this.nextPageButton.innerHTML = "Continue >";
+		this.nextPageButton.addEventListener("click", () => gotoNextPage());
+		this.appendChild(this.nextPageButton);
 	}
 
-	public getNextPageName = () => "";
+	public getNextPageName = () => this.pageProps.nextPage;
 }
 
 // declare the new web component to allow constructor instanciation

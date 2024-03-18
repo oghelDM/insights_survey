@@ -1,17 +1,21 @@
-import { PageType } from "@/creative";
 import { Page } from "./page";
+import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 
 export class RangePage extends Page {
 	private isPointerDown = false;
 
+	private rangeContainer: HTMLElement;
+	private circle: HTMLElement;
+	private valueDiv: HTMLElement;
+
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
-		super(pageProps);
+		super(pageProps, gotoNextPage);
 
 		const { name, min = 0, max = 1, step = 1 } = pageProps;
 		const nbSteps = (max - min) / step + 1;
 
-		const rangeContainer = createDiv(`range-container-${name}`, {
+		this.rangeContainer = createDiv(`range-container-${name}`, {
 			position: "absolute",
 			width: "90%",
 			height: "10%",
@@ -21,36 +25,21 @@ export class RangePage extends Page {
 			flexWrap: "wrap",
 			cursor: "pointer",
 		});
-		rangeContainer.addEventListener("pointerdown", (e) => {
+		this.rangeContainer.addEventListener("pointerdown", (e) => {
 			this.isPointerDown = true;
+			this.moveCursor(e);
 		});
-		rangeContainer.addEventListener("pointermove", (e) => {
+		this.rangeContainer.addEventListener("pointermove", (e) => {
 			if (!this.isPointerDown) {
 				return;
 			}
-			const containerRect = rangeContainer.getBoundingClientRect();
-			const circleRect = circle.getBoundingClientRect();
-			let x = (e.offsetX - circleRect.width / 2) / containerRect.width;
-			const xmin = 0;
-			const xmax =
-				(containerRect.width - circleRect.width) / containerRect.width;
-			x = Math.min(Math.max(x, xmin), xmax);
-
-			const xStep = (xmax - xmin) / (nbSteps - 1);
-			const qqq = Math.round(x / xStep);
-
-			x = xmin + qqq * xStep;
-			x = Math.min(Math.max(x, xmin), xmax);
-			circle.style.left = `${x * 100}%`;
-
-			let value = parseFloat(min.toString()) + qqq * step;
-			value = Math.min(Math.max(value, min), max);
-			valueDiv.innerHTML = `${value}`;
+			this.moveCursor(e);
 		});
-		rangeContainer.addEventListener("pointerup", (e) => {
-			this.isPointerDown = false;
-		});
-		this.appendChild(rangeContainer);
+		this.rangeContainer.addEventListener(
+			"pointerup",
+			() => (this.isPointerDown = false)
+		);
+		this.appendChild(this.rangeContainer);
 
 		const bar = createDiv(`bar-${name}`, {
 			position: "absolute",
@@ -62,9 +51,9 @@ export class RangePage extends Page {
 			backgroundColor: "aquamarine",
 			pointerEvents: "none",
 		});
-		rangeContainer.appendChild(bar);
+		this.rangeContainer.appendChild(bar);
 
-		const circle = createDiv(`circle-${name}`, {
+		this.circle = createDiv(`circle-${name}`, {
 			position: "absolute",
 			height: "100%",
 			width: "auto",
@@ -75,9 +64,9 @@ export class RangePage extends Page {
 			pointerEvents: "none",
 			backgroundColor: "khaki",
 		});
-		rangeContainer.appendChild(circle);
+		this.rangeContainer.appendChild(this.circle);
 
-		const valueDiv = createDiv(`value-${name}`, {
+		this.valueDiv = createDiv(`value-${name}`, {
 			position: "absolute",
 			height: "10%",
 			width: "6%",
@@ -92,9 +81,33 @@ export class RangePage extends Page {
 			color: "white",
 			lineHeight: "5vw",
 		});
-		valueDiv.innerHTML = `${min}`;
-		this.appendChild(valueDiv);
+		this.valueDiv.innerHTML = `${min}`;
+		this.appendChild(this.valueDiv);
 	}
+
+	private moveCursor = (e: PointerEvent) => {
+		const { name, min = 0, max = 1, step = 1 } = this.pageProps;
+		const nbSteps = (max - min) / step + 1;
+
+		const containerRect = this.rangeContainer.getBoundingClientRect();
+		const circleRect = this.circle.getBoundingClientRect();
+		let x = (e.offsetX - circleRect.width / 2) / containerRect.width;
+		const xmin = 0;
+		const xmax =
+			(containerRect.width - circleRect.width) / containerRect.width;
+		x = Math.min(Math.max(x, xmin), xmax);
+
+		const xStep = (xmax - xmin) / (nbSteps - 1);
+		const qqq = Math.round(x / xStep);
+
+		x = xmin + qqq * xStep;
+		x = Math.min(Math.max(x, xmin), xmax);
+		this.circle.style.left = `${x * 100}%`;
+
+		let value = parseFloat(min.toString()) + qqq * step;
+		value = Math.min(Math.max(value, min), max);
+		this.valueDiv.innerHTML = `${value}`;
+	};
 }
 
 // declare the new web component to allow constructor instanciation

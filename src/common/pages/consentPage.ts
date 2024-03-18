@@ -1,15 +1,15 @@
 import { Page } from "./page";
-import { createButton, createDiv } from "@/utils/divMaker";
 import { ImageDM } from "@/image";
 import { CreativeProps, PageType } from "@/creative";
+import { createButton, createDiv } from "@/utils/divMaker";
 
 export class ConsentPage extends Page {
 	private isBoxChecked = false;
 
 	constructor(
 		pageProps: PageType,
-		creativeProps: CreativeProps,
-		gotoNextPage: () => void
+		gotoNextPage: () => void,
+		creativeProps: CreativeProps
 	) {
 		super(pageProps);
 
@@ -91,8 +91,6 @@ export class ConsentPage extends Page {
 		btnContainer.appendChild(noBtn);
 		this.appendChild(btnContainer);
 	}
-
-	public getNextPageName = () => this.pageProps.nextPage;
 }
 
 // declare the new web component to allow constructor instanciation

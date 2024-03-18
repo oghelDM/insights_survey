@@ -73,6 +73,11 @@
 					window.open(url, "_blank");
 				}, "AdClickThru");
 
+				ad.subscribe((url) => {
+					console.log("AdStopped");
+					slot.parentElement.removeChild(slot);
+				}, "AdStopped");
+
 				ad.startAd();
 
 				//////////////////////////////////////

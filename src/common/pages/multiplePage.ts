@@ -1,5 +1,5 @@
-import { PageType } from "@/creative";
 import { Page } from "./page";
+import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 
 export class MultiplePage extends Page {
@@ -8,7 +8,7 @@ export class MultiplePage extends Page {
 	private userAnswers: string[] = [];
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
-		super(pageProps);
+		super(pageProps, gotoNextPage);
 
 		const { name, answers, maxNbAnswers } = pageProps;
 
@@ -83,6 +83,15 @@ export class MultiplePage extends Page {
 		if (index2 >= 0) {
 			this.answerDivs[index2].style.backgroundColor = "gray";
 		}
+	};
+
+	public getNextPageName = () => {
+		const { nextPages, answers, nextPage } = this.pageProps;
+		if (nextPages && nextPages.length === answers.length) {
+			const userAnswer = this.userAnswers[0];
+			return nextPages[answers.indexOf(userAnswer)];
+		}
+		return nextPage;
 	};
 }
 

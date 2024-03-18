@@ -1,5 +1,6 @@
 import {
 	PAGE_TYPE_CONSENT,
+	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
 } from "@/constants";
@@ -32,9 +33,12 @@ export const isDataCorrupted = (jsonData: SurveyType): boolean => {
 	// check that each page's type exists
 	for (let i = 0; i < pages.length; i++) {
 		if (
-			![PAGE_TYPE_CONSENT, PAGE_TYPE_MULTIPLE, PAGE_TYPE_RANGE].includes(
-				pages[i].type
-			)
+			![
+				PAGE_TYPE_CONSENT,
+				PAGE_TYPE_MULTIPLE,
+				PAGE_TYPE_RANGE,
+				PAGE_TYPE_END,
+			].includes(pages[i].type)
 		) {
 			alert(
 				`page "${pages[i].name}" has unknown type "${pages[i].type}"`

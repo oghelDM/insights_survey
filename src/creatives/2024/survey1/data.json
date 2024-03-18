@@ -13,7 +13,7 @@
 		{
 			"name": "question1",
 			"type": "multipleChoice",
-			"prompt": "What is your favourite colour?",
+			"prompt": "What are your favourite colours (3 max.)?",
 			"maxNbAnswers": "3",
 			"randomize": "true",
 			"answers": ["blue", "red", "green", "yellow", "I am colour blind"],

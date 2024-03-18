@@ -12,15 +12,14 @@ export class RangePage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		const { name, min = 0, max = 1, step = 1 } = pageProps;
-		const nbSteps = (max - min) / step + 1;
+		const { name, min = 0 } = pageProps;
 
 		this.rangeContainer = createDiv(`range-container-${name}`, {
 			position: "absolute",
 			width: "90%",
 			height: "10%",
 			left: "5%",
-			top: "32%",
+			top: "40%",
 			backgroundColor: "cadetBlue",
 			flexWrap: "wrap",
 			cursor: "pointer",
@@ -71,7 +70,7 @@ export class RangePage extends Page {
 			height: "10%",
 			width: "6%",
 			left: "47%",
-			top: "10%",
+			top: "20%",
 			borderRadius: "2% / 5%",
 			pointerEvents: "none",
 			backgroundColor: "orchid",

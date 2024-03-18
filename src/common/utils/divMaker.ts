@@ -16,5 +16,18 @@ export const createDiv = (
 };
 
 export const createButton = (id: string, style: CssType = {}): HTMLElement => {
-	return createDiv(id, { cursor: "pointer" }, "button");
+	return createDiv(id, {
+		borderRadius: "3px",
+		backgroundColor: "gray",
+		padding: "8px 4px",
+		userSelect: "none",
+		cursor: "pointer",
+		width: "40%",
+		color: "white",
+		textAlign: "center",
+		fontSize: "2.5vi",
+		lineHeight: "2.5vi",
+		fontFamily: "Inter,sans-serif",
+		...style,
+	});
 };

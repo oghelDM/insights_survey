@@ -1,6 +1,6 @@
 import { Page } from "./page";
 import { PageType } from "@/creative";
-import { createDiv } from "@/utils/divMaker";
+import { createButton, createDiv } from "@/utils/divMaker";
 
 export class MultiplePage extends Page {
 	private maxNbAnswers: number;
@@ -24,21 +24,13 @@ export class MultiplePage extends Page {
 			alignItems: "center",
 			justifyContent: "center",
 			gap: "7%",
-			backgroundColor: "gold",
 			flexWrap: "wrap",
+			backgroundColor: "orchid",
 		});
 		this.appendChild(answersContainer);
 
 		this.answerDivs = answers.map((answer, i) => {
-			const div = createDiv(`answer-${name}-${i}`, {
-				borderRadius: "3px",
-				backgroundColor: "gray",
-				padding: "8px 4px",
-				userSelect: "none",
-				cursor: "pointer",
-				textAlign: "center",
-				width: "40%",
-			});
+			const div = createButton(`answer-${name}-${i}`);
 			div.addEventListener("click", () => {
 				const index = this.userAnswers.indexOf(answer);
 				if (index === -1) {
@@ -60,7 +52,7 @@ export class MultiplePage extends Page {
 			.map((div) => div.innerHTML)
 			.indexOf(answer);
 		if (index2 >= 0) {
-			this.answerDivs[index2].style.backgroundColor = "beige";
+			this.answerDivs[index2].style.backgroundColor = "peachpuff";
 		}
 		if (
 			this.maxNbAnswers > 0 &&

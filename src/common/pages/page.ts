@@ -32,6 +32,10 @@ export class Page extends HTMLElement {
 				margin: "0",
 				color: "white",
 				textAlign: "center",
+				fontSize: "3.2vi",
+				lineHeight: "3.2vi",
+				padding: "2vi",
+				fontFamily: "Inter,sans-serif",
 			},
 			"p"
 		);
@@ -48,11 +52,15 @@ export class Page extends HTMLElement {
 			padding: "8px 4px",
 			userSelect: "none",
 			cursor: "pointer",
-			textAlign: "center",
 			width: "20%",
 			left: "50%",
 			top: "80%",
 			transform: "translateX(-50%)",
+			color: "white",
+			textAlign: "center",
+			fontSize: "2.2vi",
+			lineHeight: "2.2vi",
+			fontFamily: "Inter,sans-serif",
 		});
 		this.nextPageButton.innerHTML = "Continue >";
 		this.nextPageButton.addEventListener("click", () => gotoNextPage());

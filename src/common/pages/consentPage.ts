@@ -31,27 +31,34 @@ export class ConsentPage extends Page {
 			backgroundColor: "gold",
 			borderRadius: "3px",
 			padding: "0 12px",
+			cursor: "pointer",
 		});
-		const checkBox = new ImageDM("terms-container", "", {
+		const checkBox = new ImageDM(`terms-checkbox-${name}`, "", {
 			position: "unset",
 			width: "5vw",
 			height: "auto",
 			aspectRatio: "1 / 1",
-			backgroundColor: "yellow",
-			cursor: "pointer",
+			borderRadius: ".6vw",
+			outline: ".2vw solid white",
+			backgroundColor: "orchid",
 		});
-		checkBox.addEventListener("click", () => {
+		termsContainer.addEventListener("click", () => {
 			this.isBoxChecked = !this.isBoxChecked;
 			checkBox.style.backgroundColor = this.isBoxChecked
 				? "blue"
-				: "yellow";
+				: "orchid";
 			termsContainer.style.outline = "unset";
+			termsContainer.style.backgroundColor = "unset";
 		});
 		const termsText = createDiv(
-			"terms-container",
+			`terms-${name}`,
 			{
-				backgroundColor: "yellow",
 				textWrap: "nowrap",
+				color: "white",
+				textAlign: "center",
+				fontSize: "2.2vi",
+				lineHeight: "2.2vi",
+				fontFamily: "Inter,sans-serif",
 			},
 			"p"
 		);
@@ -81,6 +88,7 @@ export class ConsentPage extends Page {
 				gotoNextPage();
 			} else {
 				termsContainer.style.outline = "2px solid red";
+				termsContainer.style.backgroundColor = "rgba(255,0,0,.6)";
 			}
 		});
 

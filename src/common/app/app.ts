@@ -36,6 +36,8 @@ export class VPAIDVideoPlayer {
 	slot: HTMLElement;
 	videoSlot: HTMLVideoElement;
 	eventsCallbacks: any = {}; // TODO: strongly type
+	time = 0; // time to update the liveStream progress bar if needed
+	previousTime = 0; // time to update the liveStream progress bar if needed
 
 	// TODO: clean this up
 	nextQuartileIndex = 0;
@@ -76,7 +78,6 @@ export class VPAIDVideoPlayer {
 				resumeAd: () => this.resumeAd(),
 				setAdVolume: (volume: number) => this.setAdVolume(volume),
 			});
-			console.log("updateVideoSlot2 this.creative: ", this.creative);
 			////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////
@@ -170,13 +171,28 @@ export class VPAIDVideoPlayer {
 			return;
 		}
 
+		if (!this.previousTime) {
+			this.previousTime = new Date().getTime();
+		}
+		const now = new Date().getTime();
+		this.time += now - this.previousTime;
+		this.previousTime = now;
+
+		const currentTime = this.videoSlot.currentTime;
 		const duration = this.videoSlot.duration;
+		const percentPlayed = (currentTime * 100.0) / duration;
+		this.creative.videoTimeUpdate(percentPlayed);
+		if (percentPlayed >= quartileEvents[this.nextQuartileIndex].value) {
+			const lastQuartileEvent =
+				quartileEvents[this.nextQuartileIndex].event;
+			this.nextQuartileIndex += 1;
+			this.eventsCallbacks[lastQuartileEvent] &&
+				this.eventsCallbacks[lastQuartileEvent]();
+		}
 
 		if (duration > 0) {
 			this.attributes.duration = duration;
-			const currentTime = this.videoSlot.currentTime;
 			this.attributes.remainingTime = duration - currentTime;
-			this.creative?.videoTimeUpdate(currentTime);
 		}
 	};
 
@@ -316,7 +332,8 @@ export class VPAIDVideoPlayer {
 	 * Pauses the ad.
 	 */
 	pauseAd = () => {
-		if (!this.creative?.canPauseVideo) {
+		// this.log("pauseAd");
+		if (!this.creative.canPauseVideo) {
 			return;
 		}
 		this.videoSlot.pause();
@@ -327,11 +344,12 @@ export class VPAIDVideoPlayer {
 	 * Resumes the ad.
 	 */
 	resumeAd = () => {
-		if (!this.creative?.canResumeVideo) {
+		if (!this.creative.canResumeVideo) {
 			return;
 		}
 		this.videoSlot.play();
 		this.callEvent("AdPlaying");
+		this.previousTime = new Date().getTime();
 	};
 
 	/**

@@ -43,8 +43,8 @@ export interface CreativeProps {
 }
 
 export class Creative extends HTMLElement {
-	public canResumeVideo = true; // allows the creative to prevent the user from resuming the ad through the play button
-	public canPauseVideo = true; // allows the creative to prevent the user from pausing the ad through the pause button
+	public canResumeVideo = false; // allows the creative to prevent the user from resuming the ad through the play button
+	public canPauseVideo = false; // allows the creative to prevent the user from pausing the ad through the pause button
 	public creativeProps: CreativeProps;
 
 	private currPage: Page;
@@ -64,7 +64,6 @@ export class Creative extends HTMLElement {
 		console.log("creative creativeProps: ", creativeProps);
 		this.creativeProps = creativeProps;
 
-		creativeProps.pauseAd();
 		this.canResumeVideo = false;
 
 		this.allData = jsonData.pages.map((p) => {
@@ -136,17 +135,23 @@ export class Creative extends HTMLElement {
 		this.currPage = nextPage;
 	};
 
+	private alreadyPaused = false;
+	public videoTimeUpdate(q: number): void {
+		if (!this.alreadyPaused && q > 3) {
+			this.canResumeVideo = true;
+			this.canPauseVideo = true;
+			this.creativeProps.pauseAd();
+			this.canResumeVideo = false;
+			this.canPauseVideo = false;
+			this.alreadyPaused = true;
+		}
+	}
+
 	public getVideos() {
 		return {
 			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
 			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
 			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
 		};
-	}
-
-	public videoTimeUpdate(_: number): void {
-		this.creativeProps.pauseAd();
-		this.canResumeVideo = false;
-		this.canPauseVideo = false;
 	}
 }

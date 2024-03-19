@@ -6,13 +6,15 @@ export class MultiplePage extends Page {
 	private maxNbAnswers: number;
 	private answerDivs: HTMLElement[];
 	private userAnswers: string[] = [];
+	private gotoNextPage: () => void;
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
 		const { name, answers, maxNbAnswers } = pageProps;
 
-		this.maxNbAnswers = maxNbAnswers || 0;
+		this.maxNbAnswers = parseInt(maxNbAnswers?.toString()) || Infinity;
+		this.gotoNextPage = gotoNextPage;
 
 		const answersContainer = createDiv(`answers-container-${name}`, {
 			display: "flex",
@@ -47,34 +49,24 @@ export class MultiplePage extends Page {
 	}
 
 	private addAnswer = (answer: string) => {
-		this.userAnswers.push(answer);
-		const index2 = this.answerDivs
-			.map((div) => div.innerHTML)
-			.indexOf(answer);
-		if (index2 >= 0) {
-			this.answerDivs[index2].style.backgroundColor = "peachpuff";
+		if (this.userAnswers.length < this.maxNbAnswers) {
+			this.userAnswers.push(answer);
+			const index = this.answerDivs
+				.map((div) => div.innerHTML)
+				.indexOf(answer);
+			this.answerDivs[index].style.backgroundColor = "peachpuff";
 		}
-		if (
-			this.maxNbAnswers > 0 &&
-			this.maxNbAnswers < this.userAnswers.length
-		) {
-			this.removeAnswer(this.userAnswers[0]);
+		if (this.maxNbAnswers === this.userAnswers.length) {
+			this.gotoNextPage();
 		}
 	};
 
 	private removeAnswer = (answer: string) => {
-		const index = this.userAnswers.indexOf(answer);
-		console.log("removeAnswer: ", answer, index);
-		if (index >= 0) {
-			this.userAnswers.splice(index, 1);
-		}
+		let index = this.userAnswers.indexOf(answer);
+		this.userAnswers.splice(index, 1);
 
-		const index2 = this.answerDivs
-			.map((div) => div.innerHTML)
-			.indexOf(answer);
-		if (index2 >= 0) {
-			this.answerDivs[index2].style.backgroundColor = "gray";
-		}
+		index = this.answerDivs.map((div) => div.innerHTML).indexOf(answer);
+		this.answerDivs[index].style.backgroundColor = "gray";
 	};
 
 	public getNextPageName = () => {

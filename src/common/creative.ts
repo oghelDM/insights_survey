@@ -25,7 +25,7 @@ export interface PageType {
 	answers: string[];
 	nextPage: string;
 	skippable: boolean;
-	maxNbAnswers?: number;
+	maxNbAnswers: number;
 	randomize?: boolean;
 	nextPages?: string[];
 	min?: number;

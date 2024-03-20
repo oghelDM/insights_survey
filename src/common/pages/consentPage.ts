@@ -13,13 +13,10 @@ export class ConsentPage extends Page {
 	) {
 		super(pageProps);
 
-		console.log("props: ", pageProps);
-
-		const { name, prompt, answers } = pageProps;
+		const { name, answers } = pageProps;
 
 		const termsContainer = createDiv(`terms-container-${name}`, {
 			position: "absolute",
-			// width: "50%",
 			height: "13%",
 			left: "50%",
 			translate: "-50%",

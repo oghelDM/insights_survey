@@ -71,6 +71,8 @@ export class Creative extends HTMLElement {
 
 			const div = this.makePage(page);
 			div.style.opacity = p.name === jsonData.firstPage ? "1" : "0";
+			div.style.pointerEvents =
+				p.name === jsonData.firstPage ? "auto" : "none";
 
 			root.appendChild(div);
 
@@ -80,23 +82,8 @@ export class Creative extends HTMLElement {
 		});
 		console.log("creative allData: ", this.allData);
 		this.currPage = this.allData.find(
-			(data) => data.type === PAGE_TYPE_CONSENT
+			(data) => data.name === jsonData.firstPage
 		)?.div as Page;
-
-		const { firstPage, pages } = jsonData;
-		const pageNames = pages.map((page) => page.name);
-		const pageNexts = [];
-		pages.forEach(({ nextPage, nextPages, name }) => {
-			if (nextPage) {
-				pageNexts.push(nextPage);
-			} else if (nextPages && nextPages.length > 0) {
-				pageNexts.push(...nextPages);
-			} else {
-				// alert(
-				// 	`There is an issue with the nextPage(s) for page ${name}`
-				// );
-			}
-		});
 	}
 
 	private makePage = (page: PageType) => {

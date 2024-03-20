@@ -22,7 +22,7 @@ export class Page extends HTMLElement {
 		this.style.left = "2%";
 		this.style.top = "4%";
 		this.style.backgroundColor = "purple";
-		this.style.pointerEvents = type === PAGE_TYPE_CONSENT ? "auto" : "none";
+		this.style.pointerEvents = "none";
 
 		const promptDiv = createDiv(
 			`${name}-prompt-id`,
@@ -42,10 +42,11 @@ export class Page extends HTMLElement {
 		promptDiv.innerHTML = prompt;
 		this.appendChild(promptDiv);
 
+		// not needed for consent page
 		if (!gotoNextPage) {
 			return;
 		}
-		this.nextPageButton = createDiv(`next-page-${name}`, {
+		this.nextPageButton = createDiv(`next-page-btn-${name}`, {
 			position: "absolute",
 			borderRadius: "3px",
 			backgroundColor: "gray",

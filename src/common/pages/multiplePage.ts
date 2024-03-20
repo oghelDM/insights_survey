@@ -69,10 +69,11 @@ export class MultiplePage extends Page {
 		this.answerDivs[index].style.backgroundColor = "gray";
 	};
 
+	// override the Page's method
 	public getNextPageName = () => {
 		const { nextPages, answers, nextPage } = this.pageProps;
 		if (nextPages && nextPages.length === answers.length) {
-			const userAnswer = this.userAnswers[0];
+			const userAnswer = this.userAnswers[0] || this.pageProps.answers[0];
 			return nextPages[answers.indexOf(userAnswer)];
 		}
 		return nextPage;

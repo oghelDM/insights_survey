@@ -11,6 +11,7 @@ import { RangePage } from "./pages/rangePage";
 import { ConsentPage } from "./pages/consentPage";
 import { MultiplePage } from "./pages/multiplePage";
 import { isDataCorrupted } from "./utils/dataChecker";
+import { Bullets } from "./components/bullets";
 
 export interface SurveyType {
 	name: string;
@@ -49,6 +50,7 @@ export class Creative extends HTMLElement {
 
 	private currPage: Page;
 	private allData;
+	private bullets: Bullets;
 
 	constructor(
 		root: HTMLElement,
@@ -84,6 +86,9 @@ export class Creative extends HTMLElement {
 		this.currPage = this.allData.find(
 			(data) => data.name === jsonData.firstPage
 		)?.div as Page;
+
+		this.bullets = new Bullets(jsonData);
+		root.appendChild(this.bullets);
 	}
 
 	private makePage = (page: PageType) => {
@@ -120,6 +125,8 @@ export class Creative extends HTMLElement {
 		nextPage.style.transition = "opacity .3s .3s";
 		nextPage.style.opacity = "1";
 		this.currPage = nextPage;
+
+		this.bullets.gotoNextBullet();
 	};
 
 	private alreadyPaused = false;

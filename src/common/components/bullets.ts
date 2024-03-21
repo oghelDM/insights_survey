@@ -1,3 +1,4 @@
+import { GREEN, LIGHT_GREEN } from "@/constants";
 import { SurveyType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 
@@ -15,20 +16,19 @@ export class Bullets extends HTMLElement {
 		this.style.position = "absolute";
 		this.style.flexDirection = "column";
 		this.style.display = "flex";
-		this.style.width = "2%";
-		this.style.height = "82%";
-		this.style.right = "1%";
+		this.style.width = "1.4%";
+		this.style.height = "76%";
+		this.style.right = "1.7%";
 		this.style.gap = "2%";
 		this.style.top = "5%";
-		this.style.backgroundColor = "aquamarine";
-		// this.style.pointerEvents = type === PAGE_TYPE_CONSENT ? "auto" : "none";
+		// this.style.backgroundColor = "aquamarine";
 
 		this.bullets = new Array(nbPages).fill(0).map((_, i) => {
 			const bullet = createDiv(`bullet-${i}`, {
 				flexBasis: "0",
 				flexGrow: "1",
 				borderRadius: "50% / 10%",
-				backgroundColor: i === 0 ? "gold" : "brown",
+				backgroundColor: i === 0 ? GREEN : LIGHT_GREEN,
 				transition: "background-color .3s",
 			});
 			this.appendChild(bullet);
@@ -42,7 +42,7 @@ export class Bullets extends HTMLElement {
 		const { pages, firstPage } = surveyData;
 
 		let currPage = pages.find((page) => page.name === firstPage);
-		let nbPages = 1;
+		let nbPages = 0;
 
 		for (let i = 0; i < 100; i++) {
 			const nextPageName = currPage?.nextPages
@@ -61,8 +61,9 @@ export class Bullets extends HTMLElement {
 
 	public gotoNextBullet = () => {
 		this.currBulletIdx += 1;
-		console.log("gotoNextBullet: ", this.currBulletIdx);
-		this.bullets[this.currBulletIdx].style.backgroundColor = "gold";
+		if (this.currBulletIdx < this.bullets.length) {
+			this.bullets[this.currBulletIdx].style.backgroundColor = GREEN;
+		}
 	};
 }
 

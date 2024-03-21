@@ -51,6 +51,7 @@ export class Creative extends HTMLElement {
 	private currPage: Page;
 	private allData;
 	private bullets: Bullets;
+	private alreadyPaused = false;
 
 	constructor(
 		root: HTMLElement,
@@ -112,26 +113,22 @@ export class Creative extends HTMLElement {
 	};
 
 	public gotoNextPage = () => {
+		this.bullets.gotoNextBullet();
+
 		const nextPageName = this.currPage.getNextPageName();
 		console.log("gotoNextPage: ", nextPageName);
 		const nextPage = this.allData?.find(
 			(data) => data.name === nextPageName
 		)?.div as Page;
 
-		this.currPage.style.pointerEvents = "none";
-		this.currPage.style.transition = "opacity .3s";
-		this.currPage.style.opacity = "0";
-		nextPage.style.pointerEvents = "auto";
-		nextPage.style.transition = "opacity .3s .3s";
-		nextPage.style.opacity = "1";
-		this.currPage = nextPage;
+		nextPage.show();
+		this.currPage.hide();
 
-		this.bullets.gotoNextBullet();
+		this.currPage = nextPage;
 	};
 
-	private alreadyPaused = false;
-	public videoTimeUpdate(q: number): void {
-		if (!this.alreadyPaused && q > 3) {
+	public videoTimeUpdate(percentPlayed: number): void {
+		if (!this.alreadyPaused && percentPlayed > 3) {
 			this.canResumeVideo = true;
 			this.canPauseVideo = true;
 			this.creativeProps.pauseAd();
@@ -141,11 +138,9 @@ export class Creative extends HTMLElement {
 		}
 	}
 
-	public getVideos() {
-		return {
-			low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
-			mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
-			high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
-		};
-	}
+	public getVideos = () => ({
+		low: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+		mid: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+		high: "https://statics.dmcdn.net/d/PRODUCTION/common/assets/videos/video_20s_low.mp4",
+	});
 }

@@ -23,6 +23,7 @@ export class Page extends HTMLElement {
 		this.style.top = "4%";
 		this.style.backgroundColor = "purple";
 		this.style.pointerEvents = "none";
+		this.style.transition = "opacity .3s .3s";
 
 		const promptDiv = createDiv(
 			`${name}-prompt-id`,
@@ -69,6 +70,16 @@ export class Page extends HTMLElement {
 	}
 
 	public getNextPageName = () => this.pageProps.nextPage;
+
+	public show = () => {
+		this.style.pointerEvents = "auto";
+		this.style.opacity = "1";
+	};
+
+	public hide = () => {
+		this.style.pointerEvents = "none";
+		this.style.opacity = "0";
+	};
 }
 
 // declare the new web component to allow constructor instanciation

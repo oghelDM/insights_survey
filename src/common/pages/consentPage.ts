@@ -2,6 +2,7 @@ import { Page } from "./page";
 import { ImageDM } from "@/image";
 import { CreativeProps, PageType } from "@/creative";
 import { createButton, createDiv } from "@/utils/divMaker";
+import { GREEN, LIGHT_GREEN, RED } from "@/constants";
 
 export class ConsentPage extends Page {
 	private isBoxChecked = false;
@@ -20,15 +21,15 @@ export class ConsentPage extends Page {
 			height: "13%",
 			left: "50%",
 			translate: "-50%",
-			top: "22%",
+			top: "35%",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 			gap: "3%",
-			backgroundColor: "gold",
 			borderRadius: "3px",
 			padding: "0 12px",
 			cursor: "pointer",
+			// backgroundColor: "gold",
 		});
 		const checkBox = new ImageDM(`terms-checkbox-${name}`, "", {
 			position: "unset",
@@ -36,16 +37,11 @@ export class ConsentPage extends Page {
 			height: "auto",
 			aspectRatio: "1 / 1",
 			borderRadius: ".6vw",
-			outline: ".2vw solid white",
-			backgroundColor: "orchid",
+			outline: `.2vw solid ${LIGHT_GREEN}`,
 		});
 		termsContainer.addEventListener("click", () => {
 			this.isBoxChecked = !this.isBoxChecked;
-			checkBox.style.backgroundColor = this.isBoxChecked
-				? "blue"
-				: "orchid";
-			termsContainer.style.outline = "unset";
-			termsContainer.style.backgroundColor = "unset";
+			this.updateBtnStyle(checkBox, termsContainer, yesBtn);
 		});
 		const termsText = createDiv(
 			`terms-${name}`,
@@ -67,35 +63,53 @@ export class ConsentPage extends Page {
 		const btnContainer = createDiv("btn-container", {
 			position: "absolute",
 			width: "80%",
-			height: "33%",
 			left: "10%",
-			top: "42%",
+			top: "67%",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			gap: "3%",
-			backgroundColor: "lavender",
+			gap: "7%",
+			// backgroundColor: "lavender",
 		});
 
 		const yesBtn = createButton("consent-yes");
-		const noBtn = createButton("consent-no");
+		this.updateBtnStyle(checkBox, termsContainer, yesBtn);
+		const noBtn = createButton("consent-no", {
+			backgroundColor: "unset",
+			border: `.3vi solid ${LIGHT_GREEN}`,
+			color: LIGHT_GREEN,
+		});
 		noBtn.addEventListener("click", () => creativeProps.stopAd());
 		yesBtn.addEventListener("click", () => {
 			if (this.isBoxChecked) {
 				gotoNextPage();
 			} else {
-				termsContainer.style.outline = "2px solid red";
-				termsContainer.style.backgroundColor = "rgba(255,0,0,.6)";
+				termsContainer.style.backgroundColor = RED;
 			}
 		});
 
 		yesBtn.innerHTML = answers[0];
 		noBtn.innerHTML = answers[1];
 
-		btnContainer.appendChild(yesBtn);
 		btnContainer.appendChild(noBtn);
+		btnContainer.appendChild(yesBtn);
 		this.appendChild(btnContainer);
 	}
+
+	private updateBtnStyle = (
+		checkBox: HTMLElement,
+		termsContainer: HTMLElement,
+		yesBtn: HTMLElement
+	) => {
+		checkBox.style.backgroundColor = this.isBoxChecked ? GREEN : "white";
+		termsContainer.style.backgroundColor = "unset";
+
+		yesBtn.style.backgroundColor = this.isBoxChecked ? GREEN : LIGHT_GREEN;
+		yesBtn.style.border = `.3vi solid ${
+			this.isBoxChecked ? GREEN : LIGHT_GREEN
+		}`;
+		yesBtn.style.color = this.isBoxChecked ? "white" : "black";
+	};
 }
 
 // declare the new web component to allow constructor instanciation

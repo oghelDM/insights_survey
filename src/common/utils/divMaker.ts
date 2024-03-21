@@ -17,7 +17,7 @@ export const createDiv = (
 
 export const createButton = (id: string, style: CssType = {}): HTMLElement => {
 	return createDiv(id, {
-		borderRadius: "3px",
+		borderRadius: ".7vi",
 		backgroundColor: "gray",
 		padding: "8px 4px",
 		userSelect: "none",
@@ -26,7 +26,7 @@ export const createButton = (id: string, style: CssType = {}): HTMLElement => {
 		color: "white",
 		textAlign: "center",
 		fontSize: "2.5vi",
-		lineHeight: "2.5vi",
+		lineHeight: "5vi",
 		fontFamily: "Inter,sans-serif",
 		...style,
 	});

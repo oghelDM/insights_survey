@@ -21,9 +21,9 @@ export class Page extends HTMLElement {
 		this.style.height = "92%";
 		this.style.left = "2%";
 		this.style.top = "4%";
-		this.style.backgroundColor = "purple";
 		this.style.pointerEvents = "none";
 		this.style.transition = "opacity .3s .3s";
+		// this.style.backgroundColor = "purple";
 
 		const promptDiv = createDiv(
 			`${name}-prompt-id`,

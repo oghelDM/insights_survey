@@ -1,4 +1,5 @@
 import {
+	BLUE,
 	PAGE_TYPE_CONSENT,
 	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
@@ -63,6 +64,8 @@ export class Creative extends HTMLElement {
 		if (isDataCorrupted(jsonData)) {
 			return;
 		}
+
+		root.style.backgroundColor = BLUE;
 
 		console.log("creative creativeProps: ", creativeProps);
 		this.creativeProps = creativeProps;

@@ -1,6 +1,8 @@
 import { Page } from "./page";
+import { ImageDM } from "@/image";
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
+import { GREEN, LIGHT_GREEN } from "@/constants";
 
 export class RangePage extends Page {
 	private isPointerDown = false;
@@ -17,12 +19,12 @@ export class RangePage extends Page {
 		this.rangeContainer = createDiv(`range-container-${name}`, {
 			position: "absolute",
 			width: "90%",
-			height: "10%",
+			height: "14%",
 			left: "5%",
 			top: "40%",
-			backgroundColor: "cadetBlue",
 			flexWrap: "wrap",
 			cursor: "pointer",
+			// backgroundColor: "cadetBlue",
 		});
 		this.rangeContainer.addEventListener("pointerdown", (e) => {
 			this.isPointerDown = true;
@@ -47,38 +49,44 @@ export class RangePage extends Page {
 			left: "0",
 			top: "40%",
 			borderRadius: ".8% / 50%",
-			backgroundColor: "aquamarine",
 			pointerEvents: "none",
+			backgroundColor: LIGHT_GREEN,
 		});
 		this.rangeContainer.appendChild(bar);
 
-		this.circle = createDiv(`circle-${name}`, {
-			position: "absolute",
-			height: "100%",
-			width: "auto",
-			aspectRatio: "1 / 1",
-			left: "0",
-			top: "0",
-			borderRadius: "50%",
-			pointerEvents: "none",
-			backgroundColor: "khaki",
-		});
+		this.circle = new ImageDM(
+			`circle-${name}`,
+			"https://statics.dmcdn.net/d/PRODUCTION/common/assets/insight/arrows.png",
+			{
+				position: "absolute",
+				height: "100%",
+				width: "auto",
+				aspectRatio: "1 / 1",
+				left: "0",
+				top: "0",
+				borderRadius: "50%",
+				pointerEvents: "none",
+				backgroundSize: "80%",
+				backgroundColor: GREEN,
+			}
+		);
+
 		this.rangeContainer.appendChild(this.circle);
 
 		this.valueDiv = createDiv(`value-${name}`, {
 			position: "absolute",
-			height: "10%",
-			width: "6%",
+			height: "13%",
+			width: "10%",
 			left: "47%",
 			top: "20%",
 			borderRadius: "2% / 5%",
 			pointerEvents: "none",
-			backgroundColor: "orchid",
+			backgroundColor: LIGHT_GREEN,
 			outline: "2px solid white",
 			textAlign: "center",
-			fontSize: "4vw",
-			color: "white",
-			lineHeight: "5vw",
+			fontSize: "6vi",
+			color: "black",
+			lineHeight: "6vi",
 		});
 		this.valueDiv.innerHTML = `${min}`;
 		this.appendChild(this.valueDiv);

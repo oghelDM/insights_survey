@@ -1,13 +1,17 @@
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
-import { PAGE_TYPE_CONSENT } from "@/constants";
+import {
+	PAGE_TYPE_CONSENT,
+	PAGE_TYPE_MULTIPLE,
+	PAGE_TYPE_SINGLE,
+} from "@/constants";
 
 export class Page extends HTMLElement {
 	public pageProps: PageType;
 
 	public nextPageButton: HTMLElement;
 
-	constructor(pageProps: PageType, gotoNextPage?: () => void) {
+	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super();
 
 		this.pageProps = pageProps;
@@ -44,7 +48,7 @@ export class Page extends HTMLElement {
 		this.appendChild(promptDiv);
 
 		// not needed for consent page
-		if (!gotoNextPage) {
+		if ([PAGE_TYPE_CONSENT, PAGE_TYPE_SINGLE].includes(type)) {
 			return;
 		}
 		this.nextPageButton = createDiv(`next-page-btn-${name}`, {

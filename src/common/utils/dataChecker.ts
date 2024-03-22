@@ -3,6 +3,7 @@ import {
 	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
+	PAGE_TYPE_SINGLE,
 } from "@/constants";
 import { SurveyType } from "@/creative";
 
@@ -38,6 +39,7 @@ export const isDataCorrupted = (jsonData: SurveyType): boolean => {
 				PAGE_TYPE_MULTIPLE,
 				PAGE_TYPE_RANGE,
 				PAGE_TYPE_END,
+				PAGE_TYPE_SINGLE,
 			].includes(pages[i].type)
 		) {
 			alert(

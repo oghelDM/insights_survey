@@ -22,9 +22,8 @@
 		},
 		{
 			"name": "question2",
-			"type": "multipleChoice",
+			"type": "singleChoice",
 			"prompt": "What planet do you come from?",
-			"maxNbAnswers": "1",
 			"randomize": "false",
 			"answers": ["Earth", "Mars", "other"],
 			"nextPages": ["questionEarth", "questionMars", "questionOther"],

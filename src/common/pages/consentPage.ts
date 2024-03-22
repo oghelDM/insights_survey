@@ -12,7 +12,7 @@ export class ConsentPage extends Page {
 		gotoNextPage: () => void,
 		creativeProps: CreativeProps
 	) {
-		super(pageProps);
+		super(pageProps, gotoNextPage);
 
 		const { name, answers } = pageProps;
 

@@ -2,7 +2,7 @@ import { Page } from "./page";
 import { PageType } from "@/creative";
 import { createButton, createDiv } from "@/utils/divMaker";
 
-export class MultiplePage extends Page {
+export class MultipleAnswersPage extends Page {
 	private maxNbAnswers: number;
 	private answerDivs: HTMLElement[];
 	private userAnswers: string[] = [];
@@ -16,23 +16,41 @@ export class MultiplePage extends Page {
 		this.maxNbAnswers = parseInt(maxNbAnswers?.toString()) || Infinity;
 		this.gotoNextPage = gotoNextPage;
 
-		const answersContainer = createDiv(`answers-container-${name}`, {
-			display: "flex",
+		const constainer = createDiv(`container-${name}`, {
 			position: "absolute",
-			width: "90%",
-			height: "50%",
-			left: "5%",
-			top: "22%",
+			width: "100%",
+			height: "70%",
+			top: "12%",
+			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			gap: "7%",
-			flexWrap: "wrap",
-			backgroundColor: "orchid",
+			// backgroundColor: "beige",
 		});
-		this.appendChild(answersContainer);
+		this.appendChild(constainer);
+
+		const answersContainer = createDiv(`answers-container-${name}`, {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			gap: "1.2vi",
+			flexGrow: "1",
+			flexWrap: "wrap",
+			// backgroundColor: "orchid",
+		});
+		constainer.appendChild(answersContainer);
 
 		this.answerDivs = answers.map((answer, i) => {
-			const div = createButton(`answer-${name}-${i}`);
+			const div = createButton(`answer-${name}-${i}`, {
+				width: "unset",
+				height: "6vi",
+				flexBasis: "44%",
+				flexGrow: "0",
+				display: "flex",
+				lineHeight: "unset",
+				justifyContent: "center",
+				alignItems: "center",
+			});
+			const text = createDiv(`answer-${name}-${i}`, {});
 			div.addEventListener("click", () => {
 				const index = this.userAnswers.indexOf(answer);
 				if (index === -1) {
@@ -42,7 +60,8 @@ export class MultiplePage extends Page {
 				}
 				console.log("userAnswers:", this.userAnswers);
 			});
-			div.innerHTML = answer;
+			text.innerHTML = answer;
+			div.appendChild(text);
 			answersContainer.appendChild(div);
 			return div;
 		});
@@ -68,17 +87,7 @@ export class MultiplePage extends Page {
 		index = this.answerDivs.map((div) => div.innerHTML).indexOf(answer);
 		this.answerDivs[index].style.backgroundColor = "gray";
 	};
-
-	// override the Page's method
-	public getNextPageName = () => {
-		const { nextPages, answers, nextPage } = this.pageProps;
-		if (nextPages && nextPages.length === answers.length) {
-			const userAnswer = this.userAnswers[0] || this.pageProps.answers[0];
-			return nextPages[answers.indexOf(userAnswer)];
-		}
-		return nextPage;
-	};
 }
 
 // declare the new web component to allow constructor instanciation
-customElements.define("dm-multiple-page", MultiplePage);
+customElements.define("dm-multiple-answers-page", MultipleAnswersPage);

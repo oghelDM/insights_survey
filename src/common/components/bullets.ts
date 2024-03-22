@@ -29,7 +29,7 @@ export class Bullets extends HTMLElement {
 				flexGrow: "1",
 				borderRadius: "50% / 10%",
 				backgroundColor: i === 0 ? GREEN : LIGHT_GREEN,
-				transition: "background-color .3s",
+				transition: "background-color .6s",
 			});
 			this.appendChild(bullet);
 

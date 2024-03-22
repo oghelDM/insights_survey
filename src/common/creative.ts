@@ -4,15 +4,17 @@ import {
 	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
+	PAGE_TYPE_SINGLE,
 } from "./constants";
 import { Page } from "./pages/page";
 import { EndPage } from "./pages/endPage";
 import { createDiv } from "./utils/divMaker";
 import { RangePage } from "./pages/rangePage";
-import { ConsentPage } from "./pages/consentPage";
-import { MultiplePage } from "./pages/multiplePage";
-import { isDataCorrupted } from "./utils/dataChecker";
 import { Bullets } from "./components/bullets";
+import { ConsentPage } from "./pages/consentPage";
+import { isDataCorrupted } from "./utils/dataChecker";
+import { SingleAnswerPage } from "./pages/singleAnswersPage";
+import { MultipleAnswersPage } from "./pages/multipleAnswersPage";
 
 export interface SurveyType {
 	name: string;
@@ -103,8 +105,10 @@ export class Creative extends HTMLElement {
 					this.gotoNextPage,
 					this.creativeProps
 				);
+			case PAGE_TYPE_SINGLE:
+				return new SingleAnswerPage(page, this.gotoNextPage);
 			case PAGE_TYPE_MULTIPLE:
-				return new MultiplePage(page, this.gotoNextPage);
+				return new MultipleAnswersPage(page, this.gotoNextPage);
 			case PAGE_TYPE_RANGE:
 				return new RangePage(page, this.gotoNextPage);
 			case PAGE_TYPE_END:

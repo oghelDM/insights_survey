@@ -88,7 +88,7 @@
 		},
 		{
 			"name": "conclusion",
-			"prompt": "Thanks for your participation, that's so kind of you",
+			"prompt": "Thank you",
 			"type": "end",
 			"skippable": "false"
 		}

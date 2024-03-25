@@ -10,17 +10,15 @@ export class SingleAnswerPage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		this.skipButton.style.left = "10%";
-
 		const { name, answers } = pageProps;
 
 		this.gotoNextPage = gotoNextPage;
 
 		const constainer = createDiv(`container-${name}`, {
 			position: "absolute",
-			width: "90%",
+			width: "82%",
 			height: "70%",
-			left: "10%",
+			left: "12%",
 			top: "12%",
 			display: "flex",
 			alignItems: "center",
@@ -28,6 +26,7 @@ export class SingleAnswerPage extends Page {
 			// backgroundColor: "beige",
 		});
 		this.appendChild(constainer);
+		this.skipButton.style.left = constainer.style.left;
 
 		const answersContainer = createDiv(`answers-container-${name}`, {
 			display: "flex",

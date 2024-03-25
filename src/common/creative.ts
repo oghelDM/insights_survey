@@ -68,6 +68,8 @@ export class Creative extends HTMLElement {
 		}
 
 		root.style.backgroundColor = BLUE;
+		// root.style.backgroundImage = "url()";
+		root.style.transition = "background 1.3s .3s";
 
 		console.log("creative creativeProps: ", creativeProps);
 		this.creativeProps = creativeProps;
@@ -124,9 +126,10 @@ export class Creative extends HTMLElement {
 
 		const nextPageName = this.currPage.getNextPageName();
 		console.log("gotoNextPage: ", nextPageName);
-		const nextPage = this.allData?.find(
+		const nextData = this.allData?.find(
 			(data) => data.name === nextPageName
-		)?.div as Page;
+		);
+		const nextPage = nextData?.div as Page;
 
 		nextPage.show();
 		this.currPage.hide();

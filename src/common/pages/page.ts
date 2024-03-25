@@ -13,26 +13,26 @@ export class Page extends HTMLElement {
 
 	public nextPageButton: HTMLElement;
 	public skipButton: HTMLElement;
+	public promptDiv: HTMLElement;
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super();
 
 		this.pageProps = pageProps;
 		const { name, prompt, type } = pageProps;
-		console.log("Page: ", name);
 		this.id = `${name}-page-id`;
 		this.style.position = "absolute";
 		this.style.flexDirection = "column";
 		this.style.display = "flex";
-		this.style.width = "96%";
-		this.style.height = "92%";
-		this.style.left = "2%";
-		this.style.top = "4%";
+		this.style.width = "100%";
+		this.style.height = "100%";
+		this.style.left = "0%";
+		this.style.top = "0%";
 		this.style.pointerEvents = "none";
 		this.style.transition = "opacity .3s .3s";
 		// this.style.backgroundColor = "purple";
 
-		const promptDiv = createDiv(
+		this.promptDiv = createDiv(
 			`${name}-prompt-id`,
 			{
 				left: "0",
@@ -42,13 +42,13 @@ export class Page extends HTMLElement {
 				textAlign: "center",
 				fontSize: "3.2vi",
 				lineHeight: "3.2vi",
-				padding: "2vi",
+				padding: "3vi 6vi",
 				fontFamily: "Inter,sans-serif",
 			},
 			"p"
 		);
-		promptDiv.innerHTML = prompt;
-		this.appendChild(promptDiv);
+		this.promptDiv.innerHTML = prompt;
+		this.appendChild(this.promptDiv);
 
 		if (![PAGE_TYPE_CONSENT, PAGE_TYPE_END].includes(type)) {
 			this.skipButton = createDiv(`next-page-btn-${name}`, {
@@ -77,8 +77,8 @@ export class Page extends HTMLElement {
 			this.nextPageButton = createButton(`next-page-btn-${name}`, {
 				backgroundColor: GREEN,
 				position: "absolute",
-				width: "30%",
-				left: "54%",
+				width: "27%",
+				left: "56%",
 				top: "69%",
 				lineHeight: "3vi",
 			});

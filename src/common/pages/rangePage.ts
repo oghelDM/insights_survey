@@ -15,7 +15,6 @@ export class RangePage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		this.skipButton.style.left = "5%";
 		this.nextPageButton.style.opacity = "0";
 		this.nextPageButton.style.pointerEvents = "none";
 
@@ -23,14 +22,15 @@ export class RangePage extends Page {
 
 		this.rangeContainer = createDiv(`range-container-${name}`, {
 			position: "absolute",
-			width: "90%",
+			width: "80%",
 			height: "14%",
-			left: "5%",
+			left: "10%",
 			top: "40%",
 			flexWrap: "wrap",
 			cursor: "pointer",
 			// backgroundColor: "cadetBlue",
 		});
+		this.skipButton.style.left = this.rangeContainer.style.left;
 		this.rangeContainer.addEventListener("pointerdown", (e) => {
 			this.isPointerDown = true;
 			this.moveCursor(e);
@@ -91,7 +91,7 @@ export class RangePage extends Page {
 			textAlign: "center",
 			fontSize: "6vi",
 			color: "black",
-			lineHeight: "6vi",
+			lineHeight: "7vi",
 			fontFamily: "sans-serif",
 		});
 		this.valueDiv.innerHTML = `${min}`;

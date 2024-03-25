@@ -12,7 +12,6 @@ export class MultipleAnswersPage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		this.skipButton.style.left = "12%";
 		this.toggleNextBageButton();
 
 		const { name, answers, maxNbAnswers } = pageProps;
@@ -22,16 +21,17 @@ export class MultipleAnswersPage extends Page {
 
 		const constainer = createDiv(`container-${name}`, {
 			position: "absolute",
-			width: "80%",
+			width: "74%",
 			height: "60%",
 			top: "12%",
-			left: "12%",
+			left: "18%",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
 			// backgroundColor: "beige",
 		});
 		this.appendChild(constainer);
+		this.skipButton.style.left = constainer.style.left;
 
 		const answersContainer = createDiv(`answers-container-${name}`, {
 			display: "flex",

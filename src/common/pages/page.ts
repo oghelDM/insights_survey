@@ -1,11 +1,18 @@
+import {
+	GREEN,
+	PAGE_TYPE_CONSENT,
+	PAGE_TYPE_END,
+	PAGE_TYPE_MULTIPLE,
+	PAGE_TYPE_RANGE,
+} from "@/constants";
 import { PageType } from "@/creative";
-import { createDiv } from "@/utils/divMaker";
-import { PAGE_TYPE_CONSENT, PAGE_TYPE_SINGLE } from "@/constants";
+import { createButton, createDiv } from "@/utils/divMaker";
 
 export class Page extends HTMLElement {
 	public pageProps: PageType;
 
 	public nextPageButton: HTMLElement;
+	public skipButton: HTMLElement;
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super();
@@ -43,30 +50,42 @@ export class Page extends HTMLElement {
 		promptDiv.innerHTML = prompt;
 		this.appendChild(promptDiv);
 
-		// not needed for consent page
-		if ([PAGE_TYPE_CONSENT, PAGE_TYPE_SINGLE].includes(type)) {
-			return;
+		if (![PAGE_TYPE_CONSENT, PAGE_TYPE_END].includes(type)) {
+			this.skipButton = createDiv(`next-page-btn-${name}`, {
+				position: "absolute",
+				userSelect: "none",
+				cursor: "pointer",
+				width: "20%",
+				left: "50%",
+				top: "70%",
+				color: "white",
+				fontSize: "2.2vi",
+				fontFamily: "sans-serif",
+				padding: "2vi 0",
+				zIndex: "2",
+				transition: "opacity .3s",
+				// backgroundColor: "plum",
+			});
+			this.skipButton.innerHTML = "Skip question >";
+			this.skipButton.addEventListener("click", () => gotoNextPage());
+			this.appendChild(this.skipButton);
 		}
-		this.nextPageButton = createDiv(`next-page-btn-${name}`, {
-			position: "absolute",
-			borderRadius: "3px",
-			backgroundColor: "gray",
-			padding: "8px 4px",
-			userSelect: "none",
-			cursor: "pointer",
-			width: "20%",
-			left: "50%",
-			top: "80%",
-			transform: "translateX(-50%)",
-			color: "white",
-			textAlign: "center",
-			fontSize: "2.2vi",
-			lineHeight: "2.2vi",
-			fontFamily: "Inter,sans-serif",
-		});
-		this.nextPageButton.innerHTML = "Continue >";
-		this.nextPageButton.addEventListener("click", () => gotoNextPage());
-		this.appendChild(this.nextPageButton);
+
+		if (
+			[PAGE_TYPE_MULTIPLE, PAGE_TYPE_RANGE, PAGE_TYPE_END].includes(type)
+		) {
+			this.nextPageButton = createButton(`next-page-btn-${name}`, {
+				backgroundColor: GREEN,
+				position: "absolute",
+				width: "30%",
+				left: "54%",
+				top: "69%",
+				lineHeight: "3vi",
+			});
+			this.nextPageButton.innerHTML = "Continue >";
+			this.nextPageButton.addEventListener("click", () => gotoNextPage());
+			this.appendChild(this.nextPageButton);
+		}
 	}
 
 	public getNextPageName = () => this.pageProps.nextPage;

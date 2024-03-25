@@ -10,9 +10,14 @@ export class RangePage extends Page {
 	private rangeContainer: HTMLElement;
 	private circle: HTMLElement;
 	private valueDiv: HTMLElement;
+	private hasUserInteracted = false;
 
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
+
+		this.skipButton.style.left = "5%";
+		this.nextPageButton.style.opacity = "0";
+		this.nextPageButton.style.pointerEvents = "none";
 
 		const { name, min = 0 } = pageProps;
 
@@ -94,7 +99,7 @@ export class RangePage extends Page {
 	}
 
 	private moveCursor = (e: PointerEvent) => {
-		const { name, min = 0, max = 1, step = 1 } = this.pageProps;
+		const { min = 0, max = 1, step = 1 } = this.pageProps;
 		const nbSteps = (max - min) / step + 1;
 
 		const containerRect = this.rangeContainer.getBoundingClientRect();
@@ -115,6 +120,14 @@ export class RangePage extends Page {
 		let value = parseFloat(min.toString()) + qqq * step;
 		value = Math.min(Math.max(value, min), max);
 		this.valueDiv.innerHTML = `${value}`;
+
+		if (!this.hasUserInteracted) {
+			this.hasUserInteracted = true;
+			this.nextPageButton.style.opacity = "1";
+			this.nextPageButton.style.pointerEvents = "auto";
+			this.skipButton.style.opacity = "0";
+			this.skipButton.style.pointerEvents = "none";
+		}
 	};
 }
 

@@ -12,6 +12,9 @@ export class MultipleAnswersPage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
+		this.skipButton.style.left = "12%";
+		this.toggleNextBageButton();
+
 		const { name, answers, maxNbAnswers } = pageProps;
 
 		this.maxNbAnswers = parseInt(maxNbAnswers?.toString()) || Infinity;
@@ -20,7 +23,7 @@ export class MultipleAnswersPage extends Page {
 		const constainer = createDiv(`container-${name}`, {
 			position: "absolute",
 			width: "80%",
-			height: "70%",
+			height: "60%",
 			top: "12%",
 			left: "12%",
 			display: "flex",
@@ -90,6 +93,19 @@ export class MultipleAnswersPage extends Page {
 		});
 	}
 
+	private toggleNextBageButton = () => {
+		const displayNextPageBtn =
+			this.userAnswers.length > 0 &&
+			this.userAnswers.length < this.maxNbAnswers;
+		this.nextPageButton.style.opacity = displayNextPageBtn ? "1" : "0";
+		this.nextPageButton.style.pointerEvents = displayNextPageBtn
+			? "auto"
+			: "none";
+		const displaySkipBtn = this.userAnswers.length > 0;
+		this.skipButton.style.opacity = displaySkipBtn ? "0" : "1";
+		this.skipButton.style.pointerEvents = displaySkipBtn ? "none" : "auto";
+	};
+
 	private addAnswer = (answer: string) => {
 		if (this.userAnswers.length < this.maxNbAnswers) {
 			this.userAnswers.push(answer);
@@ -99,6 +115,7 @@ export class MultipleAnswersPage extends Page {
 		if (this.maxNbAnswers === this.userAnswers.length) {
 			this.gotoNextPage();
 		}
+		this.toggleNextBageButton();
 	};
 
 	private removeAnswer = (answer: string) => {
@@ -107,6 +124,7 @@ export class MultipleAnswersPage extends Page {
 
 		index = this.pageProps.answers.indexOf(answer);
 		this.boxes[index].style.backgroundColor = LIGHT_GREEN;
+		this.toggleNextBageButton();
 	};
 }
 

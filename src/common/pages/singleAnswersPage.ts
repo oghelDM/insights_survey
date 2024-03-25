@@ -10,7 +10,9 @@ export class SingleAnswerPage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		const { name, answers, maxNbAnswers } = pageProps;
+		this.skipButton.style.left = "10%";
+
+		const { name, answers } = pageProps;
 
 		this.gotoNextPage = gotoNextPage;
 
@@ -54,6 +56,8 @@ export class SingleAnswerPage extends Page {
 				div.style.backgroundColor = GREEN;
 				div.style.color = "white";
 				this.userAnswer = answer;
+				this.skipButton.style.opacity = "0";
+				this.skipButton.style.pointerEvents = "none";
 				this.gotoNextPage();
 			});
 			text.innerHTML = answer;
@@ -73,7 +77,8 @@ export class SingleAnswerPage extends Page {
 			answers.indexOf(this.userAnswer)
 		);
 		if (nextPages && nextPages.length === answers.length) {
-			return nextPages[answers.indexOf(this.userAnswer)];
+			const answer = this.userAnswer || answers[0];
+			return nextPages[answers.indexOf(answer)];
 		}
 		return nextPage;
 	};

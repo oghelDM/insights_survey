@@ -87,6 +87,7 @@ export class RangePage extends Page {
 			fontSize: "6vi",
 			color: "black",
 			lineHeight: "6vi",
+			fontFamily: "sans-serif",
 		});
 		this.valueDiv.innerHTML = `${min}`;
 		this.appendChild(this.valueDiv);

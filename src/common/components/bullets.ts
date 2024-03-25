@@ -27,7 +27,7 @@ export class Bullets extends HTMLElement {
 			const bullet = createDiv(`bullet-${i}`, {
 				flexBasis: "0",
 				flexGrow: "1",
-				borderRadius: "50% / 10%",
+				borderRadius: "50% / 8%",
 				backgroundColor: i === 0 ? GREEN : LIGHT_GREEN,
 				transition: "background-color .6s",
 			});

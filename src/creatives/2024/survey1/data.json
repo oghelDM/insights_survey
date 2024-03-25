@@ -16,7 +16,14 @@
 			"prompt": "What are your favourite colours (3 max.)?",
 			"maxNbAnswers": "3",
 			"randomize": "true",
-			"answers": ["blue", "red", "green", "yellow", "I am colour blind"],
+			"answers": [
+				"blue",
+				"red",
+				"it is green without a doubt, green I said",
+				"yellow",
+				"team orange",
+				"I am colour blind"
+			],
 			"nextPage": "question2",
 			"skippable": "true"
 		},

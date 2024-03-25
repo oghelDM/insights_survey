@@ -1,5 +1,5 @@
-import { GREEN } from "@/constants";
 import { Page } from "./page";
+import { GREEN } from "@/constants";
 import { PageType } from "@/creative";
 import { createButton, createDiv } from "@/utils/divMaker";
 
@@ -16,8 +16,9 @@ export class SingleAnswerPage extends Page {
 
 		const constainer = createDiv(`container-${name}`, {
 			position: "absolute",
-			width: "100%",
+			width: "90%",
 			height: "70%",
+			left: "10%",
 			top: "12%",
 			display: "flex",
 			alignItems: "center",
@@ -29,8 +30,8 @@ export class SingleAnswerPage extends Page {
 		const answersContainer = createDiv(`answers-container-${name}`, {
 			display: "flex",
 			alignItems: "center",
-			justifyContent: "center",
-			gap: "1.2vi",
+			justifyContent: "flex-start",
+			gap: "2vi 2%",
 			flexGrow: "1",
 			flexWrap: "wrap",
 			// backgroundColor: "orchid",
@@ -38,7 +39,7 @@ export class SingleAnswerPage extends Page {
 		constainer.appendChild(answersContainer);
 
 		answers.forEach((answer, i) => {
-			const div = createButton(`answer-${name}-${i}`, {
+			const div = createButton(`answer-container-${name}-${i}`, {
 				width: "unset",
 				height: "6vi",
 				flexBasis: "44%",

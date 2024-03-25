@@ -1,10 +1,6 @@
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
-import {
-	PAGE_TYPE_CONSENT,
-	PAGE_TYPE_MULTIPLE,
-	PAGE_TYPE_SINGLE,
-} from "@/constants";
+import { PAGE_TYPE_CONSENT, PAGE_TYPE_SINGLE } from "@/constants";
 
 export class Page extends HTMLElement {
 	public pageProps: PageType;

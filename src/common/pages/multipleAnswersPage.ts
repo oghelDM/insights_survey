@@ -1,6 +1,7 @@
 import { Page } from "./page";
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
+import { shuffleArray } from "@/utils/helper";
 import { GREEN, LIGHT_GREEN } from "@/constants";
 
 export class MultipleAnswersPage extends Page {
@@ -14,7 +15,7 @@ export class MultipleAnswersPage extends Page {
 
 		this.toggleNextBageButton();
 
-		const { name, answers, maxNbAnswers } = pageProps;
+		const { name, answers, maxNbAnswers, randomize } = pageProps;
 
 		this.maxNbAnswers = parseInt(maxNbAnswers?.toString()) || Infinity;
 		this.gotoNextPage = gotoNextPage;
@@ -44,7 +45,10 @@ export class MultipleAnswersPage extends Page {
 		});
 		constainer.appendChild(answersContainer);
 
-		this.boxes = answers.map((answer, i) => {
+		const shuffledAnswers = randomize
+			? shuffleArray([...answers])
+			: answers;
+		this.boxes = shuffledAnswers.map((answer, i) => {
 			const div = createDiv(`answer-container-${name}-${i}`, {
 				width: "unset",
 				height: "6vi",
@@ -78,11 +82,10 @@ export class MultipleAnswersPage extends Page {
 			div.addEventListener("click", () => {
 				const index = this.userAnswers.indexOf(answer);
 				if (index === -1) {
-					this.addAnswer(answer);
+					this.addAnswer(answer, i);
 				} else {
-					this.removeAnswer(answer);
+					this.removeAnswer(answer, i);
 				}
-				console.log("userAnswers:", this.userAnswers);
 			});
 			text.innerHTML = answer;
 			div.appendChild(box);
@@ -106,11 +109,10 @@ export class MultipleAnswersPage extends Page {
 		this.skipButton.style.pointerEvents = displaySkipBtn ? "none" : "auto";
 	};
 
-	private addAnswer = (answer: string) => {
+	private addAnswer = (answer: string, boxIndex: number) => {
 		if (this.userAnswers.length < this.maxNbAnswers) {
 			this.userAnswers.push(answer);
-			const index = this.pageProps.answers.indexOf(answer);
-			this.boxes[index].style.backgroundColor = GREEN;
+			this.boxes[boxIndex].style.backgroundColor = GREEN;
 		}
 		if (this.maxNbAnswers === this.userAnswers.length) {
 			this.gotoNextPage();
@@ -118,12 +120,11 @@ export class MultipleAnswersPage extends Page {
 		this.toggleNextBageButton();
 	};
 
-	private removeAnswer = (answer: string) => {
+	private removeAnswer = (answer: string, boxIndex: number) => {
 		let index = this.userAnswers.indexOf(answer);
 		this.userAnswers.splice(index, 1);
 
-		index = this.pageProps.answers.indexOf(answer);
-		this.boxes[index].style.backgroundColor = LIGHT_GREEN;
+		this.boxes[boxIndex].style.backgroundColor = LIGHT_GREEN;
 		this.toggleNextBageButton();
 	};
 }

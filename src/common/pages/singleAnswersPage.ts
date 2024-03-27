@@ -1,6 +1,7 @@
 import { Page } from "./page";
 import { GREEN } from "@/constants";
 import { PageType } from "@/creative";
+import { shuffleArray } from "@/utils/helper";
 import { createButton, createDiv } from "@/utils/divMaker";
 
 export class SingleAnswerPage extends Page {
@@ -10,7 +11,7 @@ export class SingleAnswerPage extends Page {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super(pageProps, gotoNextPage);
 
-		const { name, answers } = pageProps;
+		const { name, answers, randomize } = pageProps;
 
 		this.gotoNextPage = gotoNextPage;
 
@@ -39,7 +40,10 @@ export class SingleAnswerPage extends Page {
 		});
 		constainer.appendChild(answersContainer);
 
-		answers.forEach((answer, i) => {
+		const shuffledAnswers = randomize
+			? shuffleArray([...answers])
+			: answers;
+		shuffledAnswers.forEach((answer, i) => {
 			const div = createButton(`answer-container-${name}-${i}`, {
 				width: "unset",
 				height: "6vi",

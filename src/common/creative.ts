@@ -28,7 +28,6 @@ export interface PageType {
 	prompt: string;
 	answers: string[];
 	nextPage: string;
-	skippable: boolean;
 	maxNbAnswers: number;
 	randomize?: boolean;
 	nextPages?: string[];
@@ -63,7 +62,9 @@ export class Creative extends HTMLElement {
 	) {
 		super();
 
-		if (isDataCorrupted(jsonData)) {
+		const errorMessage = isDataCorrupted(jsonData);
+		if (errorMessage) {
+			alert(errorMessage);
 			return;
 		}
 
@@ -126,10 +127,9 @@ export class Creative extends HTMLElement {
 
 		const nextPageName = this.currPage.getNextPageName();
 		console.log("gotoNextPage: ", nextPageName);
-		const nextData = this.allData?.find(
+		const nextPage = this.allData?.find(
 			(data) => data.name === nextPageName
-		);
-		const nextPage = nextData?.div as Page;
+		)?.div as Page;
 
 		nextPage.show();
 		this.currPage.hide();

@@ -7,8 +7,7 @@
 			"type": "consent",
 			"prompt": "Hello. We could really use your opinion on a study, it will not take more than 30s :)",
 			"answers": ["Yes, sure", "Maybe next time"],
-			"nextPage": "question1",
-			"skippable": "false"
+			"nextPage": "question1"
 		},
 		{
 			"name": "question1",
@@ -24,8 +23,7 @@
 				"team orange",
 				"I am colour blind"
 			],
-			"nextPage": "question2",
-			"skippable": "true"
+			"nextPage": "question2"
 		},
 		{
 			"name": "question2",
@@ -33,8 +31,7 @@
 			"prompt": "What planet do you come from?",
 			"randomize": "false",
 			"answers": ["Earth", "Mars", "other"],
-			"nextPages": ["questionEarth", "questionMars", "questionOther"],
-			"skippable": "false"
+			"nextPages": ["questionEarth", "questionMars", "questionOther"]
 		},
 		{
 			"name": "questionEarth",
@@ -49,8 +46,7 @@
 				"fun",
 				"doomed"
 			],
-			"nextPage": "question3",
-			"skippable": "true"
+			"nextPage": "question3"
 		},
 		{
 			"name": "questionMars",
@@ -59,8 +55,7 @@
 			"maxNbAnswers": "0",
 			"randomize": "true",
 			"answers": ["too belligerent", "perfect", "over-achieving", "dull"],
-			"nextPage": "question3",
-			"skippable": "true"
+			"nextPage": "question3"
 		},
 		{
 			"name": "questionOther",
@@ -73,8 +68,7 @@
 				"I am from Venus",
 				"please leave me alone"
 			],
-			"nextPage": "question3",
-			"skippable": "true"
+			"nextPage": "question3"
 		},
 		{
 			"name": "question3",
@@ -83,14 +77,12 @@
 			"min": "0",
 			"max": "12",
 			"step": "2",
-			"nextPage": "conclusion",
-			"skippable": "false"
+			"nextPage": "conclusion"
 		},
 		{
 			"name": "conclusion",
 			"prompt": "Thank you",
-			"type": "end",
-			"skippable": "false"
+			"type": "end"
 		}
 	]
 }

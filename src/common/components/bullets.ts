@@ -21,6 +21,7 @@ export class Bullets extends HTMLElement {
 		this.style.right = "1.7%";
 		this.style.gap = "2%";
 		this.style.top = "5%";
+		this.style.transition = "opacity .3s .3s";
 		// this.style.backgroundColor = "aquamarine";
 
 		this.bullets = new Array(nbPages).fill(0).map((_, i) => {
@@ -63,6 +64,10 @@ export class Bullets extends HTMLElement {
 		this.currBulletIdx += 1;
 		if (this.currBulletIdx < this.bullets.length) {
 			this.bullets[this.currBulletIdx].style.backgroundColor = GREEN;
+		}
+
+		if (this.currBulletIdx === this.bullets.length) {
+			this.style.opacity = "0";
 		}
 	};
 }

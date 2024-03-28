@@ -18,6 +18,8 @@ export class Page extends HTMLElement {
 	constructor(pageProps: PageType, gotoNextPage: () => void) {
 		super();
 
+		this.setAttribute("data-name", pageProps.name);
+
 		this.pageProps = pageProps;
 		const { name, prompt, type } = pageProps;
 		this.id = `${name}-page-id`;

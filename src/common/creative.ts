@@ -8,7 +8,6 @@ import {
 } from "./constants";
 import { Page } from "./pages/page";
 import { EndPage } from "./pages/endPage";
-import { createDiv } from "./utils/divMaker";
 import { RangePage } from "./pages/rangePage";
 import { Bullets } from "./components/bullets";
 import { ConsentPage } from "./pages/consentPage";
@@ -48,19 +47,34 @@ export interface CreativeProps {
 export class Creative extends HTMLElement {
 	public canResumeVideo = false; // allows the creative to prevent the user from resuming the ad through the play button
 	public canPauseVideo = false; // allows the creative to prevent the user from pausing the ad through the pause button
-	public creativeProps: CreativeProps;
 
 	private currPage: Page;
-	private allData;
+	private pages: Page[];
 	private bullets: Bullets;
 	private alreadyPaused = false;
 
 	constructor(
-		root: HTMLElement,
-		creativeProps: CreativeProps,
+		private root: HTMLElement,
+		private creativeProps: CreativeProps,
 		jsonData: SurveyType
 	) {
 		super();
+
+		root.style.backgroundColor = BLUE;
+		// root.style.backgroundImage = "url()";
+		root.style.transition = "background 1.3s .3s";
+
+		console.log("creative creativeProps: ", creativeProps);
+
+		this.canResumeVideo = false;
+
+		if (Object.keys(jsonData).length > 0) {
+			this.loadData(jsonData);
+		}
+	}
+
+	public loadData = (jsonData: SurveyType) => {
+		console.log("loadData jsonData: ", jsonData);
 
 		const errorMessage = isDataCorrupted(jsonData);
 		if (errorMessage) {
@@ -68,39 +82,26 @@ export class Creative extends HTMLElement {
 			return;
 		}
 
-		root.style.backgroundColor = BLUE;
-		// root.style.backgroundImage = "url()";
-		root.style.transition = "background 1.3s .3s";
-
-		console.log("creative creativeProps: ", creativeProps);
-		this.creativeProps = creativeProps;
-
-		this.canResumeVideo = false;
-
-		this.allData = jsonData.pages.map((p) => {
-			const page = p as any as PageType;
-
+		this.pages = jsonData.pages.map((page: PageType) => {
 			const div = this.makePage(page);
-			div.style.opacity = p.name === jsonData.firstPage ? "1" : "0";
+			div.style.opacity = page.name === jsonData.firstPage ? "1" : "0";
 			div.style.pointerEvents =
-				p.name === jsonData.firstPage ? "auto" : "none";
+				page.name === jsonData.firstPage ? "auto" : "none";
 
-			root.appendChild(div);
+			this.root.appendChild(div);
 
-			const data = { ...page, div };
-
-			return data;
+			return div;
 		});
-		console.log("creative allData: ", this.allData);
-		this.currPage = this.allData.find(
-			(data) => data.name === jsonData.firstPage
-		)?.div as Page;
+		console.log("creative pages: ", this.pages);
+		this.currPage = this.pages.find(
+			(page) => page.dataset.name === jsonData.firstPage
+		) as Page;
 
 		this.bullets = new Bullets(jsonData);
-		root.appendChild(this.bullets);
-	}
+		this.root.appendChild(this.bullets);
+	};
 
-	private makePage = (page: PageType) => {
+	private makePage = (page: PageType): Page => {
 		switch (page.type) {
 			case PAGE_TYPE_CONSENT:
 				return new ConsentPage(
@@ -118,18 +119,22 @@ export class Creative extends HTMLElement {
 				return new EndPage(page, this.creativeProps.stopAd);
 			default:
 				console.warn(`unexpected page type: ${page.type}`);
-				return createDiv("default", {});
+				return new Page(page, this.gotoNextPage);
 		}
 	};
 
-	public gotoNextPage = () => {
+	private gotoNextPage = () => {
 		this.bullets.gotoNextBullet();
 
 		const nextPageName = this.currPage.getNextPageName();
-		console.log("gotoNextPage: ", nextPageName);
-		const nextPage = this.allData?.find(
-			(data) => data.name === nextPageName
-		)?.div as Page;
+		this.displayPage(nextPageName);
+	};
+
+	public displayPage = (pageName: string) => {
+		console.log("displayPage: ", pageName);
+		const nextPage = this.pages.find(
+			(page) => page.dataset.name === pageName
+		) as Page;
 
 		nextPage.show();
 		this.currPage.hide();

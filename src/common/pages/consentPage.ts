@@ -2,7 +2,7 @@ import { Page } from "./page";
 import { ImageDM } from "@/image";
 import { CreativeProps, PageType } from "@/creative";
 import { createButton, createDiv } from "@/utils/divMaker";
-import { GREEN, LIGHT_GREEN, RED } from "@/constants";
+import { BLUE, GREEN, LIGHT_GREEN, RED } from "@/constants";
 
 export class ConsentPage extends Page {
 	private isBoxChecked = false;
@@ -108,7 +108,7 @@ export class ConsentPage extends Page {
 		yesBtn.style.border = `.3vi solid ${
 			this.isBoxChecked ? GREEN : LIGHT_GREEN
 		}`;
-		yesBtn.style.color = this.isBoxChecked ? "white" : "black";
+		yesBtn.style.color = this.isBoxChecked ? "white" : BLUE;
 	};
 }
 

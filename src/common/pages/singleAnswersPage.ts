@@ -1,7 +1,7 @@
 import { Page } from "./page";
-import { GREEN } from "@/constants";
 import { PageType } from "@/creative";
 import { shuffleArray } from "@/utils/helper";
+import { BLUE, GREEN, LIGHT_GREEN } from "@/constants";
 import { createButton, createDiv } from "@/utils/divMaker";
 
 export class SingleAnswerPage extends Page {
@@ -53,6 +53,8 @@ export class SingleAnswerPage extends Page {
 				lineHeight: "unset",
 				justifyContent: "center",
 				alignItems: "center",
+				color: BLUE,
+				backgroundColor: LIGHT_GREEN,
 			});
 			const text = createDiv(`answer-${name}-${i}`, {});
 			div.addEventListener("click", () => {

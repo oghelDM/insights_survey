@@ -2,7 +2,7 @@ import { Page } from "./page";
 import { ImageDM } from "@/image";
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
-import { GREEN, LIGHT_GREEN } from "@/constants";
+import { GREEN, LIGHT_GREEN } from "@/common/constants";
 
 export class RangePage extends Page {
 	private isPointerDown = false;

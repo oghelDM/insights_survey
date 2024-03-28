@@ -1,8 +1,8 @@
 import { Page } from "./page";
 import { PageType } from "@/creative";
 import { shuffleArray } from "@/utils/helper";
-import { BLUE, GREEN, LIGHT_GREEN } from "@/constants";
 import { createButton, createDiv } from "@/utils/divMaker";
+import { BLUE, GREEN, LIGHT_GREEN } from "@/common/constants";
 
 export class SingleAnswerPage extends Page {
 	private userAnswer: string;

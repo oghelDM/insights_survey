@@ -1,6 +1,6 @@
-import { GREEN, LIGHT_GREEN } from "@/constants";
 import { SurveyType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
+import { GREEN, LIGHT_GREEN } from "@/common/constants";
 
 export class Bullets extends HTMLElement {
 	public bullets: HTMLElement[];

@@ -4,14 +4,22 @@ import {
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
 	PAGE_TYPE_SINGLE,
-} from "@/constants";
+} from "@/common/constants";
+import { LANGUAGE } from "@/common/dictionary";
 import { PageType, SurveyType } from "@/creative";
 
 export const isDataCorrupted = (jsonData: SurveyType): string | void => {
 	console.log("checkData jsonData: ", jsonData);
 
-	const { firstPage, pages } = jsonData;
+	const { firstPage, pages, language } = jsonData;
 	const pageNames = pages.map((page) => page.name);
+
+	// check that a language is provided
+	if (!language) {
+		return "no language was found, please provide one";
+	} else if (!(language in LANGUAGE)) {
+		return `The language "${language}" is not recognized`;
+	}
 
 	// check that the first page exists
 	if (!pageNames.includes(firstPage)) {

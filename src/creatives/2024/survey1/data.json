@@ -1,12 +1,12 @@
 {
 	"name": "survey-2024-02",
 	"firstPage": "intro",
+	"language": "EN",
 	"pages": [
 		{
 			"name": "intro",
 			"type": "consent",
 			"prompt": "Hello. We could really use your opinion on a study, it will not take more than 30s :)",
-			"answers": ["Yes, sure", "Maybe next time"],
 			"nextPage": "question1"
 		},
 		{

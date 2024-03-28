@@ -2,7 +2,7 @@ import { Page } from "./page";
 import { PageType } from "@/creative";
 import { createDiv } from "@/utils/divMaker";
 import { shuffleArray } from "@/utils/helper";
-import { GREEN, LIGHT_GREEN } from "@/constants";
+import { GREEN, LIGHT_GREEN } from "@/common/constants";
 
 export class MultipleAnswersPage extends Page {
 	private maxNbAnswers: number;

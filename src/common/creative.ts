@@ -5,7 +5,7 @@ import {
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
 	PAGE_TYPE_SINGLE,
-} from "./constants";
+} from "./common/constants";
 import { Page } from "./pages/page";
 import { EndPage } from "./pages/endPage";
 import { RangePage } from "./pages/rangePage";
@@ -14,11 +14,13 @@ import { ConsentPage } from "./pages/consentPage";
 import { isDataCorrupted } from "./utils/dataChecker";
 import { SingleAnswerPage } from "./pages/singleAnswersPage";
 import { MultipleAnswersPage } from "./pages/multipleAnswersPage";
+import { Dico, LANGUAGE } from "./common/dictionary";
 
 export interface SurveyType {
 	name: string;
 	firstPage: string;
 	pages: PageType[];
+	language: LANGUAGE;
 }
 
 export interface PageType {
@@ -81,6 +83,8 @@ export class Creative extends HTMLElement {
 			alert(errorMessage);
 			return;
 		}
+
+		Dico.setDictionary(jsonData.language);
 
 		this.pages = jsonData.pages.map((page: PageType) => {
 			const div = this.makePage(page);

@@ -1,8 +1,9 @@
 import { Page } from "./page";
 import { ImageDM } from "@/image";
+import { Dico } from "@/common/dictionary";
 import { CreativeProps, PageType } from "@/creative";
 import { createButton, createDiv } from "@/utils/divMaker";
-import { BLUE, GREEN, LIGHT_GREEN, RED } from "@/constants";
+import { BLUE, GREEN, LIGHT_GREEN, RED } from "@/common/constants";
 
 export class ConsentPage extends Page {
 	private isBoxChecked = false;
@@ -14,7 +15,9 @@ export class ConsentPage extends Page {
 	) {
 		super(pageProps, gotoNextPage);
 
-		const { name, answers } = pageProps;
+		const { name, prompt } = pageProps;
+
+		this.promptDiv.innerHTML = prompt || Dico.translation.consentPrompt;
 
 		const termsContainer = createDiv(`terms-container-${name}`, {
 			position: "absolute",
@@ -55,7 +58,7 @@ export class ConsentPage extends Page {
 			},
 			"p"
 		);
-		termsText.innerHTML = "I accept these terms and conditions."; // TODO: put in data.json
+		termsText.innerHTML = Dico.translation.termsAccept;
 		termsContainer.appendChild(checkBox);
 		termsContainer.appendChild(termsText);
 		this.appendChild(termsContainer);
@@ -88,8 +91,8 @@ export class ConsentPage extends Page {
 			}
 		});
 
-		yesBtn.innerHTML = answers[0];
-		noBtn.innerHTML = answers[1];
+		yesBtn.innerHTML = Dico.translation.consentYes;
+		noBtn.innerHTML = Dico.translation.consentNo;
 
 		btnContainer.appendChild(noBtn);
 		btnContainer.appendChild(yesBtn);

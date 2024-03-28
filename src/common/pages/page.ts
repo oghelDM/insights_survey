@@ -4,8 +4,9 @@ import {
 	PAGE_TYPE_END,
 	PAGE_TYPE_MULTIPLE,
 	PAGE_TYPE_RANGE,
-} from "@/constants";
+} from "@/common/constants";
 import { PageType } from "@/creative";
+import { Dico } from "@/common/dictionary";
 import { createButton, createDiv } from "@/utils/divMaker";
 
 export class Page extends HTMLElement {
@@ -68,7 +69,7 @@ export class Page extends HTMLElement {
 				transition: "opacity .3s",
 				// backgroundColor: "plum",
 			});
-			this.skipButton.innerHTML = "Skip question >";
+			this.skipButton.innerHTML = Dico.translation.skip;
 			this.skipButton.addEventListener("click", () => gotoNextPage());
 			this.appendChild(this.skipButton);
 		}
@@ -84,7 +85,7 @@ export class Page extends HTMLElement {
 				top: "69%",
 				lineHeight: "3vi",
 			});
-			this.nextPageButton.innerHTML = "Continue >";
+			this.nextPageButton.innerHTML = Dico.translation.nextPage;
 			this.nextPageButton.addEventListener("click", () => gotoNextPage());
 			this.appendChild(this.nextPageButton);
 		}
